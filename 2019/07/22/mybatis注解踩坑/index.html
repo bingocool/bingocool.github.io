@@ -79,13 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="mybatis获取自增主键踩坑第一坑（多个参数没加@Param注解）123@Insert(&quot;insert into file_message (path, file_name, user_name) values (#&amp;#123;path&amp;#125;, #&amp;#123;fileName&amp;#125;, #&amp;#123;userName&amp;#125;)&quot;)@Options(useGeneratedKeys">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mybatis获取主键注解踩坑">
+<meta property="og:url" content="http://yoursite.com/2019/07/22/mybatis注解踩坑/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="mybatis获取自增主键踩坑第一坑（多个参数没加@Param注解）123@Insert(&quot;insert into file_message (path, file_name, user_name) values (#&amp;#123;path&amp;#125;, #&amp;#123;fileName&amp;#125;, #&amp;#123;userName&amp;#125;)&quot;)@Options(useGeneratedKeys">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-22T02:13:03.544Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="mybatis获取主键注解踩坑">
+<meta name="twitter:description" content="mybatis获取自增主键踩坑第一坑（多个参数没加@Param注解）123@Insert(&quot;insert into file_message (path, file_name, user_name) values (#&amp;#123;path&amp;#125;, #&amp;#123;fileName&amp;#125;, #&amp;#123;userName&amp;#125;)&quot;)@Options(useGeneratedKeys">
 
 
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/22/mybatis注解踩坑/">
 
 
 
 
 
-  <title>Hexo</title>
+  <title>mybatis获取主键注解踩坑 | Hexo</title>
   
 
 
@@ -140,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,141 +217,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/22/git/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/22/git/" itemprop="url">常用Git操作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-22T10:07:20+08:00">
-                2019-07-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="常用Git操作"><a href="#常用Git操作" class="headerlink" title="常用Git操作"></a>常用Git操作</h1><h2 id="关联本地仓库和远程仓库"><a href="#关联本地仓库和远程仓库" class="headerlink" title="关联本地仓库和远程仓库"></a>关联本地仓库和远程仓库</h2><p>（电脑最开始可能需要生成ssh.pub，把内容在github设置里添加进去）</p>
-<p>git init<br>git remote add origin <a href="https://github.com/tugenhua0707/testgit.git" target="_blank" rel="noopener">https://github.com/tugenhua0707/testgit.git</a><br>git pull origin master  –allow-unrelated-histories (在本地和远程仓库同时创建加这句)<br>git push -u origin master(第一次要用-u 以后不需要)</p>
-<p><strong>关联本地分支与远程分支</strong>：</p>
-<p>git checkout  –b dev origin/dev创建远程origin的dev分支到本地来<br>git branch –set -upstream dev origin/dev设置本地dev分支与远程origin/dev分支的链接</p>
-<h2 id="解决冲突常用"><a href="#解决冲突常用" class="headerlink" title="解决冲突常用"></a>解决冲突常用</h2><p><strong>回退版本</strong></p>
-<p>git reset –hard HDEA^^<br>git reset – hard ~100<br>git reset –hard 版本号</p>
-<p><strong>工作现场与本地缓存差异</strong></p>
-<p>git diff file.txt<br>git checkout –file.txt</p>
-<p>git stash list<br>git stash apply/git stash drop/git stash pop</p>
-<p><strong>查看提交记录</strong></p>
-<p>git log 查看历史commit记录<br>git log –pretty=oneline</p>
-<h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><p>git merge dev<br>git merge –no-ff  -m “注释” dev<br>可以保存你之前的分支历史。能够更好的查看 merge历史，以及branch 状态<a href="https://blog.csdn.net/u010940300/article/details/47419069" target="_blank" rel="noopener">https://blog.csdn.net/u010940300/article/details/47419069</a></p>
-<p>git branch –d dev</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
 
   
 
@@ -378,9 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/22/mybatis注解踩坑/" itemprop="url">mybatis获取主键注解踩坑</a></h1>
+          <h1 class="post-title" itemprop="name headline">mybatis获取主键注解踩坑</h1>
         
 
         <div class="post-meta">
@@ -430,9 +299,7 @@
       
 
       
-        
-          
-            <h1 id="mybatis获取自增主键踩坑"><a href="#mybatis获取自增主键踩坑" class="headerlink" title="mybatis获取自增主键踩坑"></a>mybatis获取自增主键踩坑</h1><h2 id="第一坑（多个参数没加-Param注解）"><a href="#第一坑（多个参数没加-Param注解）" class="headerlink" title="第一坑（多个参数没加@Param注解）"></a>第一坑（多个参数没加@Param注解）</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Insert</span>(<span class="string">"insert into file_message (path, file_name, user_name) values (#&#123;path&#125;, #&#123;fileName&#125;, #&#123;userName&#125;)"</span>)</span><br><span class="line"><span class="meta">@Options</span>(useGeneratedKeys = <span class="keyword">true</span>,keyProperty = <span class="string">"id"</span>)</span><br><span class="line">Integer fileMessageSave（String path,  String fileName, String userName);</span><br></pre></td></tr></table></figure>
+        <h1 id="mybatis获取自增主键踩坑"><a href="#mybatis获取自增主键踩坑" class="headerlink" title="mybatis获取自增主键踩坑"></a>mybatis获取自增主键踩坑</h1><h2 id="第一坑（多个参数没加-Param注解）"><a href="#第一坑（多个参数没加-Param注解）" class="headerlink" title="第一坑（多个参数没加@Param注解）"></a>第一坑（多个参数没加@Param注解）</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Insert</span>(<span class="string">"insert into file_message (path, file_name, user_name) values (#&#123;path&#125;, #&#123;fileName&#125;, #&#123;userName&#125;)"</span>)</span><br><span class="line"><span class="meta">@Options</span>(useGeneratedKeys = <span class="keyword">true</span>,keyProperty = <span class="string">"id"</span>)</span><br><span class="line">Integer fileMessageSave（String path,  String fileName, String userName);</span><br></pre></td></tr></table></figure>
 
 <p>报错：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">异常：</span><br><span class="line">org.apache.ibatis.binding.BindingException: Parameter &apos;path&apos; not found. Available</span><br><span class="line">parameters are [arg2, arg1, arg0, param3, param1, param2]</span><br></pre></td></tr></table></figure>
@@ -475,8 +342,6 @@
 <p>Tips：</p>
 <p>怎么通过自动回填到对象属性里的需要了解@Options(useGeneratedKeys = true,keyProperty = “id”)源码</p>
 <h2 id="XML配置方式，获取自增主键"><a href="#XML配置方式，获取自增主键" class="headerlink" title="XML配置方式，获取自增主键"></a>XML配置方式，获取自增主键</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"jobSave"</span> <span class="attr">parameterType</span>=<span class="string">"com.bdai.fe.entity.Job"</span> <span class="attr">keyProperty</span>=<span class="string">"id"</span> <span class="attr">useGeneratedKeys</span>=<span class="string">"true"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-          
-        
       
     </div>
     
@@ -493,12 +358,28 @@
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/22/git/" rel="prev" title="常用Git操作">
+                常用Git操作 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -508,10 +389,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -519,6 +401,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -539,8 +425,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -582,6 +477,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#mybatis获取自增主键踩坑"><span class="nav-number">1.</span> <span class="nav-text">mybatis获取自增主键踩坑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一坑（多个参数没加-Param注解）"><span class="nav-number">1.1.</span> <span class="nav-text">第一坑（多个参数没加@Param注解）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二坑（获取自增主键-但参数不是实体类对象）"><span class="nav-number">1.2.</span> <span class="nav-text">第二坑（获取自增主键 但参数不是实体类对象）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三坑（注解keyProperty-填错）"><span class="nav-number">1.3.</span> <span class="nav-text">第三坑（注解keyProperty 填错）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四坑（-Insert返回值不是主键id）"><span class="nav-number">1.4.</span> <span class="nav-text">第四坑（@Insert返回值不是主键id）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XML配置方式，获取自增主键"><span class="nav-number">1.5.</span> <span class="nav-text">XML配置方式，获取自增主键</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -715,6 +626,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
