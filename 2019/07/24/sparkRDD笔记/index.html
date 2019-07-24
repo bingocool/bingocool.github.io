@@ -88,7 +88,8 @@
 <meta property="og:description" content="SPARK RDDday3 最受欢迎老师map方法可以返回元组类型 1234567val sbjectTeacherAndOne: RDD[((String, String), Int)] = lines.map(line =&amp;gt; &amp;#123;      val index = line.lastIndexOf(&quot;/&quot;)      val teacher = line.substring(in">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2019/07/24/sparkRDD笔记/sparkRDD%E7%AC%94%E8%AE%B0%5C%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png">
-<meta property="og:updated_time" content="2019-07-24T05:17:34.292Z">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/sparkRDD笔记/执行过程.png">
+<meta property="og:updated_time" content="2019-07-24T06:50:02.043Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SPARK RDD">
 <meta name="twitter:description" content="SPARK RDDday3 最受欢迎老师map方法可以返回元组类型 1234567val sbjectTeacherAndOne: RDD[((String, String), Int)] = lines.map(line =&amp;gt; &amp;#123;      val index = line.lastIndexOf(&quot;/&quot;)      val teacher = line.substring(in">
@@ -482,6 +483,8 @@
   在同一个Stage中，会有多个算子，可以合并在一起，我们称其为pipeline（流水线：严格按照流程、顺序执行）</code></pre></li>
 </ul>
 <p><img src="//yoursite.com/2019/07/24/sparkRDD笔记/sparkRDD%E7%AC%94%E8%AE%B0%5C%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" alt="执行过程"></p>
+<img src="/2019/07/24/sparkRDD笔记/执行过程.png">
+
 <h2 id="day6-序列化及多线程问题"><a href="#day6-序列化及多线程问题" class="headerlink" title="day6 序列化及多线程问题"></a>day6 序列化及多线程问题</h2><h3 id="1-序列化问题"><a href="#1-序列化问题" class="headerlink" title="1 序列化问题"></a>1 序列化问题</h3><ul>
 <li><p>方法一：在map方法里new 对象，在每个Task里面类加载，每map一条数据就会生成对象</p>
 <p>​        缺点：非常浪费资源</p>

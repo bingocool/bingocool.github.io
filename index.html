@@ -229,127 +229,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/24/xxx/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Chen Bin">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cilibili">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/24/xxx/" itemprop="url">xxx</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-24T13:50:52+08:00">
-                2019-07-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>求offer</p>
-<p><img src="//yoursite.com/2019/07/24/xxx/offer.jpg" alt="求offer"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/24/sparkStreaming笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -381,7 +260,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-24T11:31:41+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-24T15:15:49+08:00">
                 2019-07-24
               </time>
             
@@ -547,9 +426,21 @@
 <li>生产者向一个leader分区发送数据，消费者也向leader分区消费数据（可以配置消费者向非leader分区消费）</li>
 <li>数据的分区数量可以任意，副本数量不大于启动kafka机器的数量<br><img src="//yoursite.com/2019/07/24/sparkStreaming笔记/sparkStreaming%E7%AC%94%E8%AE%B0%5Ckafka%E5%88%86%E5%8C%BA%E5%8E%9F%E7%90%86.png" alt="Kafka分区原理"></li>
 </ul>
+<img src="/2019/07/24/sparkStreaming笔记/kafka分区原理.png">
+
 <h5 id="2-kafka直连"><a href="#2-kafka直连" class="headerlink" title="2. kafka直连"></a>2. kafka直连</h5><p>Direct方式采用Kafka简单的consumer api方式来读取数据，无需经由ZooKeeper，此种方式不再需要专门Receiver来持续不断读取数据。当batch任务触发时，由Executor读取数据，并参与到其他Executor的数据计算过程中去。driver来决定读取多少offsets，并将offsets交由checkpoints来维护。将触发下次batch任务，再由Executor读取Kafka数据并计算。从此过程我们可以发现Direct方式无需Receiver读取数据，而是需要计算时再读取数据，所以Direct方式的数据消费对内存的要求不高，只需要考虑批量计算所需要的内存即可；另外batch任务堆积时，也不会影响数据堆积。其具体读取方式如下图：</p>
 <p>Receiver方式：<img src="//yoursite.com/2019/07/24/sparkStreaming笔记/sparkStreaming%E7%AC%94%E8%AE%B0%5CReceiver%E6%96%B9%E5%BC%8F.png" alt="Receiver方式"></p>
-<p>直连方式：<img src="//yoursite.com/2019/07/24/sparkStreaming笔记/sparkStreaming%E7%AC%94%E8%AE%B0%5C%E7%9B%B4%E8%BF%9E%E6%96%B9%E5%BC%8F.png" alt></p>
+<img src="/2019/07/24/sparkStreaming笔记/Receiver方式.png">
+
+
+
+
+
+<p>直连方式：<img src="//yoursite.com/2019/07/24/sparkStreaming笔记/sparkStreaming%E7%AC%94%E8%AE%B0%5C%E7%9B%B4%E8%BF%9E%E6%96%B9%E5%BC%8F.png" alt="直连方式"></p>
+<img src="/2019/07/24/sparkStreaming笔记/直连方式.png">
+
+
+
 <h3 id="直连方式-SparkStreaming-kafka-0-10"><a href="#直连方式-SparkStreaming-kafka-0-10" class="headerlink" title="直连方式-SparkStreaming-kafka-0.10"></a>直连方式-SparkStreaming-kafka-0.10</h3><h4 id="1-创建StreamingContxt（用sparkConf）-1"><a href="#1-创建StreamingContxt（用sparkConf）-1" class="headerlink" title="1. 创建StreamingContxt（用sparkConf）"></a>1. 创建StreamingContxt（用sparkConf）</h4><h4 id="2-Kafka参数配置-1"><a href="#2-Kafka参数配置-1" class="headerlink" title="2. Kafka参数配置"></a>2. Kafka参数配置</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> topics = <span class="type">Array</span>(topic)	<span class="comment">//数组方式保存topics</span></span><br><span class="line"><span class="keyword">val</span> kafkaParams = <span class="type">Map</span>[<span class="type">String</span>, <span class="type">Object</span>](</span><br><span class="line">    <span class="comment">//即0.8版的broker-list</span></span><br><span class="line">   <span class="string">"bootstrap.servers"</span> -&gt; <span class="string">"node-1:9092,node-2:9092,node-3:9092"</span>,</span><br><span class="line">   <span class="string">"key.deserializer"</span> -&gt; classOf[<span class="type">StringDeserializer</span>],</span><br><span class="line">   <span class="string">"value.deserializer"</span> -&gt; classOf[<span class="type">StringDeserializer</span>],</span><br><span class="line">   <span class="string">"group.id"</span> -&gt; group,</span><br><span class="line">   <span class="string">"auto.offset.reset"</span> -&gt; <span class="string">"earliest"</span>, <span class="comment">// lastest</span></span><br><span class="line">   <span class="string">"enable.auto.commit"</span> -&gt; (<span class="literal">false</span>: java.lang.<span class="type">Boolean</span>) <span class="comment">// false代表自己写程序提交偏移量 </span></span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
 
 <h4 id="3-创建SparkDStream-一个API"><a href="#3-创建SparkDStream-一个API" class="headerlink" title="3. 创建SparkDStream(一个API)"></a>3. 创建SparkDStream(一个API)</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用直连方式读取kafka中的数据，在Kafka中记录读取偏移量</span></span><br><span class="line"><span class="comment">//spark-kafka-0.8把偏移量保存在zookeeper里，也可存在redis等里</span></span><br><span class="line"><span class="keyword">val</span> stream = <span class="type">KafkaUtils</span>.createDirectStream[<span class="type">String</span>, <span class="type">String</span>](</span><br><span class="line">  streamingContext,</span><br><span class="line">  <span class="comment">//位置策略（如果kafka和spark程序部署在一起，会有最优位置）</span></span><br><span class="line">  <span class="type">PreferConsistent</span>,</span><br><span class="line">  <span class="comment">//订阅的策略（可以指定用正则的方式读取topic，比如my-ordsers-.*）</span></span><br><span class="line">  <span class="type">Subscribe</span>[<span class="type">String</span>, <span class="type">String</span>](topics, kafkaParams)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
@@ -639,6 +530,8 @@
 <h4 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConsumerDemo</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String topic = <span class="string">"xiaoniu"</span>;</span><br><span class="line">	<span class="comment">//一个消费者必须两个线程以上同时消费</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Integer threads = <span class="number">2</span>; </span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Properties props = <span class="keyword">new</span> Properties();</span><br><span class="line">		<span class="comment">//此为老版本，需要指定zookeeper地址</span></span><br><span class="line">		props.put(<span class="string">"zookeeper.connect"</span>, <span class="string">"node-1:2181,node-2:2181,node-3:2181"</span>); </span><br><span class="line">		props.put(<span class="string">"group.id"</span>, <span class="string">"vvvvv"</span>);</span><br><span class="line">		<span class="comment">//smallest重最开始消费,largest重消费者启动后产生的数据才消费</span></span><br><span class="line">		<span class="comment">//等同--from-beginning</span></span><br><span class="line">		props.put(<span class="string">"auto.offset.reset"</span>, <span class="string">"smallest"</span>);</span><br><span class="line"></span><br><span class="line">		ConsumerConfig config = <span class="keyword">new</span> ConsumerConfig(props);</span><br><span class="line">		ConsumerConnector consumer =Consumer.createJavaConsumerConnector(config);</span><br><span class="line">		Map&lt;String, Integer&gt; topicCountMap = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</span><br><span class="line">		topicCountMap.put(topic, threads);</span><br><span class="line">		Map&lt;String, List&lt;KafkaStream&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt;&gt;&gt; consumerMap = consumer.createMessageStreams(topicCountMap);</span><br><span class="line">		List&lt;KafkaStream&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt;&gt; streams = consumerMap.get(topic);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">final</span> KafkaStream&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt; kafkaStream : streams)&#123;</span><br><span class="line">			<span class="comment">//因为指定了两个线程进行消费</span></span><br><span class="line">			<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">					<span class="keyword">for</span>(MessageAndMetadata&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt; mm : kafkaStream)&#123;</span><br><span class="line">						String msg = <span class="keyword">new</span> String(mm.message());</span><br><span class="line">						System.out.println(msg);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;).start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><p><a href="sparkStreaming笔记/Redis3.2.x单机安装(new).docx">详见文档</a></p>
+
+
 <h3 id="Redis单机部署"><a href="#Redis单机部署" class="headerlink" title="Redis单机部署"></a>Redis单机部署</h3><ol>
 <li><p>下载、上传redis-3.2.11.tar.gz到服务器并解压</p>
 </li>
@@ -731,6 +624,131 @@
 <p>深入理解DStream：他是sparkStreaming中的一个最基本的抽象，代表了一下列连续的数据流，本质上是一系列连续的RDD，你对DStream进行操作，就是对RDD进行操作。DStream每隔一段时间生成一个RDD，你对DStream进行操作，本质上是对里面的对应时间的RDD进行操作。</p>
 <p>DSteam和DStream之间存在依赖关系，在一个固定的时间点，对个存在依赖关系的DSrteam对应的RDD也存在依赖关系，每个一个固定的时间，其实生产了一个小的DAG，周期性的将生成的小DAG提交到集群中运行。</p>
 <p><img src="//yoursite.com/2019/07/24/sparkStreaming笔记/DStream%E8%AF%B4%E6%98%8E.png" alt="DStream抽象表示图"></p>
+<img src="/2019/07/24/sparkStreaming笔记/DStream说明.png" title="DStream说明.png">
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/24/xxx/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Bin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cilibili">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/24/xxx/" itemprop="url">xxx</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-24T13:50:52+08:00">
+                2019-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>求offer</p>
+<p><img src="//yoursite.com/2019/07/24/xxx/offer.jpg" alt="offer图片"></p>
+<img src="/2019/07/24/xxx/offer.jpg" title="这是一个新的博客的图片的说明">
+
 
           
         
@@ -1577,6 +1595,8 @@
   在同一个Stage中，会有多个算子，可以合并在一起，我们称其为pipeline（流水线：严格按照流程、顺序执行）</code></pre></li>
 </ul>
 <p><img src="//yoursite.com/2019/07/24/sparkRDD笔记/sparkRDD%E7%AC%94%E8%AE%B0%5C%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" alt="执行过程"></p>
+<img src="/2019/07/24/sparkRDD笔记/执行过程.png">
+
 <h2 id="day6-序列化及多线程问题"><a href="#day6-序列化及多线程问题" class="headerlink" title="day6 序列化及多线程问题"></a>day6 序列化及多线程问题</h2><h3 id="1-序列化问题"><a href="#1-序列化问题" class="headerlink" title="1 序列化问题"></a>1 序列化问题</h3><ul>
 <li><p>方法一：在map方法里new 对象，在每个Task里面类加载，每map一条数据就会生成对象</p>
 <p>​        缺点：非常浪费资源</p>
