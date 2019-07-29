@@ -1240,7 +1240,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/07/24/sparkRDD笔记/" itemprop="url">SPARK RDD</a></h1>
+                <a class="post-title-link" href="/2019/07/24/sparkRDD笔记/" itemprop="url">SparkRDD</a></h1>
         
 
         <div class="post-meta">
@@ -1314,7 +1314,7 @@
       
         
           
-            <h1 id="SPARK-RDD"><a href="#SPARK-RDD" class="headerlink" title="SPARK RDD"></a>SPARK RDD</h1><h2 id="day3-最受欢迎老师"><a href="#day3-最受欢迎老师" class="headerlink" title="day3 最受欢迎老师"></a>day3 最受欢迎老师</h2><p>map方法可以返回元组类型</p>
+            <h1 id="SparkRDD"><a href="#SparkRDD" class="headerlink" title="SparkRDD"></a>SparkRDD</h1><h2 id="day3-最受欢迎老师"><a href="#day3-最受欢迎老师" class="headerlink" title="day3 最受欢迎老师"></a>day3 最受欢迎老师</h2><p>map方法可以返回元组类型</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sbjectTeacherAndOne: <span class="type">RDD</span>[((<span class="type">String</span>, <span class="type">String</span>), <span class="type">Int</span>)] = lines.map(line =&gt; &#123;</span><br><span class="line">      <span class="keyword">val</span> index = line.lastIndexOf(<span class="string">"/"</span>)</span><br><span class="line">      <span class="keyword">val</span> teacher = line.substring(index + <span class="number">1</span>)</span><br><span class="line">      <span class="keyword">val</span> httpHost = line.substring(<span class="number">0</span>, index)</span><br><span class="line">      <span class="keyword">val</span> subject = <span class="keyword">new</span> <span class="type">URL</span>(httpHost).getHost.split(<span class="string">"[.]"</span>)(<span class="number">0</span>) <span class="comment">//“.”是特殊字符，要用[]</span></span><br><span class="line">      ((subject, teacher), <span class="number">1</span>) <span class="comment">//学科和老师联合当作key</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
 
 <p>下划线的操作</p>
