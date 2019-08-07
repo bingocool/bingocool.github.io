@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/07/hexo踩坑/" itemprop="url">Untitled</a></h1>
+                <a class="post-title-link" href="/2019/08/07/hexo踩坑/" itemprop="url">hexo 踩坑</a></h1>
         
 
         <div class="post-meta">
@@ -260,7 +260,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-07T11:23:26+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-07T10:07:20+08:00">
                 2019-08-07
               </time>
             
@@ -270,6 +270,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/并发/" itemprop="url" rel="index">
+                    <span itemprop="name">并发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -300,9 +322,8 @@
       
         
           
-            <p>title: hexo 踩坑<br>categories: “并发”<br>date: 2019-08-7 10:07:20<br>tags: [踩坑, hexo]</p>
-<h1 id="hexo-踩坑"><a href="#hexo-踩坑" class="headerlink" title="hexo 踩坑"></a>hexo 踩坑</h1><h2 id="hexo-g-的时候报错"><a href="#hexo-g-的时候报错" class="headerlink" title="hexo g 的时候报错"></a>hexo g 的时候报错</h2><p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ERROR Process failed: _posts/JAVA并发编程.md</span><br><span class="line">YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 12, column 1:</span><br><span class="line">	## volatile 关键字-内存可见性</span><br></pre></td></tr></table></figure>
+            <h1 id="hexo-踩坑"><a href="#hexo-踩坑" class="headerlink" title="hexo 踩坑"></a>hexo 踩坑</h1><h2 id="hexo-g-的时候报错"><a href="#hexo-g-的时候报错" class="headerlink" title="hexo g 的时候报错"></a>hexo g 的时候报错</h2><p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ERROR Process failed: _posts/JAVA并发编程.md</span><br><span class="line">YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 12, column 1:</span><br><span class="line">	## volatile 关键字-内存可见性</span><br><span class="line">	^</span><br></pre></td></tr></table></figure>
 
 <p>删掉 ## volatile 关键字-内存可见性 这一行，又报：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implicit key at line 27, column 1:</span><br><span class="line">    ### 示例代码</span><br></pre></td></tr></table></figure>
@@ -311,6 +332,626 @@
 <p>应该在”-–  xxxx  -–”标签里的内容不知道怎么在正文里了，修改到”-–  xxxx  -–”解决，有点莫名其妙这是什么逻辑……</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">title: JAVA并发编程</span><br><span class="line">categories: &quot;并发&quot; </span><br><span class="line">date: 2019-07-30 10:07:20</span><br><span class="line">tags: [JUC, 并发]</span><br></pre></td></tr></table></figure>
 
+<h2 id="调试hexo-g问题"><a href="#调试hexo-g问题" class="headerlink" title="调试hexo g问题"></a>调试hexo g问题</h2><h3 id="标签内容成一行放在正文"><a href="#标签内容成一行放在正文" class="headerlink" title="标签内容成一行放在正文"></a>标签内容成一行放在正文</h3><p>直接把标签内容复制在正文里，如下所示：</p>
+<p>​    title: JAVA并发编程 categories: “并发”  date: 2019-07-30 10:07:20 tags: [JUC, 并发]</p>
+<p>执行 hexo g 报错： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ERROR Process failed: _posts/调bug.md</span><br><span class="line">YAMLException: incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 27:</span><br><span class="line">    title: JAVA并发编程 categories: &quot;并发&quot;  date: 2019-07-30 10:07:2 ...</span><br></pre></td></tr></table></figure>
+
+<h3 id="标签内容成一行放在代码块"><a href="#标签内容成一行放在代码块" class="headerlink" title="标签内容成一行放在代码块"></a>标签内容成一行放在代码块</h3><p>把这些内容放进代码块里</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">title: JAVA并发编程 categories: &quot;并发&quot;  date: 2019-07-30 10:07:20 tags: [JUC, 并发]</span><br></pre></td></tr></table></figure>
+
+<p>执行 hexo g 又报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ERROR Process failed: _posts/调bug.md</span><br><span class="line">YAMLException: end of the stream or a document separator is expected at line 3, column 1:</span><br><span class="line">    ```java</span><br></pre></td></tr></table></figure>
+
+<p>但是再执行一遍 hexo g 就好了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">INFO  Start processing</span><br><span class="line">WARN  ===============================================================</span><br><span class="line">WARN  ========================= ATTENTION! ==========================</span><br><span class="line">WARN  ===============================================================</span><br><span class="line">WARN   NexT repository is moving here: https://github.com/theme-next</span><br><span class="line">WARN  ===============================================================</span><br><span class="line">WARN   It&apos;s rebase to v6.0.0 and future maintenance will resume there</span><br><span class="line">WARN  ===============================================================</span><br><span class="line">INFO  Files loaded in 644 ms</span><br><span class="line">INFO  0 files generated in 1.82 s</span><br></pre></td></tr></table></figure>
+
+<p>这什么情况！！！？？？</p>
+<h3 id="标签内容成一行放在代码块，下一行放正文"><a href="#标签内容成一行放在代码块，下一行放正文" class="headerlink" title="标签内容成一行放在代码块，下一行放正文"></a>标签内容成一行放在代码块，下一行放正文</h3><p>如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">title: JAVA并发编程 categories: &quot;并发&quot;  date: 2019-07-30 10:07:20 tags: [JUC, 并发]</span><br></pre></td></tr></table></figure>
+
+<p>title: JAVA并发编程 categories: “并发”  date: 2019-07-30 10:07:20 tags: [JUC, 并发]</p>
+<p>结果：</p>
+<p>执行一次 hexo g 还是报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ERROR Process failed: _posts/调bug.md</span><br><span class="line">YAMLException: end of the stream or a document separator is expected at line 3, column 1:</span><br><span class="line">    ```java</span><br></pre></td></tr></table></figure>
+
+<p>再执行次 hexo g 就好了，这是什么鬼？？？！！！</p>
+<h2 id="hexo问题博客"><a href="#hexo问题博客" class="headerlink" title="hexo问题博客"></a>hexo问题博客</h2><p><a href="https://www.jianshu.com/p/0a315f883c4a" target="_blank" rel="noopener">hexo博客</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/05/Vue学习总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Bin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cilibili">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/05/Vue学习总结/" itemprop="url">Vue学习总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-05T10:07:20+08:00">
+                2019-08-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue/" itemprop="url" rel="index">
+                    <span itemprop="name">Vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Vue学习总结"><a href="#Vue学习总结" class="headerlink" title="Vue学习总结"></a>Vue学习总结</h1><p><strong>Tips</strong>：使用Vue需要有node.js环境</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>1)  借鉴 angular 的模板和<u>数据绑定技术</u> </p>
+<p>2)  借鉴 react 的组件化和<u>虚拟 DOM 技术</u></p>
+<p><strong>扩展插件</strong></p>
+<p>1) vue-cli:vue 脚手架 </p>
+<p>2) vue-resource(axios):ajax 请求 </p>
+<p>3) vue-router: 路由 </p>
+<p>4) vuex: 状态管理 </p>
+<p>5) vue-lazyload: 图片懒加载 </p>
+<p>6) vue-scroller: 页面滑动相关 </p>
+<p>7) mint-ui: 基于 vue 的 UI 组件库(移动端) </p>
+<p>8) element-ui: 基于 vue 的 UI 组件库(PC 端)</p>
+<h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><h3 id="常用内置指令"><a href="#常用内置指令" class="headerlink" title="常用内置指令"></a>常用内置指令</h3><p>1) v-text: 更新元素的 textContent </p>
+<p>2) v-html: 更新元素的 innerHTML </p>
+<p>3) v-if: 如果为 true, 当前标签才会输出到页面</p>
+<p>4) v-else: 如果为 false, 当前标签才会输出到页面 </p>
+<p>5) v-show: 通过控制 display 样式来控制显示/隐藏 </p>
+<p>6) v-for: 遍历数组/对象 </p>
+<p>7) v-on: 绑定事件监听, 一般简写为@ </p>
+<ul>
+<li>默认事件形参:event 、隐含属性对象:$event</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;button @click=<span class="string">"test2($event, 'hello')"</span>&gt;Greet3&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/method代码</span></span><br><span class="line"><span class="regexp">test2 (event, msg) &#123;</span></span><br><span class="line"><span class="regexp">    alert(event.target.innerHTML + '---' + msg) </span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>按键修饰符</p>
+<p>1) .keycode: 操作的是某个 keycode 值的键 </p>
+<p>2) .keyName: 操作的某个按键名的键(少部分)</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;input @keyup<span class="number">.8</span>=<span class="string">"test6"</span>&gt;</span><br><span class="line">&lt;input @keyup.enter=<span class="string">"test6"</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>事件修饰符：</p>
+<p>1) .prevent: 阻止事件的默认行为 event.preventDefault() </p>
+<p>2) .stop: 停止事件冒泡 event.stopPropagation()</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">!-阻止事件默认行为</span> (阻止<span class="attr">href</span>的路径)<span class="attr">--</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> @<span class="attr">click.prevent</span>=<span class="string">"test3"</span>&gt;</span>百度一下<span class="tag">&lt;/<span class="name">a</span>&gt;</span> <span class="tag">&lt;<span class="name">br</span>/&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">!-停止事件冒泡</span> (不会触发下层的事件)<span class="attr">--</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 200px;height: 200px;background: red"</span> @<span class="attr">click</span>=<span class="string">"test4"</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 100px;height: 100px;background: green"</span> @<span class="attr">click.stop</span>=<span class="string">"test5"</span></span></span><br><span class="line">    &lt;/div&gt; </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>8) v-bind: 强制绑定解析表达式, 一般简写为 ：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">v-bind:href</span>=<span class="string">"url"</span>&gt;</span>访问指定站点 2<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>9) v-model: 双向数据绑定 </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--textarea--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">v-model</span>=<span class="string">"user.desc"</span> <span class="attr">rows</span>=<span class="string">"10"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--radio--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">id</span>=<span class="string">"female"</span> <span class="attr">value</span>=<span class="string">"female"</span> <span class="attr">v-model</span>=<span class="string">"user.sex"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"female"</span>&gt;</span>女<span class="tag">&lt;/<span class="name">label</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">id</span>=<span class="string">"male"</span> <span class="attr">value</span>=<span class="string">"male"</span> <span class="attr">v-model</span>=<span class="string">"user.sex"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"male"</span>&gt;</span>男<span class="tag">&lt;/<span class="name">label</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--checkbox--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">id</span>=<span class="string">"basket"</span> <span class="attr">value</span>=<span class="string">"basketball"</span> <span class="attr">v-model</span>=<span class="string">"user.likes"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"basket"</span>&gt;</span>篮球<span class="tag">&lt;/<span class="name">label</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">id</span>=<span class="string">"foot"</span> <span class="attr">value</span>=<span class="string">"football"</span> <span class="attr">v-model</span>=<span class="string">"user.likes"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"foot"</span>&gt;</span>足球<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--checkbox--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">v-model</span>=<span class="string">"user.cityId"</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">""</span>&gt;</span>未选择<span class="tag">&lt;/<span class="name">option</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">v-for</span>=<span class="string">"city in allCitys"</span> <span class="attr">:value</span>=<span class="string">"city.id"</span>&gt;</span> &#123;&#123; city.name &#125;&#125; <span class="tag">&lt;/<span class="name">option</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>10) v-ref: 指定唯一标识,vue 对象通过$els 属性访问这个元素对象 </p>
+<p>11) v-cloak: 防止闪现, 与 css 配合:[v-cloak]{display:none}</p>
+<h3 id="计算属性-amp-监视属性"><a href="#计算属性-amp-监视属性" class="headerlink" title="计算属性&amp;监视属性"></a>计算属性&amp;监视属性</h3><h4 id="计算属性"><a href="#计算属性" class="headerlink" title="计算属性"></a>计算属性</h4><p>1) 在 computed 属性对象中定义计算属性的方法 </p>
+<p>2) 在页面中使用来显示计算的结果</p>
+<h4 id="监视属性"><a href="#监视属性" class="headerlink" title="监视属性"></a>监视属性</h4><p>1) 通过通过 vm 对象的$watch()或 watch 配置来监视指定的属性 </p>
+<p>2) 当属性变化时, 回调函数自动调用, 在函数内部进行计算</p>
+<h4 id="应用实例"><a href="#应用实例" class="headerlink" title="应用实例"></a>应用实例</h4><p>html代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"demo"</span>&gt;</span></span><br><span class="line">    姓: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">placeholder</span>=<span class="string">"First Name"</span> <span class="attr">v-model</span>=<span class="string">"firstName"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    名:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">placeholder</span>=<span class="string">"Last Name"</span> <span class="attr">v-model</span>=<span class="string">"lastName"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    姓名 1(单向): <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">placeholder</span>=<span class="string">"Full Name"</span> <span class="attr">v-model</span>=<span class="string">"fullName1"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    姓名 2(单向): <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">placeholder</span>=<span class="string">"Full Name"</span> <span class="attr">v-model</span>=<span class="string">"fullName2"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    姓名 3(双向): <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">placeholder</span>=<span class="string">"Full Name2"</span> <span class="attr">v-model</span>=<span class="string">"fullName3"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>vue js代码</p>
+<p><strong>计算属性高级</strong> ：（重点学习fullName3）<br> 通过 getter/setter 实现对属性数据的显示和监视</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el: <span class="string">'#demo'</span>, </span><br><span class="line">    data: &#123;</span><br><span class="line">        firstName: <span class="string">'Kobe'</span>, <span class="attr">lastName</span>: <span class="string">'bryant'</span>, <span class="attr">fullName2</span>: <span class="string">'Kobe bryant'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    computed: &#123;</span><br><span class="line">        fullName: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.firstName + <span class="string">" "</span> + <span class="keyword">this</span>.lastName</span><br><span class="line">        &#125;,</span><br><span class="line">        fullName3: &#123;</span><br><span class="line">            <span class="keyword">get</span>: function () &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">this</span>.firstName + <span class="string">" "</span> + <span class="keyword">this</span>.lastName</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="keyword">set</span>: function (value) &#123;</span><br><span class="line">                <span class="keyword">var</span> names = value.split(<span class="string">' '</span>)</span><br><span class="line">                <span class="keyword">this</span>.firstName = names[<span class="number">0</span>]</span><br><span class="line">                <span class="keyword">this</span>.lastName = names[<span class="number">1</span>]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    watch: &#123;</span><br><span class="line">        lastName: <span class="function"><span class="keyword">function</span> (<span class="params">newVal, oldVal</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.fullName2 = <span class="keyword">this</span>.firstName + <span class="string">' '</span> + newVal</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">vm.$watch(<span class="string">'firstName'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">val</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.fullName2 = val + <span class="string">' '</span> + <span class="keyword">this</span>.lastName</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Class绑定-amp-Style绑定与过渡-amp-动画"><a href="#Class绑定-amp-Style绑定与过渡-amp-动画" class="headerlink" title="Class绑定&amp;Style绑定与过渡&amp;动画"></a>Class绑定&amp;Style绑定与过渡&amp;动画</h3><h4 id="Class绑定-amp-Style绑定"><a href="#Class绑定-amp-Style绑定" class="headerlink" title="Class绑定&amp;Style绑定"></a>Class绑定&amp;Style绑定</h4><p>1) 在应用界面中, 某个(些)元素的样式是变化的 </p>
+<p>2) class/style 绑定就是专门用来实现动态样式效果的技术</p>
+<h5 id="Class绑定"><a href="#Class绑定" class="headerlink" title="Class绑定"></a>Class绑定</h5><p>1) :class=’xxx’ </p>
+<p>2) 表达式是字符串:’classA’ </p>
+<p>3) 表达式是对象:{classA:isA,classB:isB} </p>
+<p>4) 表达式是数组:[‘classA’,’classB’]</p>
+<h5 id="Style绑定"><a href="#Style绑定" class="headerlink" title="Style绑定"></a>Style绑定</h5><p>1) :style=”{color:activeColor,fontSize:fontSize+’px’}” </p>
+<p>2) 其中 activeColor/fontSize 是 data 属性</p>
+<h5 id="应用实例-1"><a href="#应用实例-1" class="headerlink" title="应用实例"></a>应用实例</h5><p>CSS代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">style</span>&gt; </span><br><span class="line"><span class="selector-class">.classA</span> &#123; <span class="attribute">color</span>: red; &#125; </span><br><span class="line"><span class="selector-class">.classB</span> &#123;<span class="attribute">background</span>: blue;&#125; </span><br><span class="line"><span class="selector-class">.classC</span> &#123; <span class="attribute">font-size</span>: <span class="number">20px</span>; &#125; </span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>HTML代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"demo"</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>1. class 绑定: :class='xxx'<span class="tag">&lt;/<span class="name">h2</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"classB"</span> <span class="attr">:class</span>=<span class="string">"a"</span>&gt;</span>表达式是字符串: 'classA'<span class="tag">&lt;/<span class="name">p</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">:class</span>=<span class="string">"&#123;classA: isA, classB: isB&#125;"</span>&gt;</span>表达式是对象: &#123;classA:isA, classB: isB&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">:class</span>=<span class="string">"['classA', 'classC']"</span>&gt;</span> 表达式是数组: ['classA', 'classB']<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>2. style 绑定<span class="tag">&lt;/<span class="name">h2</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">:style</span>=<span class="string">"&#123;color, fontSize&#125;"</span>&gt;</span>style="&#123; color: activeColor, fontSize: fontSize + 'px' &#125;"<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"update"</span>&gt;</span>更新<span class="tag">&lt;/<span class="name">button</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Vue  JS 代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"../js/vue.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span> </span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt; </span><br><span class="line">    <span class="keyword">new</span> Vue(&#123; </span><br><span class="line">    	el : <span class="string">'#demo'</span>, </span><br><span class="line">    	data : &#123; </span><br><span class="line">            a: <span class="string">'classA'</span>, </span><br><span class="line">            isA: <span class="literal">true</span>, </span><br><span class="line">            isB: <span class="literal">false</span>, </span><br><span class="line">            color: <span class="string">'red'</span>, </span><br><span class="line">            fontSize: <span class="string">'20px'</span> </span><br><span class="line">        &#125;, <span class="attr">methods</span> : &#123; </span><br><span class="line">            update () &#123; </span><br><span class="line">                <span class="keyword">this</span>.a = <span class="string">'classC'</span> </span><br><span class="line">                <span class="keyword">this</span>.isA = <span class="literal">false</span> </span><br><span class="line">                <span class="keyword">this</span>.isB = <span class="literal">true</span> </span><br><span class="line">                <span class="keyword">this</span>.color = <span class="string">'blue'</span> </span><br><span class="line">                <span class="keyword">this</span>.fontSize = <span class="string">'30px'</span> </span><br><span class="line">            &#125; </span><br><span class="line">        &#125; </span><br><span class="line">	&#125;)</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="过渡-amp-动画"><a href="#过渡-amp-动画" class="headerlink" title="过渡&amp;动画"></a>过渡&amp;动画</h4><h5 id="Vue-动画的理解"><a href="#Vue-动画的理解" class="headerlink" title="Vue 动画的理解"></a>Vue 动画的理解</h5><p>1) 操作 css 的 trasition 或 animation </p>
+<p>2) vue 会给目标元素添加/移除特定的 class </p>
+<p>3) 过渡的相关类名 </p>
+<ul>
+<li><p>xxx-enter-active: 指定显示的 transition </p>
+</li>
+<li><p>xxx-leave-active: 指定隐藏的 transition </p>
+</li>
+<li><p>xxx-enter/xxx-leave-to: 指定隐藏时的样式</p>
+<p>Tips：<code>xxx-leave-to</code>)2.1.8版及以上 定义进入过渡的结束状态。在元素被插入之后下一帧生效 (与此同时 <code>xxx-enter</code> 被移除)，在过渡/动画完成之后移除。</p>
+</li>
+</ul>
+<p><img src="//yoursite.com/2019/08/05/Vue学习总结/transition.png" alt="Vue过渡"></p>
+<img src="/2019/08/05/Vue学习总结/transition.png">
+
+<h5 id="基本过渡动画的编码"><a href="#基本过渡动画的编码" class="headerlink" title="基本过渡动画的编码"></a>基本过渡动画的编码</h5><p>1) 在目标元素外包裹 &lt;transitionname=”xxx”&gt; </p>
+<p>2) 定义 class 样式 </p>
+<ul>
+<li><p>指定过渡样式: transition </p>
+</li>
+<li><p>指定隐藏时的样式: opacity/其它</p>
+</li>
+</ul>
+<h5 id="过渡应用实例"><a href="#过渡应用实例" class="headerlink" title="过渡应用实例"></a>过渡应用实例</h5><p>CSS代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">style</span>&gt; </span><br><span class="line">    <span class="selector-class">.fade-enter-active</span>, <span class="selector-class">.fade-leave-active</span> &#123;</span><br><span class="line">        <span class="attribute">transition</span>: opacity .<span class="number">5s</span> </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.fade-enter</span>, <span class="selector-class">.fade-leave-to</span> &#123; </span><br><span class="line">        <span class="attribute">opacity</span>: <span class="number">0</span> </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*可 以 设 置 不 同 的 进 入 和 离 开 动 画*/</span></span><br><span class="line">    <span class="selector-class">.slide-fade-enter-active</span> &#123;</span><br><span class="line">        <span class="attribute">transition</span>: all .<span class="number">3s</span> ease; </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="selector-class">.slide-fade-leave-active</span> &#123;</span><br><span class="line">        <span class="attribute">transition</span>: all .<span class="number">8s</span> <span class="built_in">cubic-bezier</span>(1.0, 0.5, 0.8, 1.0); </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="selector-class">.slide-fade-enter</span>, <span class="selector-class">.slide-fade-leave-to</span> &#123;</span><br><span class="line">        <span class="attribute">transform</span>: <span class="built_in">translateX</span>(10px); <span class="attribute">opacity</span>: <span class="number">0</span>; </span><br><span class="line">    &#125; </span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>HTML代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"show = !show"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">transition</span> <span class="attr">name</span>=<span class="string">"fade"</span>&gt;</span> <span class="tag">&lt;<span class="name">p</span> <span class="attr">v-if</span>=<span class="string">"show"</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">transition</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">transition</span> <span class="attr">name</span>=<span class="string">"slide-fade"</span>&gt;</span> <span class="tag">&lt;<span class="name">p</span> <span class="attr">v-if</span>=<span class="string">"show"</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">transition</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="动画应用实例"><a href="#动画应用实例" class="headerlink" title="动画应用实例"></a>动画应用实例</h5><p>CSS代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">style</span>&gt; </span><br><span class="line">    <span class="selector-class">.bounce-enter-active</span> &#123;</span><br><span class="line">        <span class="attribute">animation</span>: bounce-in .<span class="number">5s</span>; </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.bounce-leave-active</span> &#123;</span><br><span class="line">        <span class="attribute">animation</span>: bounce-in .<span class="number">5s</span> reverse; </span><br><span class="line">    &#125;</span><br><span class="line">	&lt;!<span class="selector-tag">--bounce-in</span>是自定义的<span class="selector-tag">animation--</span>&gt;</span><br><span class="line">    @<span class="keyword">keyframes</span> bounce-in &#123; </span><br><span class="line">        0% &#123;<span class="attribute">transform</span>: <span class="built_in">scale</span>(0);&#125; </span><br><span class="line">        50% &#123; <span class="attribute">transform</span>: <span class="built_in">scale</span>(1.5); &#125; </span><br><span class="line">        100% &#123; <span class="attribute">transform</span>: <span class="built_in">scale</span>(1); &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>HTML代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"show = !show"</span>&gt;</span>Toggle show<span class="tag">&lt;/<span class="name">button</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">transition</span> <span class="attr">name</span>=<span class="string">"bounce"</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">v-if</span>=<span class="string">"show"</span> <span class="attr">style</span>=<span class="string">"display: inline-block"</span>&gt;</span>Look at me!<span class="tag">&lt;/<span class="name">p</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">transition</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="条件渲染-amp-列表渲染"><a href="#条件渲染-amp-列表渲染" class="headerlink" title="条件渲染&amp;列表渲染"></a>条件渲染&amp;列表渲染</h3><h4 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h4><p>1) v-if 与 v-else </p>
+<p>2) v-show</p>
+<p><strong>比较 v-if 与 v-show</strong></p>
+<p>3) 如果需要频繁切换 v-show 较好 </p>
+<p><strong>4)</strong> 当条件不成立时,v-if 的所有子节点不会解析(项目中使用)</p>
+<h4 id="列表渲染"><a href="#列表渲染" class="headerlink" title="列表渲染"></a>列表渲染</h4><p><strong>1) 列表显示指令</strong> </p>
+<p>数组:v-for/index </p>
+<p>对象:v-for/key </p>
+<p><strong>2) 列表的更新显示</strong> </p>
+<p>删除 item </p>
+<p>替换 item </p>
+<p><strong>3) 列表的高级处理</strong></p>
+<p>列表过滤</p>
+<p>列表排序</p>
+<h4 id="维护状态（v-for-的key属性）"><a href="#维护状态（v-for-的key属性）" class="headerlink" title="维护状态（v-for 的key属性）"></a>维护状态（v-for 的key属性）</h4><p>当 Vue 正在更新使用 <code>v-for</code> 渲染的元素列表时，它默认使用“就地更新”的策略。如果数据项的顺序被改变，Vue 将不会移动 DOM 元素来匹配数据项的顺序，而是就地更新每个元素，并且确保它们在每个索引位置正确渲染。这个类似 Vue 1.x 的 <code>track-by=&quot;$index&quot;</code>。</p>
+<p>这个默认的模式是高效的，但是<strong>只适用于不依赖子组件状态或临时 DOM 状态 (例如：表单输入值) 的列表渲染输出</strong>。</p>
+<p>为了给 Vue 一个提示，以便它能跟踪每个节点的身份，从而重用和重新排序现有元素，你需要为每项提供一个唯一 <code>key</code> 属性：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-for</span>=<span class="string">"item in items"</span> <span class="attr">v-bind:key</span>=<span class="string">"item.id"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 内容 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>建议尽可能在使用 <code>v-for</code> 时提供 <code>key</code> attribute，除非遍历输出的 DOM 内容非常简单，或者是刻意依赖默认行为以获取性能上的提升。</p>
+<p>因为它是 Vue 识别节点的一个通用机制，<code>key</code> 并不仅与 <code>v-for</code> 特别关联。后面我们将在指南中看到，它还具有其它用途。</p>
+<p><strong>注意</strong>!!!!!</p>
+<p>不要使用对象或数组之类的非基本类型值作为 <code>v-for</code> 的 <code>key</code>。请用字符串或数值类型的值。</p>
+<h4 id="应用实例1（列表遍历与更新）"><a href="#应用实例1（列表遍历与更新）" class="headerlink" title="应用实例1（列表遍历与更新）"></a>应用实例1（列表遍历与更新）</h4><p>HTML代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"demo"</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>测试: v-for 遍历数组<span class="tag">&lt;/<span class="name">h2</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(p, index) in persons"</span> <span class="attr">:key</span>=<span class="string">"index"</span>&gt;</span> </span><br><span class="line">            &#123;&#123;index&#125;&#125;--&#123;&#123;p.name&#125;&#125;--&#123;&#123;p.age&#125;&#125; </span><br><span class="line">            --</span><br><span class="line">            <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"deleteItem(index)"</span>&gt;</span>删除<span class="tag">&lt;/<span class="name">button</span>&gt;</span> </span><br><span class="line">            --</span><br><span class="line">            <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"updateItem(index, &#123;name:'Jok',age:15&#125;)"</span>&gt;</span>更新<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>测试: v-for 遍历对象<span class="tag">&lt;/<span class="name">h2</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(value, key) in persons[0]"</span>&gt;</span> </span><br><span class="line">            &#123;&#123; key &#125;&#125; : &#123;&#123; value &#125;&#125; </span><br><span class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>JavaScript代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"../js/vue.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span> </span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt; </span><br><span class="line">    <span class="keyword">new</span> Vue(&#123; </span><br><span class="line">        el: <span class="string">'#demo'</span>, </span><br><span class="line">        data: &#123; </span><br><span class="line">            persons: [ </span><br><span class="line">                &#123;<span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">'Tom'</span>, <span class="attr">age</span>: <span class="number">13</span>&#125;, </span><br><span class="line">                &#123;<span class="attr">id</span>: <span class="number">2</span>, <span class="attr">name</span>: <span class="string">'Jack'</span>, <span class="attr">age</span>: <span class="number">12</span>&#125;, </span><br><span class="line">                &#123;<span class="attr">id</span>: <span class="number">3</span>, <span class="attr">name</span>: <span class="string">'Bob'</span>, <span class="attr">age</span>: <span class="number">14</span>&#125; ] </span><br><span class="line">        &#125;,</span><br><span class="line">        methods: &#123; </span><br><span class="line">            deleteItem(index) &#123; </span><br><span class="line">                <span class="keyword">this</span>.persons.splice(index, <span class="number">1</span>) </span><br><span class="line">            &#125;, </span><br><span class="line">            updateItem(index, p) &#123; </span><br><span class="line">                <span class="comment">// this.persons[index] = p //页面不会更新 </span></span><br><span class="line">                <span class="keyword">this</span>.persons.splice(index, <span class="number">1</span>, p)  <span class="comment">//页面更新 </span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;) </span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="变异方法"><a href="#变异方法" class="headerlink" title="变异方法"></a>变异方法</h4><p>Vue 将被侦听的数组的变异方法进行了包裹，所以它们也将会触发视图更新。这些被包裹过的方法包括：</p>
+<ul>
+<li><p><code>splice()</code> ：有三个参数，第一个是想要删除的元素的下标（必选），第二个是想要删除的个数（必选），第三个是删除后想要在原位置替换的值（可选）====可以实现基本的增删改操作====</p>
+<p>this.persons.splice(index, 1)  //删除，规定添加/删除项目的位置，使用负数可从数组结尾处规定位置</p>
+<p>this.persons.splice(index, 1, p)  //页面更新 </p>
+<p>this.persons.splice(index, 0, p)  //页面新增，如果设置为 0，则不会删除项目。</p>
+</li>
+<li><p>push()： 往数组最后面添加一个元素，成功返回当前数组的长度</p>
+</li>
+<li><p>pop()：删除数组的最后一个元素，成功返回删除元素的值</p>
+</li>
+<li><p>shift()：删除数组的第一个元素，成功返回删除元素的值</p>
+</li>
+<li><p>unshift()：往数组最前面添加一个元素，成功返回当前数组的长度</p>
+</li>
+<li><p>sort()：使数组按照字符编码默认从小到大排序,成功返回排序后的数组</p>
+</li>
+<li><p>reverse()：将数组倒序，成功返回倒序后的数组</p>
+</li>
+</ul>
+<h4 id="应用实例2（列表过滤与排序）"><a href="#应用实例2（列表过滤与排序）" class="headerlink" title="应用实例2（列表过滤与排序）"></a>应用实例2（列表过滤与排序）</h4><p>HTML代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"demo"</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"searchName"</span> <span class="attr">placeholder</span>=<span class="string">"搜索指定用户名"</span> <span class="attr">v-model</span>=<span class="string">"searchName"</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(p, index) in filterPerson"</span> <span class="attr">:key</span>=<span class="string">"index"</span>&gt;</span> </span><br><span class="line">            &#123;&#123;index&#125;&#125;--&#123;&#123;p.name&#125;&#125;--&#123;&#123;p.age&#125;&#125; </span><br><span class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"setOrderType(1)"</span>&gt;</span>年龄升序<span class="tag">&lt;/<span class="name">button</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"setOrderType(2)"</span>&gt;</span>年龄降序<span class="tag">&lt;/<span class="name">button</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"setOrderType(0)"</span>&gt;</span>原本顺序<span class="tag">&lt;/<span class="name">button</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>JavaScript代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"../js/vue.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span> </span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt; </span><br><span class="line">    <span class="keyword">new</span> Vue(&#123; </span><br><span class="line">        el: <span class="string">'#demo'</span>, </span><br><span class="line">        data: &#123; <span class="attr">orderType</span>: <span class="number">0</span>, <span class="comment">//0 代 表 不 排 序 , 1 为 升 序 , 2 为 降 序 </span></span><br><span class="line">               searchName: <span class="string">''</span>, </span><br><span class="line">               persons: [ </span><br><span class="line">                   &#123;<span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">'Tom'</span>, <span class="attr">age</span>: <span class="number">13</span>&#125;, </span><br><span class="line">                   &#123;<span class="attr">id</span>: <span class="number">2</span>, <span class="attr">name</span>: <span class="string">'Jack'</span>, <span class="attr">age</span>: <span class="number">12</span>&#125;] &#125;, </span><br><span class="line">        methods: &#123; </span><br><span class="line">            setOrderType (orderType) &#123; </span><br><span class="line">                <span class="keyword">this</span>.orderType = orderType </span><br><span class="line">            &#125; </span><br><span class="line">        &#125;, </span><br><span class="line">        computed: &#123; </span><br><span class="line">            filterPerson() &#123; </span><br><span class="line">                <span class="keyword">let</span> &#123;orderType, searchName, persons&#125; = <span class="keyword">this</span> </span><br><span class="line">                <span class="comment">// 按搜索的名字过滤 </span></span><br><span class="line">                persons = persons.filter(<span class="function"><span class="params">p</span> =&gt;</span> p.name.indexOf(searchName)!=<span class="number">-1</span>)</span><br><span class="line">                <span class="comment">// 排序 </span></span><br><span class="line">                <span class="keyword">if</span>(orderType!==<span class="number">0</span>) &#123; </span><br><span class="line">                    persons = persons.sort(<span class="function"><span class="keyword">function</span> (<span class="params">p1, p2</span>) </span>&#123; </span><br><span class="line">                        <span class="keyword">if</span>(orderType===<span class="number">1</span>) &#123; </span><br><span class="line">                            <span class="keyword">return</span> p1.age-p2.age </span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">                            <span class="keyword">return</span> p2.age-p1.age </span><br><span class="line">                        &#125; </span><br><span class="line">                    &#125;) </span><br><span class="line">                &#125; </span><br><span class="line">                <span class="keyword">return</span> persons</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;) </span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h3><p>功能: 对要显示的数据进行特定格式化后再显示</p>
+<p>注意: 并没有改变原本的数据, 可是产生新的对应的数据</p>
+<h4 id="定义和使用过滤器"><a href="#定义和使用过滤器" class="headerlink" title="定义和使用过滤器"></a>定义和使用过滤器</h4><p>1) 定义过滤器 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Vue.filter(filterName, <span class="function"><span class="keyword">function</span>(<span class="params">value[,arg1,arg2,...]</span>)</span>&#123; </span><br><span class="line">    <span class="comment">// 进行一定的数据处理 returnnewValue </span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>2) 使用过滤器 </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;&#123;myData|filterName&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;&#123;myData|filterName(arg)&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="应用实例-2"><a href="#应用实例-2" class="headerlink" title="应用实例"></a>应用实例</h4><p>HTML代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"test"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>当前时间 1 为: &#123;&#123;currentTime | dateStr&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span> </span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>当前时间 2 为: &#123;&#123;currentTime | dateStr('YYYY-MM-DD')&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span> </span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>当前时间 3 为: &#123;&#123;currentTime | dateStr('HH:mm:ss')&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>JavaScript代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"../js/vue.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span> </span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span>src=<span class="string">"https://cdn.bootcss.com/moment.js/2.19.0/moment.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span> </span><br><span class="line">&lt;script&gt; </span><br><span class="line">    <span class="comment">// 注册过滤器 </span></span><br><span class="line">    Vue.filter(<span class="string">'dateStr'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">value, format</span>) </span>&#123;</span><br><span class="line">    	<span class="keyword">return</span> moment(value).format(format || <span class="string">'YYYY-MM-DD HH:mm:ss'</span>) </span><br><span class="line">	&#125;)</span><br><span class="line">    <span class="keyword">new</span> Vue(&#123; </span><br><span class="line">        el: <span class="string">'#test'</span>, </span><br><span class="line">        data: &#123; </span><br><span class="line">            currentTime: <span class="keyword">new</span> <span class="built_in">Date</span>() </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;) </span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Vue生命周期"><a href="#Vue生命周期" class="headerlink" title="Vue生命周期"></a>Vue生命周期</h3><h4 id="生命周期流程图"><a href="#生命周期流程图" class="headerlink" title="生命周期流程图"></a>生命周期流程图</h4><p><img src="//yoursite.com/2019/08/05/Vue学习总结/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt="生命周期图"></p>
+<img src="/2019/08/05/Vue学习总结/Vue生命周期.png">
+
+<h4 id="Vue-生命周期分析"><a href="#Vue-生命周期分析" class="headerlink" title="Vue 生命周期分析"></a>Vue 生命周期分析</h4><p>1) 初始化显示 </p>
+<ul>
+<li><p>beforeCreate() </p>
+</li>
+<li><p>created() </p>
+</li>
+<li><p>beforeMount() *mounted() </p>
+</li>
+</ul>
+<p>2) 更新状态: this.xxx=value </p>
+<ul>
+<li><p>beforeUpdate() </p>
+</li>
+<li><p>updated() </p>
+</li>
+</ul>
+<p>3) 销毁 vue 实例: vm.$destory() </p>
+<ul>
+<li>beforeDestory() </li>
+<li>destoryed()</li>
+</ul>
+<p><strong>常用的生命周期方法</strong></p>
+<p>​    1)  created()/<strong>mounted</strong>(): 发送 ajax 请求, 启动定时器等异步任务 </p>
+<p>​        Tips: mounted()在html加载完成后执行，vm数据改变会触发mounted（ 不会触发created() ）</p>
+<p>​    2)  beforeDestory(): 做收尾工作, 如: 清除定时器</p>
+<h3 id="自定义指令-amp-自定义插件"><a href="#自定义指令-amp-自定义插件" class="headerlink" title="自定义指令&amp;自定义插件"></a>自定义指令&amp;自定义插件</h3><h4 id="自定义指令"><a href="#自定义指令" class="headerlink" title="自定义指令"></a>自定义指令</h4><p><strong>钩子函数</strong></p>
+<ul>
+<li><code>bind</code>: 只调用一次，指令第一次绑定到元素时调用，用这个钩子函数可以定义一个在绑定时执行一次的初始化动作。</li>
+<li><code>inserted</code>: 被绑定元素插入父节点时调用（父节点存在即可调用，不必存在于 document 中）。</li>
+<li><code>update</code>: 被绑定元素所在的模板更新时调用，而不论绑定值是否变化。通过比较更新前后的绑定值，可以忽略不必要的模板更新（详细的钩子函数参数见下）。</li>
+<li><code>componentUpdated</code>: 被绑定元素所在模板完成一次更新周期时调用。</li>
+<li><code>unbind</code>: 只调用一次， 指令与元素解绑时调用。</li>
+</ul>
+<p><strong>钩子函数参数</strong></p>
+<ul>
+<li><p><strong>el</strong>: 指令所绑定的元素，可以用来直接操作 DOM 。</p>
+</li>
+<li><p><strong>binding</strong></p>
+<p>: 一个对象，包含以下属性：</p>
+<ul>
+<li><strong>name</strong>: 指令名，不包括 <code>v-</code> 前缀。</li>
+<li><strong>value</strong>: 指令的绑定值， 例如： <code>v-my-directive=&quot;1 + 1&quot;</code>, value 的值是 <code>2</code>。</li>
+<li><strong>oldValue</strong>: 指令绑定的前一个值，仅在 <code>update</code> 和 <code>componentUpdated</code> 钩子中可用。无论值是否改变都可用。</li>
+<li><strong>expression</strong>: 绑定值的表达式或变量名。 例如 <code>v-my-directive=&quot;1 + 1&quot;</code> ， expression 的值是 <code>&quot;1 + 1&quot;</code>。</li>
+<li><strong>arg</strong>: 传给指令的参数。例如 <code>v-my-directive:foo</code>， arg 的值是 <code>&quot;foo&quot;</code>。</li>
+<li><strong>modifiers</strong>: 一个包含修饰符的对象。 例如： <code>v-my-directive.foo.bar</code>, 修饰符对象 modifiers 的值是 <code>{ foo: true, bar: true }</code>。</li>
+</ul>
+</li>
+<li><p><strong>vnode</strong>: Vue 编译生成的虚拟节点</p>
+</li>
+<li><p><strong>oldVnode</strong>: 上一个虚拟节点，仅在 <code>update</code> 和 <code>componentUpdated</code> 钩子中可用。</p>
+</li>
+</ul>
+<p><strong>指令定义与使用</strong></p>
+<p>1) 注册全局指令 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Vue.directive(<span class="string">'my-directive'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">el,binding</span>)</span>&#123; 							           		el.innerHTML=binding.value.toupperCase() </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>2) 注册局部指令 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">directives:&#123; </span><br><span class="line">    <span class="string">'my-directive'</span>:&#123;</span><br><span class="line">        bind(el,binding)&#123;</span><br><span class="line">            el.innerHTML=binding.value.toupperCase() </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3) 使用指令 </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">v-my-directive</span>=<span class="string">'msg'</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="自定义插件"><a href="#自定义插件" class="headerlink" title="自定义插件"></a>自定义插件</h4><p>1) Vue 插件是一个包含 install 方法的对象</p>
+<p>2) 通过 install 方法给 Vue 或 Vue 实例添加方法, 定义全局指令等</p>
+<h5 id="定义插件"><a href="#定义插件" class="headerlink" title="定义插件"></a>定义插件</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">* 自 定 义 Vue 插 件</span></span><br><span class="line"><span class="comment">*/</span> </span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; </span><br><span class="line">    <span class="keyword">const</span> MyPlugin = &#123;&#125; </span><br><span class="line">    MyPlugin.install = <span class="function"><span class="keyword">function</span> (<span class="params">Vue, options</span>) </span>&#123; </span><br><span class="line">        <span class="comment">// 1. 添 加 全 局 方 法 或 属 性 </span></span><br><span class="line">        Vue.myGlobalMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; </span><br><span class="line">            alert(<span class="string">'Vue 函数对象方法执行'</span>) </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="comment">// 2. 添 加 全 局 资 源 </span></span><br><span class="line">        Vue.directive(<span class="string">'my-directive'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">el, binding</span>) </span>&#123; </span><br><span class="line">            el.innerHTML = <span class="string">"MyPlugin my-directive "</span> + binding.value </span><br><span class="line">        &#125;) </span><br><span class="line">        <span class="comment">// 3. 添 加 实 例 方 法 </span></span><br><span class="line">        Vue.prototype.$myMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            alert(<span class="string">'vue 实例对象方法执行'</span>) </span><br><span class="line">        &#125; &#125;</span><br><span class="line">    <span class="built_in">window</span>.MyPlugin = MyPlugin </span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<h5 id="插使用件"><a href="#插使用件" class="headerlink" title="插使用件"></a>插使用件</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"demo"</span>&gt; </span><br><span class="line">    &lt;!-使 用 自 定 义 指 令 --&gt; </span><br><span class="line">    &lt;p v-my-directive=<span class="string">"msg"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span> </span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;script type="text/</span>javascript<span class="string">" src="</span>../js/vue.js<span class="string">"&gt;&lt;/script&gt; </span></span><br><span class="line"><span class="string">&lt;script type="</span>text/javascript<span class="string">" src="</span>vue-myPlugin.js<span class="string">"&gt;&lt;/script&gt; </span></span><br><span class="line"><span class="string">&lt;script type="</span>text/javascript<span class="string">"&gt;</span></span><br><span class="line"><span class="string">	// 使 用 自 定 义 插 件 Vue.use(MyPlugin)</span></span><br><span class="line"><span class="string">    var vm = new Vue(&#123; </span></span><br><span class="line"><span class="string">        el: '#demo',</span></span><br><span class="line"><span class="string">        data: &#123; </span></span><br><span class="line"><span class="string">            msg: 'atguigu' </span></span><br><span class="line"><span class="string">        &#125; </span></span><br><span class="line"><span class="string">    &#125;) </span></span><br><span class="line"><span class="string">    // 调 用 自 定 义 的 静 态 方 法 </span></span><br><span class="line"><span class="string">    Vue.myGlobalMethod() </span></span><br><span class="line"><span class="string">    // 调 用 自 定 义 的 对 象 方 法 </span></span><br><span class="line"><span class="string">    vm.$myMethod() </span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Vue组件化编码"><a href="#Vue组件化编码" class="headerlink" title="Vue组件化编码"></a>Vue组件化编码</h2><h3 id="使用-vue-cli-创建模板项目"><a href="#使用-vue-cli-创建模板项目" class="headerlink" title="使用 vue-cli 创建模板项目"></a>使用 vue-cli 创建模板项目</h3><p> vue-cli 是 vue 官方提供的脚手架工具 </p>
+<h4 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">npm install -g vue-cli //输入项目文件夹名称 VueDemo,项目名称 vue_demo(不能有大写)</span><br><span class="line">vue init webpack vue_demo //使用webpack模板</span><br><span class="line">cd vue_demo //进入vue项目路径（VueDemo）</span><br><span class="line">npm install //安装项目依赖</span><br><span class="line">npm run dev //dev环境启动项目</span><br><span class="line">访问:http://localhost:8080/ //可以修改/config/index.js下的port更改配置</span><br></pre></td></tr></table></figure>
+
+<p>Tips：用WebStorm会无脑很多</p>
+<h4 id="模板项目的结构"><a href="#模板项目的结构" class="headerlink" title="模板项目的结构"></a>模板项目的结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">|--build:webpack 相关的配置文件夹(基本不需要修改) </span><br><span class="line">	|--dev-server.js: 通过 express 启动后台服务器 </span><br><span class="line">|--config:webpack 相关的配置文件夹(基本不需要修改) </span><br><span class="line">	|--index.js: 指定的后台服务的端口号和静态资源文件夹 </span><br><span class="line">|--node_modules </span><br><span class="line">|--src: 源码文件夹 </span><br><span class="line">	|--components:vue 组件及其相关资源文件夹 </span><br><span class="line">	|--App.vue: 应用根主组件 </span><br><span class="line">	|--main.js: 应用入口 js </span><br><span class="line">|--static: 静态资源文件夹 </span><br><span class="line">|--.babelrc:babel 的配置文件 </span><br><span class="line">|--.eslintignore:eslint 检查忽略的配置 </span><br><span class="line">|--.eslintrc.js:eslint 检查的配置 </span><br><span class="line">|--.gitignore:git 版本管制忽略的配置 </span><br><span class="line">|--index.html: 主页面文件 </span><br><span class="line">|--package.json: 应用包配置文件 </span><br><span class="line">|--README.md: 应用描述说明的 readme 文件</span><br></pre></td></tr></table></figure>
+
+<h4 id="打包发布项目（动态Web服务器tomcat）"><a href="#打包发布项目（动态Web服务器tomcat）" class="headerlink" title="打包发布项目（动态Web服务器tomcat）"></a>打包发布项目（动态Web服务器tomcat）</h4><p>1）修改配置：webpack.prod.conf.js </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">output:&#123; </span><br><span class="line">	publicPath:<span class="string">'/myvue/'</span> <span class="comment">//打包文件夹的名称 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2）打包：npm run build</p>
+<p>3）修改 dist 文件夹为项目名称: myvue</p>
+<p>4）将 myvue拷贝到运行的 tomcat 的 webapps 目录下</p>
+<p>5）访问:<a href="http://localhost:8080/myvue" target="_blank" rel="noopener">http://localhost:8080/myvue</a></p>
+<h4 id="ESlint"><a href="#ESlint" class="headerlink" title="ESlint"></a>ESlint</h4><p>ESLint 是一个代码规范检查工具</p>
+<p><strong>修改配置</strong></p>
+<p>1) .eslintrc.js: 全局规则配置文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'rules'</span>: &#123;</span><br><span class="line">    <span class="comment">//0：关闭规则。1：打开规则，并且作为一个警告（信息打印黄色字体）。2：打开规则，并且作为一个错误（信息打印红色字体）</span></span><br><span class="line">	<span class="string">'no-new'</span>: <span class="number">1</span> </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>2) 在 js/vue 文件中修改局部规则 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*eslint-disable no-new*/</span> </span><br><span class="line">newVue(&#123;</span><br><span class="line">    el: <span class="string">'#body'</span>, </span><br><span class="line">    components: &#123; App &#125; </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>3) .eslintignore: 指令检查忽略的文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*.js *.vue</span><br></pre></td></tr></table></figure>
+
+<h3 id="组件定义与使用"><a href="#组件定义与使用" class="headerlink" title="组件定义与使用"></a>组件定义与使用</h3><h4 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h4><p>1) 引入组件 </p>
+<p>2) 映射成标签</p>
+<p>3) 使用组件标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--样式--&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">    /*样式定义*/</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--模板页面--&gt;</span><br><span class="line">&lt;template&gt; </span><br><span class="line">    &lt;HelloWorld&gt;写法一: 一模一样&lt;/HelloWorld&gt; </span><br><span class="line">    &lt;hello-world&gt;写法二: 大写变小写, 并用-连接&lt;/hello-world&gt; </span><br><span class="line">&lt;/template&gt; </span><br><span class="line"></span><br><span class="line">&lt;!--JS 模块对象--&gt;</span><br><span class="line">&lt;script&gt; </span><br><span class="line">    import HelloWorld from &apos;./components/HelloWorld&apos; </span><br><span class="line">    export default&#123;</span><br><span class="line">        components:&#123;</span><br><span class="line">            HelloWorld // HelloWorld：HelloWorld简写</span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="组件间通信"><a href="#组件间通信" class="headerlink" title="组件间通信"></a>组件间通信</h4><h5 id="组件间通信基本原则"><a href="#组件间通信基本原则" class="headerlink" title="组件间通信基本原则"></a>组件间通信基本原则</h5><p>1)  不要在子组件中直接修改父组件的状态数据 </p>
+<p>2)  数据在哪, 更新数据的行为(函数)就应该定义在哪</p>
+<h5 id="Vue-组件间通信方式"><a href="#Vue-组件间通信方式" class="headerlink" title="Vue 组件间通信方式"></a>Vue 组件间通信方式</h5><h6 id="1-props"><a href="#1-props" class="headerlink" title="1) props"></a>1) props</h6><p>​    1）使用组件标签时</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">my-component</span> <span class="attr">name</span>=<span class="string">'tom'</span> <span class="attr">:age</span>=<span class="string">'3'</span> <span class="attr">:set-name</span>=<span class="string">'setName'</span>&gt;</span> <span class="tag">&lt;/<span class="name">my-component</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>​    2）定义 MyComponent 时，在组件内声明所有的 props </p>
+<p>​        方式一: 只指定名称 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">props:[&apos;name&apos;, &apos;age&apos;,&apos; setName&apos;]</span><br></pre></td></tr></table></figure>
+
+<p>​         方式二: 指定名称和类型 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">props:&#123; name: String, age: Number, setNmae: Function &#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        方式三: 指定名称/类型/必要性/默认值 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">props:&#123; name:&#123;type: String, required: true, default: xxx&#125;, &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意:</strong></p>
+<p>1) 此方式用于父组件向子组件传递数据 </p>
+<p>2) 所有标签属性都会成为组件对象的属性, 模板页面可以直接引用 </p>
+<p><strong>3) 问题:</strong> </p>
+<p>a. 如果需要向非子后代传递数据必须多层逐层传递 </p>
+<p>b. 兄弟组件间也不能直接 props 通信, 必须借助父组件才可以</p>
+<h6 id="2-vue-的自定义事件"><a href="#2-vue-的自定义事件" class="headerlink" title="2) vue 的自定义事件"></a>2) vue 的自定义事件</h6><h6 id="3-消息订阅与发布-如-pubsub-库"><a href="#3-消息订阅与发布-如-pubsub-库" class="headerlink" title="3) 消息订阅与发布(如:pubsub 库)"></a>3) 消息订阅与发布(如:pubsub 库)</h6><p>​    1）绑定事件监听（订阅消息）</p>
+<p>​        目标：标签元素 &lt;button&gt; </p>
+<p>​        事件名(类型)：click/focus </p>
+<p>​        回调函数：function(event){}    </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PubSub.subscribe(<span class="string">'msg'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">msg,data</span>)</span>&#123; ... &#125;  )	<span class="comment">//msg没什么用处，但必须是第一个参数</span></span><br></pre></td></tr></table></figure>
+
+<p>​    2）触发事件（发布消息）</p>
+<p>​        DOM 事件：用户在浏览器上对应的界面上做对应的操作 </p>
+<p>​        自定义：编码手动触发</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PubSub.publish(<span class="string">'msg'</span>,data)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong></p>
+<p>优点： 此方式可实现任意关系组件间通信(数据)</p>
+<h6 id="4-slot"><a href="#4-slot" class="headerlink" title="4) slot"></a>4) slot</h6><p>此方式用于父组件向子组件传递<code>标签数据</code>（常用于多个父组件用一个子组件但子组件略有变化的情况）</p>
+<p>​    1）子组件:Child.vue</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"xxx"</span>&gt;</span>不确定的标签结构 1<span class="tag">&lt;/<span class="name">slot</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span>&gt;</span>组件确定的标签结构<span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"yyy"</span>&gt;</span>不确定的标签结构 2<span class="tag">&lt;/<span class="name">slot</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>​    2）父组件:Parent.vue</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">child</span>&gt;</span> </span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">slot</span>=<span class="string">"xxx"</span>&gt;</span>xxx 对应的标签结构<span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">slot</span>=<span class="string">"yyy"</span>&gt;</span>yyyy 对应的标签结构<span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="5-vuex-后面单独讲"><a href="#5-vuex-后面单独讲" class="headerlink" title="5) vuex(后面单独讲)"></a>5) vuex(后面单独讲)</h6><h2 id="Vue-ajax"><a href="#Vue-ajax" class="headerlink" title="Vue-ajax"></a>Vue-ajax</h2><h3 id="vue-resource"><a href="#vue-resource" class="headerlink" title="vue-resource"></a>vue-resource</h3><h3 id="axios-推荐"><a href="#axios-推荐" class="headerlink" title="axios(推荐)"></a>axios(推荐)</h3><p>1） 下载</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save axios</span><br></pre></td></tr></table></figure>
+
+<p>2） 编码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 引入模块 </span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span></span><br><span class="line"><span class="comment">// 发送 ajax 请求 </span></span><br><span class="line">axios.get(url).then(<span class="function"><span class="params">response</span> =&gt;</span> &#123; </span><br><span class="line">    <span class="built_in">console</span>.log(response.data)</span><br><span class="line">    <span class="comment">// 得到返回结果数据 </span></span><br><span class="line">	&#125;) .catch(<span class="function"><span class="params">error</span> =&gt;</span> &#123; </span><br><span class="line">    <span class="built_in">console</span>.log( error.message) </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="axios-API"><a href="#axios-API" class="headerlink" title="axios API"></a>axios API</h4><p>可以通过向 axios 传递相关配置来创建请求。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">axios(config)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送 POST 请求</span></span><br><span class="line">axios(&#123;</span><br><span class="line">  method: <span class="string">'post'</span>,</span><br><span class="line">  url: <span class="string">'/user/12345'</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    firstName: <span class="string">'Fred'</span>,</span><br><span class="line">    lastName: <span class="string">'Flintstone'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//  GET 请求远程图片</span></span><br><span class="line">axios(&#123;</span><br><span class="line">  method:<span class="string">'get'</span>,</span><br><span class="line">  url:<span class="string">'http://bit.ly/2mTM3nY'</span>,</span><br><span class="line">  responseType:<span class="string">'stream'</span></span><br><span class="line">&#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">  response.data.pipe(fs.createWriteStream(<span class="string">'ada_lovelace.jpg'</span>))</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">axios(url[, config])</span><br><span class="line"><span class="comment">// 发送 GET 请求（默认的方法）</span></span><br><span class="line">axios(<span class="string">'/user/12345'</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="请求方法的别名"><a href="#请求方法的别名" class="headerlink" title="请求方法的别名"></a>请求方法的别名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">axios.request(config)</span><br><span class="line">axios.get(url[, config])</span><br><span class="line">axios.delete(url[, config])</span><br><span class="line">axios.head(url[, config])</span><br><span class="line">axios.post(url[, data[, config]])</span><br><span class="line">axios.put(url[, data[, config]])</span><br><span class="line">axios.patch(url[, data[, config]])</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>在使用别名方法时， url、method、data 这些属性都不必在配置中指定。</p>
+<h4 id="执行多个并发请求"><a href="#执行多个并发请求" class="headerlink" title="执行多个并发请求"></a>执行多个并发请求</h4><p>处理并发请求的助手函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">axios.all(iterable)</span><br><span class="line">axios.spread(callback)</span><br></pre></td></tr></table></figure>
+
+<p><strong>应用实例</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserAccount</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> axios.get(<span class="string">'/user/12345'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserPermissions</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> axios.get(<span class="string">'/user/12345/permissions'</span>);</span><br><span class="line">&#125;</span><br><span class="line">axios.all([getUserAccount(), getUserPermissions()])</span><br><span class="line">  .then(axios.spread(<span class="function"><span class="keyword">function</span> (<span class="params">acct, perms</span>) </span>&#123;	<span class="comment">//第1、2个返回结果 </span></span><br><span class="line">    <span class="comment">// 两个请求现在都执行完成</span></span><br><span class="line">  &#125;));</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建实例（拦截器、配置默认值）"><a href="#创建实例（拦截器、配置默认值）" class="headerlink" title="创建实例（拦截器、配置默认值）"></a>创建实例（拦截器、配置默认值）</h4><p>可以使用自定义配置新建一个 axios 实例：/utils/request.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span></span><br><span class="line"><span class="keyword">import</span> &#123; Message <span class="comment">/* MessageBox*/</span> &#125; <span class="keyword">from</span> <span class="string">'element-ui'</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'../store'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getToken &#125; <span class="keyword">from</span> <span class="string">'@/utils/auth'</span></span><br><span class="line"></span><br><span class="line">axios.create([config])</span><br><span class="line"><span class="keyword">const</span> service = axios.create(&#123;</span><br><span class="line">    baseURL: process.env.BASE_API, <span class="comment">// api 的 base_url</span></span><br><span class="line">    timeout: <span class="number">15000</span>, <span class="comment">// 请求超时时间</span></span><br><span class="line">    withCredentials: <span class="literal">true</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//对axios实例继续配置，修改默认值</span></span><br><span class="line">service.defaults.withCredentials = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// request拦截器</span></span><br><span class="line">service.interceptors.request.use(</span><br><span class="line">  config =&gt; &#123;</span><br><span class="line">    config.headers[<span class="string">'Access-Control-Allow-Origin'</span>] = <span class="built_in">window</span>.location.host</span><br><span class="line">    <span class="keyword">if</span> (store.getters.token) &#123;</span><br><span class="line">      <span class="comment">// 让每个请求携带自定义token 请根据实际情况自行修改</span></span><br><span class="line">      config.headers[<span class="string">'X-Token'</span>] = getToken() </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> config</span><br><span class="line">  &#125;,</span><br><span class="line">  error =&gt; &#123;</span><br><span class="line">    <span class="comment">// Do something with request error</span></span><br><span class="line">    <span class="built_in">console</span>.log(error) <span class="comment">// for debug</span></span><br><span class="line">    <span class="built_in">Promise</span>.reject(error)</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// response 拦截器</span></span><br><span class="line">service.interceptors.response.use(</span><br><span class="line">  response =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> response.data</span><br><span class="line">  &#125;,</span><br><span class="line">  error =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'err'</span> + error) <span class="comment">// for debug</span></span><br><span class="line">    Message(&#123;</span><br><span class="line">      message: error.message,</span><br><span class="line">      type: <span class="string">'error'</span>,</span><br><span class="line">      duration: <span class="number">5</span> * <span class="number">1000</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//向外暴露实例</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> service</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用实例"><a href="#使用实例" class="headerlink" title="使用实例"></a>使用实例</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> request <span class="keyword">from</span> <span class="string">'@/utils/request'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用request实例，向外暴露多个函数供其他组件调用</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">fileUpload</span>(<span class="params">file, mappings</span>) </span>&#123;</span><br><span class="line">  <span class="comment">//form表单方式提交</span></span><br><span class="line">  <span class="keyword">var</span> bodyFormData = <span class="keyword">new</span> FormData();</span><br><span class="line">  bodyFormData.append(<span class="string">'file'</span>,file);</span><br><span class="line">  bodyFormData.append(<span class="string">'mappings'</span>,mappings);</span><br><span class="line">  <span class="keyword">return</span> request(&#123;</span><br><span class="line">    url: <span class="string">'/transport/v1/fileUpload'</span>,</span><br><span class="line">    method: <span class="string">'get'</span>,</span><br><span class="line">    data: bodyFormData,</span><br><span class="line">    config: &#123; <span class="attr">headers</span>: &#123;<span class="string">'Content-Type'</span>: <span class="string">'multipart/form-data'</span> &#125;&#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">addStream</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="VueUI-组件库"><a href="#VueUI-组件库" class="headerlink" title="VueUI 组件库"></a>VueUI 组件库</h2><p>1)  MintUI: </p>
+<p>​    a. 主页:<a href="http://mint-ui.github.io/#!/zh-cn" target="_blank" rel="noopener">http://mint-ui.github.io/#!/zh-cn</a> </p>
+<p>​    b. 说明: 饿了么开源的基于 vue 的移动端 UI 组件库 </p>
+<p>2)  Elment </p>
+<p>​    a. 主页:<a href="http://element-cn.eleme.io/#/zh-CN" target="_blank" rel="noopener">http://element-cn.eleme.io/#/zh-CN</a> </p>
+<p>​    b. 说明: 饿了么开源的基于 vue 的 PC 端 UI 组件库</p>
+<p><strong>下载</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i element-ui -S  // 等同npm install element-ui --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><p><a href="https://element.eleme.cn/#/zh-CN/component/quickstart" target="_blank" rel="noopener">ElementUI快速入手参考文档</a></p>
+<h4 id="引入-Element"><a href="#引入-Element" class="headerlink" title="引入 Element"></a>引入 Element</h4><h5 id="完整引入"><a href="#完整引入" class="headerlink" title="完整引入"></a>完整引入</h5><p>在 main.js 中写入以下内容：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> ElementUI <span class="keyword">from</span> <span class="string">'element-ui'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'element-ui/lib/theme-chalk/index.css'</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App.vue'</span>;</span><br><span class="line"></span><br><span class="line">Vue.use(ElementUI);</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>以上代码便完成了 Element 的引入。需要注意的是，样式文件需要单独引入。</p>
+<h5 id="按需引入"><a href="#按需引入" class="headerlink" title="按需引入"></a>按需引入</h5><p>借助 <a href="https://github.com/QingWei-Li/babel-plugin-component" target="_blank" rel="noopener">babel-plugin-component</a>，我们可以只引入需要的组件，以达到减小项目体积的目的。</p>
+<p>首先，安装 babel-plugin-component：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install babel-plugin-component -D</span><br></pre></td></tr></table></figure>
+
+<p>然后，将 .babelrc 修改为：在plugins后新增[,”component”,…]内容</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"plugins"</span>: [ <span class="string">"xxx"</span>, ... ,</span><br><span class="line">    [</span><br><span class="line">      <span class="string">"component"</span>,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"libraryName"</span>: <span class="string">"element-ui"</span>,</span><br><span class="line">        <span class="attr">"styleLibraryName"</span>: <span class="string">"theme-chalk"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来，如果你只希望引入部分组件，比如 Button 和 Select，那么需要在 main.js 中写入以下内容：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Button, Select &#125; <span class="keyword">from</span> <span class="string">'element-ui'</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App.vue'</span>;</span><br><span class="line"></span><br><span class="line">Vue.component(Button.name, Button);</span><br><span class="line">Vue.component(Select.name, Select);</span><br><span class="line"><span class="comment">/* 或写为</span></span><br><span class="line"><span class="comment"> * Vue.use(Button)</span></span><br><span class="line"><span class="comment"> * Vue.use(Select)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用el标签"><a href="#使用el标签" class="headerlink" title="使用el标签"></a>使用el标签</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">el-button</span> <span class="attr">type</span>=<span class="string">"primary"</span> <span class="attr">icon</span>=<span class="string">"el-icon-search"</span>&gt;</span>搜索<span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Vue-router"><a href="#Vue-router" class="headerlink" title="Vue-router"></a>Vue-router</h2><p>官方提供的用来实现 SPA 的 vue 插件</p>
+<p>下载：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue -router --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="基本路由"><a href="#基本路由" class="headerlink" title="基本路由"></a>基本路由</h3><ul>
+<li>路由组件：Home.vue、About.vue</li>
+</ul>
+<ul>
+<li>路由器模块：src/router/index.js     </li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> VueRouter(&#123;<span class="comment">// VueRouter() 用于创建路由器的构建函数</span></span><br><span class="line">    routes:[ </span><br><span class="line">        &#123;<span class="comment">// 一般路由 </span></span><br><span class="line">            path:<span class="string">'/about'</span>, </span><br><span class="line">            component: About <span class="comment">// view文件夹下有About.vue路由组件</span></span><br><span class="line">        &#125;, &#123;<span class="comment">// 自动跳转路由 </span></span><br><span class="line">            path:<span class="string">'/'</span>, </span><br><span class="line">            redirect:<span class="string">'/about'</span> </span><br><span class="line">        &#125; </span><br><span class="line">    ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注册路由器：main.js</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">'./router'</span> <span class="comment">// 简写./router/index.js</span></span><br><span class="line">newVue(&#123; </span><br><span class="line">    router <span class="comment">// 简写 router: router</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>使用路由组件标签</p>
+<ol>
+<li><router-link>: 用来生成路由链接 </router-link></li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">"/about"</span>&gt;</span>About<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">"/home"</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><router-view>: 用来显示当前路由组件界面 </router-view></li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="子路由组件"><a href="#子路由组件" class="headerlink" title="子路由组件"></a>子路由组件</h3><ul>
+<li><p>子路由组件：  News.vue、 Message.vue</p>
+</li>
+<li><p>配置嵌套路由：</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">routes:[&#123;</span><br><span class="line">    path:<span class="string">'/home'</span>, </span><br><span class="line">    component:home, </span><br><span class="line">    children:[ &#123; </span><br><span class="line">            path:<span class="string">'/home/news'</span>, </span><br><span class="line">            component:News </span><br><span class="line">        &#125;, &#123; </span><br><span class="line">            path:<span class="string">'message'</span>, <span class="comment">//相对路径</span></span><br><span class="line">            component:Message </span><br><span class="line">        &#125; </span><br><span class="line">    ]</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>路由链接:  Home.vue组件下</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">"/home/news"</span>&gt;</span>News<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">"/home/message"</span>&gt;</span>Message<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">route-view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="向路由组件传递数据"><a href="#向路由组件传递数据" class="headerlink" title="向路由组件传递数据"></a>向路由组件传递数据</h3><h4 id="路由路径携带参数-param-query"><a href="#路由路径携带参数-param-query" class="headerlink" title="路由路径携带参数(param/query)"></a>路由路径携带参数(param/query)</h4><ul>
+<li>配置路由  /home/news下的子路由</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">children:[ &#123; </span><br><span class="line">    path:<span class="string">'mdetail/:id'</span>, </span><br><span class="line">    <span class="comment">// path: 'mdetail/’，query方式</span></span><br><span class="line">    component:MessageDetail </span><br><span class="line">&#125; ]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>路由路径 </li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--param方式--&gt;</span><br><span class="line">&lt;router-link :to=<span class="string">"'/home/message/mdetail/'+m.id"</span>&gt;&#123;&#123;m.title&#125;&#125;&lt;<span class="regexp">/router-link&gt; </span></span><br><span class="line"><span class="regexp">&lt;!--query方式--&gt;</span></span><br><span class="line"><span class="regexp">&lt;router-link :to="`/</span>home/message/mdetail/?id=$&#123;m.id&#125;<span class="string">`"&gt;&#123;&#123;m.title&#125;&#125;&lt;/router-link&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>子路由组件中读取请求参数</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.$route.params.id</span><br></pre></td></tr></table></figure>
+
+<p><strong>Tips</strong> ：如果路由数据处理逻辑定义在mounted里，因为页面加载一次，没有数据改变，不会触发mounted逻辑</p>
+<p><strong>解决办法</strong>：监听route属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mounted() &#123;</span><br><span class="line">    <span class="comment">//注意！！！ 这里不在data里定义属性，直接赋值其他地方调用this里属性</span></span><br><span class="line">    <span class="keyword">const</span> allMessageDetail = [ &#123;<span class="attr">id</span>: <span class="number">1</span>, ...&#125;, &#123;...&#125;, ...]</span><br><span class="line">    <span class="keyword">this</span>.allMessageDetail = allMessageDetail</span><br><span class="line">&#125;,</span><br><span class="line">watch: &#123;</span><br><span class="line">    $route: <span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;	<span class="comment">//路由路径发生了变化</span></span><br><span class="line">        <span class="keyword">const</span> id = value.params.id*<span class="number">1</span>	<span class="comment">//路径传递的是String，detail.id是Number</span></span><br><span class="line">        <span class="keyword">this</span>.messageDetail = <span class="keyword">this</span>.allMessageDetail.find(<span class="function"><span class="params">detail</span> =&gt;</span> detai.id === id)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="lt-router-view-gt-属性携带数据"><a href="#lt-router-view-gt-属性携带数据" class="headerlink" title="&lt;router-view&gt;属性携带数据"></a>&lt;router-view&gt;属性携带数据</h4><ul>
+<li>父组件标签携带数据</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-view</span> <span class="attr">:msg</span>=<span class="string">"msg"</span>&gt;</span> <span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>子路由中Vue属性配置props</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">props: &#123; <span class="attr">msg</span>:<span class="built_in">String</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="缓存路由组件对象"><a href="#缓存路由组件对象" class="headerlink" title="缓存路由组件对象"></a>缓存路由组件对象</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">keep-alive</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">keep-alive</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="编程式路由导航"><a href="#编程式路由导航" class="headerlink" title="编程式路由导航"></a>编程式路由导航</h4><p>代码实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;button @click=<span class="string">"pushShow(m.id)"</span>&gt;push查看&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">methods: &#123;</span></span><br><span class="line"><span class="regexp">    pushShow(id)&#123;</span></span><br><span class="line"><span class="regexp">        this.$router.push(`/</span>home/message/mdetail/?id=$&#123;id&#125;<span class="string">`)</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>1) this.$router.push(path): 相当于点击路由链接(可以返回到当前路由界面) </p>
+<p>2) this.$router.replace(path): 用新路由替换当前路由(不可以返回到当前路由界面) </p>
+<p>3) this.$router.back(): 请求(返回)上一个记录路由 </p>
+<p>4) this.$router.go(-1): 请求(返回)上一个记录路由 </p>
+<p>5) this.$router.go(1): 请求下一个记录路</p>
 
           
         
@@ -598,7 +1239,7 @@
         
           
             <h1 id="JAVA-并发编程"><a href="#JAVA-并发编程" class="headerlink" title="JAVA 并发编程"></a>JAVA 并发编程</h1><h2 id="JUC-简介"><a href="#JUC-简介" class="headerlink" title="JUC 简介"></a>JUC 简介</h2><p>在 Java 5.0 提供了 java.util.concurrent （简称 JUC ）包，在此包中增加了在并发编程中很常用 的实用工具类，用于定义类似于线程的自定义子系统，包括线程池、异步 IO 和轻量级任务框架。提供可调的、灵活的线程池。还提供了设计用于多线程上下文中的 Collection 实现等。</p>
-<h2 id="volatile-关键字-内存可见性"><a href="#volatile-关键字-内存可见性" class="headerlink" title="volatile 关键字-内存可见性"></a>volatile 关键字-内存可见性</h2><p><strong>内存可见性</strong>（Memory Visibility）</p>
+<h2 id="volatile关键字-内存可见性"><a href="#volatile关键字-内存可见性" class="headerlink" title="volatile关键字 - 内存可见性"></a>volatile关键字 - 内存可见性</h2><p><strong>内存可见性</strong>（Memory Visibility）</p>
 <p>是指当某个线程正在使用对象状态 而另一个线程在同时修改该状态，需要确保当一个线程修改了对象状态后，其他线程能够看到发生的状态变化。</p>
 <p><strong>可见性错误</strong></p>
 <p>是指当读操作与写操作在不同的线程中执行时，我们无法确保执行读操作的线程能适时地看到其他线程写入的值，有时甚至是根本不可能的事情</p>
@@ -658,7 +1299,7 @@
 <h4 id="CopyOnWriteArrayList等其他同步容器"><a href="#CopyOnWriteArrayList等其他同步容器" class="headerlink" title="CopyOnWriteArrayList等其他同步容器"></a>CopyOnWriteArrayList等其他同步容器</h4><ul>
 <li><strong>其他同步容器： *<em>java.util.concurrent包下还提供了设计用于多线程上下文中的 Collection 实现： *</em>ConcurrentHashMap</strong>、<strong>ConcurrentSkipListMap</strong>（底层是通过跳表来实现）、<strong>ConcurrentSkipListSet</strong>、 <strong>CopyOnWriteArrayList</strong> 和 <strong>CopyOnWriteArraySet</strong>。当期望许多线程访问一个给 定 collection 时，ConcurrentHashMap 通常优于同步的 HashMap， ConcurrentSkipListMap 通常优于同步的 TreeMap。当期望的读数和遍历远远 大于列表的更新数时，CopyOnWriteArrayList 优于同步的 ArrayList。        总结：读比写操作多时，concurrent下面的方法性能更好。</li>
 </ul>
-<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * CopyOnWriteArrayList/CopyOnWriteArraySet : “写入并复制”</span></span><br><span class="line"><span class="comment"> * 注意：添加操作多时，效率低，因为每次添加时都会进行复制，开销非常的大。并发迭代操作多时可以选择。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCopyOnWriteArrayList</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		HelloThread ht = <span class="keyword">new</span> HelloThread();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1</span>; i++) &#123;</span><br><span class="line">			<span class="keyword">new</span> Thread(ht,<span class="string">"线程"</span>+i).start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">	<span class="comment">// 在对同一个数组遍历同时修改的话会报错：java.util.ConcurrentModificationException</span></span><br><span class="line">	<span class="comment">// private static List&lt;String&gt; list = Collections.synchronizedList(new ArrayList&lt;String&gt;());</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> CopyOnWriteArrayList&lt;String&gt; list = <span class="keyword">new</span> CopyOnWriteArrayList&lt;&gt;();</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">static</span>&#123;</span><br><span class="line">		list.add(<span class="string">"AA"</span>);</span><br><span class="line">		list.add(<span class="string">"BB"</span>);</span><br><span class="line">		list.add(<span class="string">"CC"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Iterator&lt;String&gt; it = list.iterator();</span><br><span class="line">		<span class="keyword">while</span>(it.hasNext())&#123;</span><br><span class="line">			list.add(<span class="string">"AA"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * CopyOnWriteArrayList/CopyOnWriteArraySet : “写入并复制”</span></span><br><span class="line"><span class="comment"> * 注意：添加操作多时，效率低，因为每次添加时都会进行复制，开销非常的大。并发迭代操作多时可以选择。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCopyOnWriteArrayList</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		HelloThread ht = <span class="keyword">new</span> HelloThread();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1</span>; i++) &#123;</span><br><span class="line">			<span class="keyword">new</span> Thread(ht,<span class="string">"线程"</span>+i).start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">	<span class="comment">// 在对同一个数组遍历同时修改的话会报错：java.util.ConcurrentModificationException</span></span><br><span class="line">	<span class="comment">// private static List&lt;String&gt; list = Collections.synchronizedList(new ArrayList&lt;String&gt;());</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> CopyOnWriteArrayList&lt;String&gt; list = <span class="keyword">new</span> CopyOnWriteArrayList&lt;&gt;();</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">static</span>&#123;</span><br><span class="line">		list.add(<span class="string">"AA"</span>);</span><br><span class="line">		list.add(<span class="string">"BB"</span>);</span><br><span class="line">		list.add(<span class="string">"CC"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Iterator&lt;String&gt; it = list.iterator();</span><br><span class="line">		<span class="keyword">while</span>(it.hasNext())&#123;</span><br><span class="line">			list.add(<span class="string">"AA"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="CountDownLatch-闭锁"><a href="#CountDownLatch-闭锁" class="headerlink" title="CountDownLatch 闭锁"></a>CountDownLatch 闭锁</h2><ul>
 <li><strong>CountDownLatch：</strong> 一个同步辅助类，在完成一组正在其他线程中执行的操作 之前，它允许一个或多个线程一直等待。闭锁可以延迟线程的进度直到其到达终止状态，闭锁可以用来确保某些活动直到其他活动都完成才继续执行：<ul>
@@ -934,7 +1575,7 @@
 <li><strong>第四种</strong>获取线程的方法：线程池，一个 ExecutorService，它使用可能的几个池线程之 一执行每个提交的任务，通常使用 Executors 工厂方法配置。</li>
 <li>线程池可以解决两个不同问题：由于减少了每个任务调用的开销，它们通常可以在执行大量异步任务时提供增强的性能，并且还可以提供绑定和管理资源（包括执行任务集时使用的线程）的方法。每个ThreadPoolExecutor 还维护着一些基本的统计数据，如完成的任务数。<h3 id="线程池的体系结构"><a href="#线程池的体系结构" class="headerlink" title="线程池的体系结构"></a>线程池的体系结构</h3></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">java.util.concurrent.Executor : 负责线程的使用与调度的根接口</span><br><span class="line">	|--**ExecutorService 子接口: 线程池的主要接口</span><br><span class="line">		|--ThreadPoolExecutor 线程池的实现类</span><br><span class="line">		|--ScheduledExecutorService 子接口：负责线程的调度</span><br><span class="line">			|--ScheduledThreadPoolExecutor ：继承 ThreadPoolExecutor，实现 ScheduledExecutorService</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java.util.concurrent.Executor : 根接口（负责线程的使用与调度）</span><br><span class="line">	|--**ExecutorService 子接口（线程池的主要接口）</span><br><span class="line">		|--AbstractExecutorService 抽象类</span><br><span class="line">			|--ThreadPoolExecutor 线程池的实现类</span><br><span class="line">		|--ScheduledExecutorService 子接口（负责线程的调度）</span><br><span class="line">				|--ScheduledThreadPoolExecutor ：继承 ThreadPoolExecutor，实现 ScheduledExecutorService</span><br></pre></td></tr></table></figure>
 
 <h3 id="线程池方法"><a href="#线程池方法" class="headerlink" title="线程池方法"></a>线程池方法</h3><ul>
 <li>为了便于跨大量上下文使用，此类（ThreadPoolExecutor）提供了很多可调整的参数和扩展钩子 (hook)。但是，强烈建议程序员使用较为方便的 Executors 工厂方法 ：</li>
@@ -953,6 +1594,7 @@
 <li><strong>maximumPoolSize</strong>：the maximum number of threads to allow in the pool</li>
 <li><strong>keepAliveTime</strong>：when the number of threads is greater than the core, this is the maximum time that excess idle threads will wait for new tasks before terminating</li>
 <li>unit：the time unit for the {@code keepAliveTime} argument</li>
+<li><strong>workQueue</strong>：the queue to use for holding tasks before they are executed.  This queue will hold only the {@code Runnable} tasks submitted by the {@code execute} method.</li>
 <li>threadFactory：the factory to use when the executor creates a new thread</li>
 <li>handler：the handler to use when execution is blocked because the thread bounds and queue capacities are reached</li>
 </ul>
@@ -962,7 +1604,7 @@
 <li><p>allowCoreThreadTimeout：If false (default), core threads stay alive even when idle. If true, core threads use keepAliveTime to time out waiting for work.</p>
 <p>设置方法：threadPoolExecutor.allowCoreThreadTimeout(boolean value)</p>
 </li>
-<li><p>queueCapacity：</p>
+<li><p><strong>queueCapacity</strong>：BlockingQueue<runnable> workQueue存放任务的队列（存放需要被线程池执行的线程队列）。queueCapacity就是任务队列的长度，队列长度设置过大，会导致任务响应时间过长。</runnable></p>
 </li>
 </ul>
 </li>
@@ -983,7 +1625,7 @@
 <h2 id="线程调度（ScheduledExecutorService）"><a href="#线程调度（ScheduledExecutorService）" class="headerlink" title="线程调度（ScheduledExecutorService）"></a>线程调度（ScheduledExecutorService）</h2><ul>
 <li>ScheduledExecutorService，可安排在给定的延迟后运行或定期执行的命令</li>
 </ul>
-<h4 id="示例代码-9"><a href="#示例代码-9" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestScheduledThreadPool</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// ScheduledThreadPoolExecutor实现类接口为ScheduledExecutorService</span></span><br><span class="line">		ScheduledExecutorService pool = Executors.newScheduledThreadPool(<span class="number">5</span>);</span><br><span class="line">        </span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">			Future&lt;Integer&gt; result = pool.schedule(<span class="keyword">new</span> Callable&lt;Integer&gt;()&#123;</span><br><span class="line"></span><br><span class="line">				<span class="meta">@Override</span></span><br><span class="line">				<span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">					<span class="keyword">int</span> num = <span class="keyword">new</span> Random().nextInt(<span class="number">100</span>);<span class="comment">//生成随机数</span></span><br><span class="line">					System.out.println(Thread.currentThread().getName() + <span class="string">" : "</span> + num);</span><br><span class="line">					<span class="keyword">return</span> num;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;, <span class="number">1</span>, TimeUnit.SECONDS); <span class="comment">// 每隔1秒开始执行这个线程任务</span></span><br><span class="line">			System.out.println(result.get());</span><br><span class="line">		&#125;</span><br><span class="line">		pool.shutdown();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="示例代码-9"><a href="#示例代码-9" class="headerlink" title="示例代码"></a>示例代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestScheduledThreadPool</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// ScheduledThreadPoolExecutor实现类接口为ScheduledExecutorService</span></span><br><span class="line">		ScheduledExecutorService pool = Executors.newScheduledThreadPool(<span class="number">5</span>);</span><br><span class="line">        </span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">			Future&lt;Integer&gt; result = pool.schedule(<span class="keyword">new</span> Callable&lt;Integer&gt;()&#123;</span><br><span class="line"></span><br><span class="line">				<span class="meta">@Override</span></span><br><span class="line">				<span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">					<span class="keyword">int</span> num = <span class="keyword">new</span> Random().nextInt(<span class="number">100</span>);<span class="comment">//生成随机数</span></span><br><span class="line">					System.out.println(Thread.currentThread().getName() + <span class="string">" : "</span> + num);</span><br><span class="line">					<span class="keyword">return</span> num;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;, <span class="number">1</span>, TimeUnit.SECONDS); <span class="comment">// 每隔1秒开始执行这个线程任务</span></span><br><span class="line">			System.out.println(result.get());</span><br><span class="line">		&#125;</span><br><span class="line">		pool.shutdown();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="ForkJoinPool分支-合并框架-工作窃取"><a href="#ForkJoinPool分支-合并框架-工作窃取" class="headerlink" title="ForkJoinPool分支/合并框架 工作窃取"></a>ForkJoinPool分支/合并框架 工作窃取</h2><h3 id="Fork-Join-框架"><a href="#Fork-Join-框架" class="headerlink" title="Fork/Join 框架"></a>Fork/Join 框架</h3><p>Fork/Join 框架：就是在必要的情况下，将一个大任务，进行拆分(fork)成 若干个小任务（拆到不可再拆时），再将一个个的小任务运算的结果进行 join 汇总</p>
 <p><img src="//yoursite.com/2019/07/30/JAVA并发编程/fork-join%E6%A1%86%E6%9E%B6.jpg" alt="fork-join框架"></p>
@@ -993,6 +1635,21 @@
 <li>采用 “工作窃取”模式（work-stealing）：<br>当执行新的任务时它可以将其拆分分成更小的任务执行，并将小任务加到线程队列中，然后再从一个随机线程的队列中偷一个并把它放在自己的队列中。</li>
 <li>相对于一般的线程池实现，fork/join框架的优势体现在对其中包含的任务 的处理方式上.在一般的线程池中，如果一个线程正在执行的任务由于某些 原因无法继续运行，那么该线程会处于等待状态。而在fork/join框架实现中， 如果某个子问题由于等待另外一个子问题的完成而无法继续运行。那么处理该子问题的线程会主动寻找其他尚未运行的子问题来执行.这种方式减少了线程的等待时间，提高了性能。</li>
 </ul>
+<h3 id="示例代码-10"><a href="#示例代码-10" class="headerlink" title="示例代码"></a>示例代码</h3><ul>
+<li>调用ForkJoin实现类方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestForkJoinPool</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Instant start = Instant.now(); <span class="comment">//开始时间</span></span><br><span class="line">		ForkJoinPool pool = <span class="keyword">new</span> ForkJoinPool(); <span class="comment">//创建ForkJoin线程池</span></span><br><span class="line">		ForkJoinTask&lt;Long&gt; task = <span class="keyword">new</span> ForkJoinSumCalculate(<span class="number">0L</span>, <span class="number">50000000000L</span>);</span><br><span class="line">		Long sum = pool.invoke(task); <span class="comment">//执行ForkJoin实现类方法</span></span><br><span class="line">		System.out.println(sum);</span><br><span class="line">		Instant end = Instant.now(); <span class="comment">//结束时间</span></span><br><span class="line">		System.out.println(<span class="string">"耗费时间为："</span> + Duration.between(start, end).toMillis());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>ForkJoin实现类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * jdk1.7推出的RecursiveTask 继承了 ForkJoinTask ；</span></span><br><span class="line"><span class="comment"> * ForkJoinTask 实现了 Future ，Serializable</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ForkJoinSumCalculate</span> <span class="keyword">extends</span> <span class="title">RecursiveTask</span>&lt;<span class="title">Long</span>&gt;</span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">259195479995561737L</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">long</span> start;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">long</span> end;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> THURSHOLD = <span class="number">10000L</span>;  <span class="comment">//临界值</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ForkJoinSumCalculate</span><span class="params">(<span class="keyword">long</span> start, <span class="keyword">long</span> end)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.start = start;</span><br><span class="line">		<span class="keyword">this</span>.end = end;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> Long <span class="title">compute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">long</span> length = end - start;</span><br><span class="line">		<span class="keyword">if</span>(length &lt;= THURSHOLD)&#123;</span><br><span class="line">			<span class="keyword">long</span> sum = <span class="number">0L</span>;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">long</span> i = start; i &lt;= end; i++) &#123;</span><br><span class="line">				sum += i;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> sum;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">long</span> middle = (start + end) / <span class="number">2</span>;</span><br><span class="line">			ForkJoinSumCalculate left = <span class="keyword">new</span> ForkJoinSumCalculate(start, middle); </span><br><span class="line">			left.fork(); <span class="comment">//进行拆分，同时压入线程队列</span></span><br><span class="line">			ForkJoinSumCalculate right = <span class="keyword">new</span> ForkJoinSumCalculate(middle+<span class="number">1</span>, end);</span><br><span class="line">			right.fork(); <span class="comment">//进行拆分，同时压入线程队列</span></span><br><span class="line">			<span class="keyword">return</span> left.join() + right.join();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>jdk1.8 新特性</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Long sum = LongStream.rangeClosed(<span class="number">0L</span>, <span class="number">50000000000L</span>)</span><br><span class="line">    .parallel()</span><br><span class="line">    .reduce(<span class="number">0L</span>, Long::sum);</span><br></pre></td></tr></table></figure>
+
 
           
         
@@ -2747,7 +3404,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2758,7 +3415,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
                 
               </div>
@@ -2769,7 +3426,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
