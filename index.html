@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/07/hexo踩坑/" itemprop="url">hexo 踩坑</a></h1>
+                <a class="post-title-link" href="/2019/08/07/hexo踩坑/" itemprop="url">Untitled</a></h1>
         
 
         <div class="post-meta">
@@ -260,7 +260,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-07T10:07:20+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-07T11:23:26+08:00">
                 2019-08-07
               </time>
             
@@ -270,28 +270,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/并发/" itemprop="url" rel="index">
-                    <span itemprop="name">并发</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -322,12 +300,17 @@
       
         
           
-            <h1 id="hexo-踩坑"><a href="#hexo-踩坑" class="headerlink" title="hexo 踩坑"></a>hexo 踩坑</h1><h2 id="hexo-g-的时候报错"><a href="#hexo-g-的时候报错" class="headerlink" title="hexo g 的时候报错"></a>hexo g 的时候报错</h2><p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ERROR Process failed: _posts/JAVA并发编程.md</span><br><span class="line">YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 12, column 1:</span><br><span class="line">## volatile 关键字-内存可见性</span><br></pre></td></tr></table></figure>
+            <p>title: hexo 踩坑<br>categories: “并发”<br>date: 2019-08-7 10:07:20<br>tags: [踩坑, hexo]</p>
+<h1 id="hexo-踩坑"><a href="#hexo-踩坑" class="headerlink" title="hexo 踩坑"></a>hexo 踩坑</h1><h2 id="hexo-g-的时候报错"><a href="#hexo-g-的时候报错" class="headerlink" title="hexo g 的时候报错"></a>hexo g 的时候报错</h2><p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ERROR Process failed: _posts/JAVA并发编程.md</span><br><span class="line">YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 12, column 1:</span><br><span class="line">	## volatile 关键字-内存可见性</span><br></pre></td></tr></table></figure>
 
-<p>原因</p>
-<p>不知道为什么应该在”-–  xxxx  -–”里的内容直接在正文里了，修改到”-–  xxxx  -–”解决</p>
-<p>title: JAVA并发编程<br>categories: “并发”<br>date: 2019-07-30 10:07:20<br>tags: [JUC, 并发]</p>
+<p>删掉 ## volatile 关键字-内存可见性 这一行，又报：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implicit key at line 27, column 1:</span><br><span class="line">    ### 示例代码</span><br></pre></td></tr></table></figure>
+
+<p>解决：</p>
+<p>应该在”-–  xxxx  -–”标签里的内容不知道怎么在正文里了，修改到”-–  xxxx  -–”解决，有点莫名其妙这是什么逻辑……</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">title: JAVA并发编程</span><br><span class="line">categories: &quot;并发&quot; </span><br><span class="line">date: 2019-07-30 10:07:20</span><br><span class="line">tags: [JUC, 并发]</span><br></pre></td></tr></table></figure>
+
 
           
         
@@ -2786,7 +2769,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
