@@ -89,7 +89,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2019/07/30/JAVA并发编程/fork-join%E6%A1%86%E6%9E%B6.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/07/30/JAVA并发编程/fork-join框架.jpg">
-<meta property="og:updated_time" content="2019-08-08T12:54:42.434Z">
+<meta property="og:updated_time" content="2019-08-08T13:26:36.312Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JAVA并发编程">
 <meta name="twitter:description" content="JAVA 并发编程JUC 简介在 Java 5.0 提供了 java.util.concurrent （简称 JUC ）包，在此包中增加了在并发编程中很常用 的实用工具类，用于定义类似于线程的自定义子系统，包括线程池、异步 IO 和轻量级任务框架。提供可调的、灵活的线程池。还提供了设计用于多线程上下文中的 Collection 实现等。 常用线程方法参考博客  sleep() 与 interrup">
@@ -436,7 +436,8 @@
 <li><p>*<em>HashTable效率底原因 *</em>：Hashtable之所以效率低下主要是因为其实现使用了synchronized关键字对put等操作进行加锁，而synchronized关键字加锁是对整个对象进行加锁，也就是说在进行put等修改Hash表的操作时，锁住了整个Hash表，从而使得其表现的效率低下</p>
 </li>
 </ul>
-<h4 id="JDK1-7机制"><a href="#JDK1-7机制" class="headerlink" title="JDK1.7机制"></a>JDK1.7机制</h4><p><strong>ConcurrentHashMap实现原理(JDK 1.7)</strong>：在ConcurrentHashMap中，定义了一个Segment&lt;K, V&gt;[]数组（桶）来将Hash表实现分段存储，从而实现分段加锁；而么一个Segment元素则与HashMap结构类似，其包含了一个HashEntry链表（节点），用来存储Key/Value对。Segment继承了ReetrantLock，表示Segment是一个可重入锁，因此ConcurrentHashMap通过可重入锁对每个分段进行加锁。</p>
+<h4 id="JDK1-7机制"><a href="#JDK1-7机制" class="headerlink" title="JDK1.7机制"></a>JDK1.7机制</h4><p><a href="https://blog.csdn.net/bill_xiang_/article/details/81122044#1.1%20%E5%88%86%E6%AE%B5%E9%94%81%E6%9C%BA%E5%88%B6" target="_blank" rel="noopener">参考博客</a></p>
+<p><strong>ConcurrentHashMap实现原理(JDK 1.7)</strong>：在ConcurrentHashMap中，定义了一个Segment&lt;K, V&gt;[]数组（桶）来将Hash表实现<strong>分段存储</strong>，从而实现分段加锁；而么一个Segment元素则与HashMap结构类似，其包含了一个HashEntry链表（节点），用来存储Key/Value对。Segment继承了ReetrantLock，表示Segment是一个可重入锁，因此ConcurrentHashMap通过可重入锁对每个分段进行加锁。</p>
 <ul>
 <li>初始化：通过位与运算来初始化Segment的大小，所以Segment的大小取值都是以2的N次方扩充</li>
 <li>put操作：Segment实现了ReentrantLock,也就带有锁的功能。当执行put操作时，会进行第一次key的hash来定位Segment的位置，如果该Segment还没有初始化，即通过CAS操作进行赋值。然后进行第二次hash操作，找到相应的HashEntry的位置，这里会利用继承过来的锁的特性，通过继承ReentrantLock的tryLock（）方法尝试去获取锁，在将数据插入指定的HashEntry位置时（链表的尾端）。</li>
@@ -464,13 +465,13 @@
 </li>
 <li><p>put操作：对当前的Node&lt;K,V&gt;[] table进行无条件自循环直到put成功，可以分成以下六步流程来概述 </p>
 <ol>
-<li><p>如果没有初始化就先调用initTable（）方法来进行初始化过程</p>
+<li><p>如果table没有初始化（为null或长度为0）就先调用initTable（）方法来进行初始化过程</p>
 </li>
 <li><p>如果没有hash冲突就直接CAS插入</p>
 </li>
 <li><p>如果还在进行扩容操作就先进行扩容</p>
 </li>
-<li><p>如果存在hash冲突，就加锁来保证线程安全，这里有两种情况，一种是链表形式就直接遍历到尾端插入，一种是红黑树就按照红黑树结构插入</p>
+<li><p>如果存在hash冲突，就加锁（synchronized）来保证线程安全。这里有两种情况，一种是链表形式就直接遍历到尾端插入，一种是红黑树就按照红黑树结构插入。如果涉及到相同的key，进行put就会覆盖原先的value</p>
 </li>
 <li><p>最后一个如果该链表的数量大于阈值8，就要先转换成黑红树的结构，break再一次进入循环</p>
 </li>
