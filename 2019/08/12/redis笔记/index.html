@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="cilibili">
 <meta property="og:description" content="Redis详见文档   Redis单机部署 下载、上传redis-3.2.11.tar.gz到服务器并解压 进入到源码包中，编译并安装redis，预先下载gcc（c 的编译器）  123yum -y install gcccd /usr/local/src/redis-3.2.11/make MALLOC=libc &amp;amp;&amp;amp; make install  #内存分配   在所有机器的/u">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-12T12:04:12.763Z">
+<meta property="og:updated_time" content="2019-08-12T12:19:28.689Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis笔记">
 <meta name="twitter:description" content="Redis详见文档   Redis单机部署 下载、上传redis-3.2.11.tar.gz到服务器并解压 进入到源码包中，编译并安装redis，预先下载gcc（c 的编译器）  123yum -y install gcccd /usr/local/src/redis-3.2.11/make MALLOC=libc &amp;amp;&amp;amp; make install  #内存分配   在所有机器的/u">
@@ -309,18 +309,20 @@
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc</span><br><span class="line">cd /usr/local/src/redis-3.2.11/</span><br><span class="line">make MALLOC=libc &amp;&amp; make install  #内存分配</span><br></pre></td></tr></table></figure>
 
-<ol>
-<li>在所有机器的/usr/local/下创建一个redis目录，然后拷贝redis配置文件redis.conf到/usr/local/redis</li>
-<li>修改所有机器的配置文件redis.conf</li>
+<ol start="3">
+<li><p>在所有机器的/usr/local/下创建一个redis目录，然后拷贝redis配置文件redis.conf到/usr/local/redis</p>
+</li>
+<li><p>修改所有机器的配置文件redis.conf</p>
+</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">daemonize yes  #redis后台运行</span><br><span class="line"><span class="meta">#</span>cluster-enabled yes  #开集群后把注释去掉</span><br><span class="line">appendonly yes  #开启aof日志，它会每次写操作都记录一条日志</span><br><span class="line">bind 192.168.1.207</span><br></pre></td></tr></table></figure>
 
-<ol>
+<ol start="5">
 <li>启动所有的redis节点</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server /usr/local/redis/redis.conf  #make&amp;&amp;make install 就已经把redis添加到环境变量了</span><br></pre></td></tr></table></figure>
 
-<ol>
+<ol start="6">
 <li>使用命令行客户的连接redis</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 192.168.1.207</span><br><span class="line">redis-cli -p 6379 #-p为redis进程号，通过ps -ef | grep redis查询</span><br></pre></td></tr></table></figure>
@@ -331,7 +333,7 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config set requirepass 123</span><br></pre></td></tr></table></figure>
 
-<ol>
+<ol start="2">
 <li>再次连接的时候输入密码</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auth 123</span><br></pre></td></tr></table></figure>
@@ -376,8 +378,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/12/kafka笔记/" rel="next" title="kafka笔记">
-                <i class="fa fa-chevron-left"></i> kafka笔记
+              <a href="/2019/08/05/Vue学习总结/" rel="next" title="Vue学习总结">
+                <i class="fa fa-chevron-left"></i> Vue学习总结
               </a>
             
           </div>
@@ -385,6 +387,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/12/kafka笔记/" rel="prev" title="kafka笔记">
+                kafka笔记 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
