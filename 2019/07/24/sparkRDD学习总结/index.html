@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SparkRDD,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="SparkRDDday3 最受欢迎老师map方法可以返回元组类型 1234567val sbjectTeacherAndOne: RDD[((String, String), Int)] = lines.map(line =&amp;gt; &amp;#123;      val index = line.lastIndexOf(&quot;/&quot;)      val teacher = line.substring(ind">
+<meta name="keywords" content="SparkRDD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SparkRDD学习总结">
+<meta property="og:url" content="http://yoursite.com/2019/07/24/sparkRDD学习总结/index.html">
+<meta property="og:site_name" content="cilibili">
+<meta property="og:description" content="SparkRDDday3 最受欢迎老师map方法可以返回元组类型 1234567val sbjectTeacherAndOne: RDD[((String, String), Int)] = lines.map(line =&amp;gt; &amp;#123;      val index = line.lastIndexOf(&quot;/&quot;)      val teacher = line.substring(ind">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/sparkRDD学习总结/sparkRDD%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%5C%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/24/sparkRDD学习总结/执行过程.png">
+<meta property="og:updated_time" content="2019-08-12T11:55:58.184Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SparkRDD学习总结">
+<meta name="twitter:description" content="SparkRDDday3 最受欢迎老师map方法可以返回元组类型 1234567val sbjectTeacherAndOne: RDD[((String, String), Int)] = lines.map(line =&amp;gt; &amp;#123;      val index = line.lastIndexOf(&quot;/&quot;)      val teacher = line.substring(ind">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/24/sparkRDD学习总结/sparkRDD%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%5C%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/24/sparkRDD学习总结/">
+
+
+
+
+
+  <title>SparkRDD学习总结 | cilibili</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cilibili</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/24/sparkRDD学习总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Bin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cilibili">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SparkRDD学习总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-24T11:07:20+08:00">
+                2019-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="SparkRDD"><a href="#SparkRDD" class="headerlink" title="SparkRDD"></a>SparkRDD</h1><h2 id="day3-最受欢迎老师"><a href="#day3-最受欢迎老师" class="headerlink" title="day3 最受欢迎老师"></a>day3 最受欢迎老师</h2><p>map方法可以返回元组类型</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sbjectTeacherAndOne: <span class="type">RDD</span>[((<span class="type">String</span>, <span class="type">String</span>), <span class="type">Int</span>)] = lines.map(line =&gt; &#123;</span><br><span class="line">      <span class="keyword">val</span> index = line.lastIndexOf(<span class="string">"/"</span>)</span><br><span class="line">      <span class="keyword">val</span> teacher = line.substring(index + <span class="number">1</span>)</span><br><span class="line">      <span class="keyword">val</span> httpHost = line.substring(<span class="number">0</span>, index)</span><br><span class="line">      <span class="keyword">val</span> subject = <span class="keyword">new</span> <span class="type">URL</span>(httpHost).getHost.split(<span class="string">"[.]"</span>)(<span class="number">0</span>) <span class="comment">//“.”是特殊字符，要用[]</span></span><br><span class="line">      ((subject, teacher), <span class="number">1</span>) <span class="comment">//学科和老师联合当作key</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>下划线的操作</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map: <span class="type">RDD</span>[((<span class="type">String</span>, <span class="type">String</span>), <span class="type">Int</span>)] = sbjectAndteacher.map((_, <span class="number">1</span>))</span><br><span class="line"><span class="keyword">val</span> reduced: <span class="type">RDD</span>[((<span class="type">String</span>, <span class="type">String</span>), <span class="type">Int</span>)] = sbjectTeacherAndOne.reduceByKey(_+_)</span><br></pre></td></tr></table></figure>
+
+<p><strong>排序操作的比较</strong>：</p>
+<ol>
+<li>变为scala集合进行排序：</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.toList方法就是将RDD中的数据以scala集合存放进内存，用scala方法进行排序</span></span><br><span class="line"><span class="keyword">val</span> sorted = grouped.mapValues(_.toList.sortBy(_._2).reverse.take(topN))</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>过滤出不同学科进行操作，调用RDD的sortBy方法</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> subjects = <span class="type">Array</span>(<span class="string">"bigdata"</span>, <span class="string">"javaee"</span>, <span class="string">"php"</span>)</span><br><span class="line"><span class="keyword">for</span> (sb &lt;- subjects) &#123;</span><br><span class="line">      <span class="comment">//该RDD中对应的数据仅有一个学科的数据（因为过滤过了）</span></span><br><span class="line">      <span class="keyword">val</span> filtered: <span class="type">RDD</span>[((<span class="type">String</span>, <span class="type">String</span>), <span class="type">Int</span>)] = reduced.filter(_._1._1 == sb)</span><br><span class="line">      <span class="comment">//现在调用的是RDD的sortBy方法，(take是一个action，会触发任务提交)</span></span><br><span class="line">      <span class="keyword">val</span> favTeacher = filtered.sortBy(_._2, <span class="literal">false</span>).take(topN)</span><br><span class="line">      <span class="comment">//打印 ==必须要加上toBuffer==</span></span><br><span class="line">      println(favTeacher.toBuffer)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>自定义分区</strong>：将相同学科的数据利用自定义分区规则，到同一个分区</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//聚合，将学科和老师联合当做key</span></span><br><span class="line"><span class="keyword">val</span> reduced: <span class="type">RDD</span>[((<span class="type">String</span>, <span class="type">String</span>), <span class="type">Int</span>)] = sbjectTeacherAndOne.reduceByKey(_+_)</span><br><span class="line"><span class="comment">//计算有多少学科</span></span><br><span class="line"><span class="keyword">val</span> subjects: <span class="type">Array</span>[<span class="type">String</span>] = reduced.map(_._1._1).distinct().collect()</span><br><span class="line"><span class="comment">//自定义一个分区器，并且按照指定的分区器进行分区</span></span><br><span class="line"><span class="keyword">val</span> sbPatitioner = <span class="keyword">new</span> <span class="type">SubjectParitioner</span>(subjects);</span><br><span class="line"><span class="comment">//partitionBy按照指定的分区规则进行分区</span></span><br><span class="line"><span class="comment">//调用partitionBy时RDD的Key是(String, String)，因为类型为reduced: RDD[((String, String), Int)]</span></span><br><span class="line"><span class="keyword">val</span> partitioned: <span class="type">RDD</span>[((<span class="type">String</span>, <span class="type">String</span>), <span class="type">Int</span>)] = reduced.partitionBy(sbPatitioner)</span><br><span class="line"><span class="comment">//如果一次拿出一个分区(可以操作一个分区中的数据了)</span></span><br><span class="line"><span class="keyword">val</span> sorted: <span class="type">RDD</span>[((<span class="type">String</span>, <span class="type">String</span>), <span class="type">Int</span>)] = partitioned.mapPartitions(it =&gt; &#123;</span><br><span class="line">	<span class="comment">//将迭代器（里的数据）转换成list，然后排序，在转换成迭代器返回</span></span><br><span class="line">	it.toList.sortBy(_._2).reverse.take(topN).iterator</span><br><span class="line">	&#125;)</span><br><span class="line"><span class="keyword">val</span> r: <span class="type">Array</span>[((<span class="type">String</span>, <span class="type">String</span>), <span class="type">Int</span>)] = sorted.collect()</span><br><span class="line">println(r.toBuffer)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">自定义分区器</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubjectParitioner</span>(<span class="params">sbs: <span class="type">Array</span>[<span class="type">String</span>]</span>) <span class="keyword">extends</span> <span class="title">Partitioner</span> </span>&#123;</span><br><span class="line">  <span class="comment">//相当于主构造器（new的时候回执行一次）</span></span><br><span class="line">  <span class="comment">//用于存放规则的一个map</span></span><br><span class="line">  <span class="keyword">val</span> rules = <span class="keyword">new</span> mutable.<span class="type">HashMap</span>[<span class="type">String</span>, <span class="type">Int</span>]()</span><br><span class="line">  <span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span>(sb &lt;- sbs) &#123;</span><br><span class="line">    <span class="comment">//rules(sb) = i</span></span><br><span class="line">    rules.put(sb, i)</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//返回分区的数量（下一个RDD有多少分区）</span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">numPartitions</span></span>: <span class="type">Int</span> = sbs.length</span><br><span class="line">  <span class="comment">//根据传入的key计算分区标号</span></span><br><span class="line">  <span class="comment">//key是一个元组（String， String）</span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">getPartition</span></span>(key: <span class="type">Any</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="comment">//获取学科名称  强转为RDD的[(String, String)]类型</span></span><br><span class="line">    <span class="keyword">val</span> subject = key.asInstanceOf[(<span class="type">String</span>, <span class="type">String</span>)]._1</span><br><span class="line">    <span class="comment">//根据规则计算分区编号</span></span><br><span class="line">    rules(subject)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>对自定义分区器改进：shuffle次数减少</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> reduced: <span class="type">RDD</span>[((<span class="type">String</span>, <span class="type">String</span>), <span class="type">Int</span>)] = s..e.reduceByKey(sbPatitioner, _+_)</span><br><span class="line"><span class="comment">//直接在reduceByKey里传入一个分区器，整合了上面的reduceBykey和partitionBy两次shuffle</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h2 id="day4-求ip归属地"><a href="#day4-求ip归属地" class="headerlink" title="day4 求ip归属地"></a>day4 求ip归属地</h2><ul>
+<li><h4 id="读取文件内容方法：（以内存方式存数据）"><a href="#读取文件内容方法：（以内存方式存数据）" class="headerlink" title="读取文件内容方法：（以内存方式存数据）"></a>读取文件内容方法：（以内存方式存数据）</h4></li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">readRules</span></span>(path: <span class="type">String</span>): <span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = &#123;</span><br><span class="line">    <span class="comment">//读取ip规则</span></span><br><span class="line">    <span class="keyword">val</span> bf: <span class="type">BufferedSource</span> = <span class="type">Source</span>.fromFile(path)</span><br><span class="line">    <span class="keyword">val</span> lines: <span class="type">Iterator</span>[<span class="type">String</span>] = bf.getLines()</span><br><span class="line">    <span class="comment">//对ip规则进行整理，并放入到内存</span></span><br><span class="line">    <span class="keyword">val</span> rules: <span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = lines.map(line =&gt; &#123;</span><br><span class="line">      <span class="keyword">val</span> fileds = line.split(<span class="string">"[|]"</span>)</span><br><span class="line">      <span class="keyword">val</span> startNum = fileds(<span class="number">2</span>).toLong</span><br><span class="line">      <span class="keyword">val</span> endNum = fileds(<span class="number">3</span>).toLong</span><br><span class="line">      <span class="keyword">val</span> province = fileds(<span class="number">6</span>)</span><br><span class="line">      (startNum, endNum, province)</span><br><span class="line">    &#125;).toArray</span><br><span class="line">    rules <span class="comment">//返回一个Array，调用这个方法时Array数据存放在内存里</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>读取文件内容方法：（<strong>以RDD形式读取数据</strong>）</p>
+<p>分布式读取处理数据，用collect方法把所有数据收集起来</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取到HDFS中的ip规则</span></span><br><span class="line"><span class="keyword">val</span> rulesLines:<span class="type">RDD</span>[<span class="type">String</span>] = sc.textFile(args(<span class="number">0</span>))</span><br><span class="line"><span class="comment">//整理ip规则数据</span></span><br><span class="line"><span class="keyword">val</span> ipRulesRDD: <span class="type">RDD</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = rulesLines.map(line =&gt; &#123;</span><br><span class="line">      <span class="keyword">val</span> fields = line.split(<span class="string">"[|]"</span>)</span><br><span class="line">      <span class="keyword">val</span> startNum = fields(<span class="number">2</span>).toLong</span><br><span class="line">      <span class="keyword">val</span> endNum = fields(<span class="number">3</span>).toLong</span><br><span class="line">      <span class="keyword">val</span> province = fields(<span class="number">6</span>)</span><br><span class="line">      (startNum, endNum, province)</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="comment">//将分散在多个Executor中的部分IP规则收集到Driver端</span></span><br><span class="line"><span class="keyword">val</span> rulesInDriver: <span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = ipRulesRDD.collect()</span><br><span class="line"></span><br><span class="line"><span class="comment">//将Driver端的数据广播到Executor</span></span><br><span class="line"><span class="comment">//广播变量的引用（还在Driver端）</span></span><br><span class="line"><span class="keyword">val</span> broadcastRef: <span class="type">Broadcast</span>[<span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)]] = sc.broadcast(rulesInDriver)</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<p>  处理文件逻辑：</p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在Driver端获取到全部的IP规则数据（全部的IP规则数据在某一台机器上，跟Driver在同一台机器上）</span></span><br><span class="line"><span class="comment">//全部的IP规则在Driver端了（在Driver端的内存中了）</span></span><br><span class="line"><span class="keyword">val</span> rules: <span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = <span class="type">MyUtils</span>.readRules(args(<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">//将Drive端的数据广播到Executor中</span></span><br><span class="line"><span class="comment">//调用sc上的广播方法</span></span><br><span class="line"><span class="comment">//广播变量的引用（还在Driver端）</span></span><br><span class="line"><span class="keyword">val</span> broadcastRef: <span class="type">Broadcast</span>[<span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)]] = sc.broadcast(rules)</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建RDD，读取访问日志</span></span><br><span class="line"><span class="keyword">val</span> accessLines: <span class="type">RDD</span>[<span class="type">String</span>] = sc.textFile(args(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">//这个函数是在哪一端定义的？（Driver）</span></span><br><span class="line"><span class="keyword">val</span> func = (line: <span class="type">String</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> fields = line.split(<span class="string">"[|]"</span>)</span><br><span class="line">    <span class="keyword">val</span> ip = fields(<span class="number">1</span>)</span><br><span class="line">    <span class="comment">//将ip转换成十进制</span></span><br><span class="line">    <span class="keyword">val</span> ipNum = <span class="type">MyUtils</span>.ip2Long(ip)</span><br><span class="line">    <span class="comment">//进行二分法查找，通过Driver端的引用或取到Executor中的广播变量</span></span><br><span class="line">    <span class="comment">//（该函数中的代码是在Executor中别调用执行的，通过广播变量的引用，就可以拿到当前Executor中的广播的规则了），Task是在Driver端生成的，广播变量的引用是伴随着Task被发送到Executor中的</span></span><br><span class="line">    <span class="keyword">val</span> rulesInExecutor: <span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = broadcastRef.value</span><br><span class="line">    <span class="comment">//查找</span></span><br><span class="line">    <span class="keyword">var</span> province = <span class="string">"未知"</span></span><br><span class="line">    <span class="keyword">val</span> index = <span class="type">MyUtils</span>.binarySearch(rulesInExecutor, ipNum)</span><br><span class="line">    <span class="keyword">if</span> (index != <span class="number">-1</span>) &#123;</span><br><span class="line">			province = rulesInExecutor(index)._3</span><br><span class="line">        &#125;</span><br><span class="line">			(province, <span class="number">1</span>)</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//整理数据</span></span><br><span class="line"><span class="keyword">val</span> proviceAndOne: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = accessLines.map(func)</span><br><span class="line"><span class="keyword">val</span> reduced: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = proviceAndOne.reduceByKey(_+_)</span><br><span class="line"><span class="comment">//将结果打印</span></span><br><span class="line"><span class="keyword">val</span> r = reduced.collect()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>连接JDBC，将数据写入数据库：</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//一次拿出一个分区(一个分区用一个连接，可以将一个分区中的多条数据写完在释放jdbc连接，这样更节省资源) 这是一个action</span></span><br><span class="line">reduced.foreachPartition(it =&gt; &#123;</span><br><span class="line">  <span class="keyword">val</span> conn: <span class="type">Connection</span> = <span class="type">DriverManager</span>.getConnection(<span class="string">"jdbc:mysql://localhost:3306/bigdata?characterEncoding=UTF-8"</span>, <span class="string">"root"</span>, <span class="string">"123568"</span>)</span><br><span class="line">    </span><br><span class="line">  <span class="comment">//将数据通过Connection写入到数据库</span></span><br><span class="line">  <span class="keyword">val</span> pstm: <span class="type">PreparedStatement</span> = conn.prepareStatement(<span class="string">"INSERT INTO access_log VALUES (?, ?)"</span>)</span><br><span class="line">  <span class="comment">//将一个分区中的每一条数据拿出来</span></span><br><span class="line">  it.foreach(tp =&gt; &#123;</span><br><span class="line">    pstm.setString(<span class="number">1</span>, tp._1)</span><br><span class="line">    pstm.setInt(<span class="number">2</span>, tp._2)</span><br><span class="line">    pstm.executeUpdate()</span><br><span class="line">  &#125;)</span><br><span class="line">  pstm.close()</span><br><span class="line">  conn.close()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>改进：将匿名内部类写成方法传入参数：</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">data2MySQL</span></span>(it: <span class="type">Iterator</span>[(<span class="type">String</span>, <span class="type">Int</span>)]): <span class="type">Unit</span> = &#123;</span><br><span class="line">  <span class="comment">//一个迭代器代表一个分区，分区中有多条数据</span></span><br><span class="line">  <span class="comment">//先获得一个JDBC连接</span></span><br><span class="line">  <span class="keyword">val</span> conn: <span class="type">Connection</span> = <span class="type">DriverManager</span>.getConnection(<span class="string">"jdbc:mysql://..."</span>)</span><br><span class="line">  <span class="comment">//将数据通过Connection写入到数据库</span></span><br><span class="line">  <span class="keyword">val</span> pstm: <span class="type">PreparedStatement</span> = conn.prepareStatement(<span class="string">"INSERT INTO .. VALUES (?, ?)"</span>)</span><br><span class="line">  <span class="comment">//将分区中的数据一条一条写入到MySQL中</span></span><br><span class="line">  it.foreach(tp =&gt; &#123;</span><br><span class="line">    pstm.setString(<span class="number">1</span>, tp._1)</span><br><span class="line">    pstm.setInt(<span class="number">2</span>, tp._2)</span><br><span class="line">    pstm.executeUpdate()</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">//将分区中的数据全部写完之后，在关闭连接</span></span><br><span class="line">  <span class="keyword">if</span>(pstm != <span class="literal">null</span>) &#123;</span><br><span class="line">    pstm.close()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (conn != <span class="literal">null</span>) &#123;</span><br><span class="line">    conn.close()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>方法调用：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reduced.foreachPartition(it =&gt; <span class="type">MyUtils</span>.data2MySQL(it))<span class="comment">//方法一</span></span><br><span class="line">reduced.foreachPartition(<span class="type">MyUtils</span>.data2MySQL() _)<span class="comment">//方法二 下划线将方法转为函数</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<ul>
+<li><h4 id="JdbcRDD"><a href="#JdbcRDD" class="headerlink" title="JdbcRDD"></a>JdbcRDD</h4></li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">JdbcRddDemo</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> getConn = () =&gt; &#123;</span><br><span class="line">    <span class="type">DriverManager</span>.getConnection(<span class="string">"jdbc:mysql://localhost:3306/bigdata?characterEncoding=UTF-8"</span>, <span class="string">"root"</span>, <span class="string">"123568"</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"JdbcRddDemo"</span>).setMaster(<span class="string">"local[*]"</span>)</span><br><span class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line">    <span class="comment">//创建RDD，这个RDD会记录以后从MySQL中读数据</span></span><br><span class="line">    <span class="comment">//new 了RDD，里面没有真正要计算的数据，而是告诉这个RDD，以后触发Action时到哪里读取数据</span></span><br><span class="line">    <span class="keyword">val</span> jdbcRDD: <span class="type">RDD</span>[(<span class="type">Int</span>, <span class="type">String</span>, <span class="type">Int</span>)] = <span class="keyword">new</span> <span class="type">JdbcRDD</span>(</span><br><span class="line">      sc, <span class="comment">//sparkContext</span></span><br><span class="line">      getConn,</span><br><span class="line">      <span class="string">"SELECT * FROM logs WHERE id &gt;= ? AND id &lt;= ?"</span>, </span><br><span class="line">      <span class="comment">//注意！：这里必须有等于，不然下一个分区会少包含id 后面的那个数</span></span><br><span class="line">      <span class="number">1</span>,</span><br><span class="line">      <span class="number">5</span>,</span><br><span class="line">      <span class="number">2</span>, <span class="comment">//分区数量</span></span><br><span class="line">      rs =&gt; &#123;</span><br><span class="line">        <span class="keyword">val</span> id = rs.getInt(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">val</span> name = rs.getString(<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">val</span> age = rs.getInt(<span class="number">3</span>)</span><br><span class="line">        (id, name, age)</span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">    <span class="comment">//触发Action</span></span><br><span class="line">    <span class="keyword">val</span> r = jdbcRDD.collect()</span><br><span class="line">    println(r.toBuffer)</span><br><span class="line">    sc.stop()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意！</strong>：这里必须有等于，不然下一个分区会少包含id 后面的那个数</p>
+<ul>
+<li><h4 id="cache与checkpoint"><a href="#cache与checkpoint" class="headerlink" title="cache与checkpoint"></a>cache与checkpoint</h4><h5 id="cache"><a href="#cache" class="headerlink" title="cache"></a>cache</h5><ul>
+<li>cache方法，没有生成新的RDD，也没有触发任务执行，只会标记该RDD分区对应的数据（第一次触发Action时）放入到内存</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> cached = reduced.cache()</span><br><span class="line">cached.unpersisted(<span class="literal">true</span>)<span class="comment">//释放cached占用的内存，true表示非阻塞式释放内存</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>什么时候进行cache<pre><code>1.要求的计算速度快
+  2.集群的资源要足够大
+  3.重要：cache的数据会多次的触发Action
+  4.先进行过滤，然后将缩小范围的数据在cache到内存</code></pre></li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数，放到磁盘</span></span><br><span class="line"><span class="comment">//第二个参数，放到内存</span></span><br><span class="line"><span class="comment">//第三个参数，磁盘中的数据，不是以java对象的方式保存</span></span><br><span class="line"><span class="comment">//第四个参数，内存中的数据，以java对象的方式保存</span></span><br><span class="line"><span class="keyword">val</span> <span class="type">MEMORY_AND_DISK</span> = <span class="keyword">new</span> <span class="type">StorageLevel</span>(<span class="literal">true</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="checkpoint"><a href="#checkpoint" class="headerlink" title="checkpoint"></a>checkpoint</h5><ul>
+<li>checkpoint方法，没有生成新的RDD，也是没有触发Action，也是标记以后触发Action时会将数据保存到HDFS中</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sc.setCheckpointDir(<span class="string">"hdfs://node-4:9000/ck"</span>)</span><br><span class="line">reduced.checkpoint()<span class="comment">//将reduced中的数据保存在checkpoint中，checkpoint改变了RDD的继承关系</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>什么时候做checkpoint<pre><code>1.迭代计算，要求保证数据安全
+  2.对速度要求不高（跟cache到内存进行对比）
+  3.将中间结果保存到hdfs</code></pre></li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置checkpoint目录（分布式文件系统的目录hdfs目录）</span></span><br><span class="line"><span class="comment">//经过复杂进行，得到中间结果</span></span><br><span class="line"><span class="comment">//将中间结果checkpoint到指定的hdfs目录</span></span><br><span class="line"><span class="comment">//后续的计算，就可以使用前面ck的数据了</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="day5-自定义排序和切分Stage"><a href="#day5-自定义排序和切分Stage" class="headerlink" title="day5 自定义排序和切分Stage"></a>day5 自定义排序和切分Stage</h2><h3 id="1-自定义排序"><a href="#1-自定义排序" class="headerlink" title="1 自定义排序"></a>1 自定义排序</h3><ol>
+<li>在一个类里实现ordered或者ordering接口，将要处理的数据封装成RDD</li>
+</ol>
+<p>实现ordered接口的类：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span>(<span class="params">val name: <span class="type">String</span>, val age: <span class="type">Int</span>, val fv: <span class="type">Int</span></span>) </span></span><br><span class="line"><span class="class"><span class="keyword">extends</span> <span class="title">Ordered</span>[<span class="type">User</span>] <span class="keyword">with</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="comment">//实现序列化，因为在shuffle过程中封装数据的User要序列化，需要在网络传输</span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">compare</span></span>(that: <span class="type">User</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.fv == that.fv) &#123;</span><br><span class="line">      <span class="keyword">this</span>.age - that.age</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      -(<span class="keyword">this</span>.fv - that.fv)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">toString</span></span>: <span class="type">String</span> = <span class="string">s"name: <span class="subst">$name</span>, age: <span class="subst">$age</span>, fv: <span class="subst">$fv</span>"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用方法：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//切分整理数据</span></span><br><span class="line"><span class="keyword">val</span> userRDD: <span class="type">RDD</span>[<span class="type">User</span>] = lines.map(line =&gt; &#123;</span><br><span class="line">  <span class="keyword">val</span> fields = line.split(<span class="string">" "</span>)</span><br><span class="line">  <span class="keyword">val</span> name = fields(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">val</span> age = fields(<span class="number">1</span>).toInt</span><br><span class="line">  <span class="keyword">val</span> fv = fields(<span class="number">2</span>).toInt</span><br><span class="line">  <span class="comment">//(name, age, fv)</span></span><br><span class="line">  <span class="keyword">new</span> <span class="type">User</span>(name, age, fv)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//将RDD里面装的User类型的数据进行排序</span></span><br><span class="line"><span class="keyword">val</span> sorted: <span class="type">RDD</span>[<span class="type">User</span>] = userRDD.sortBy(u =&gt; u) <span class="comment">//传入参数就是u，u就是匹配规则</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在类里实现ordered或者ordering接口（类里只包含需要参与排序的属性），将要处理的数据封装成tupple</li>
+</ol>
+<p>只含排序参数的类：</p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Boy</span>(<span class="params">val age: <span class="type">Int</span>, val fv: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Ordered</span>[<span class="type">Boy</span>] <span class="keyword">with</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">compare</span></span>(that: <span class="type">Boy</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.fv == that.fv) &#123;</span><br><span class="line">      <span class="keyword">this</span>.age - that.age</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      -(<span class="keyword">this</span>.fv - that.fv)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>   调用方法：数据整理成tupple，排序逻辑传入排序类的对象</p>
+   <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//切分整理数据</span></span><br><span class="line"><span class="keyword">val</span> tpRDD: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Int</span>, <span class="type">Int</span>)] = lines.map(line =&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> fields = line.split(<span class="string">" "</span>)</span><br><span class="line">    <span class="keyword">val</span> name = fields(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">val</span> age = fields(<span class="number">1</span>).toInt</span><br><span class="line">    <span class="keyword">val</span> fv = fields(<span class="number">2</span>).toInt</span><br><span class="line">    (name, age, fv)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//排序(传入了一个排序规则，不会改变数据的格式，只会改变顺序)</span></span><br><span class="line">    <span class="keyword">val</span> sorted: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Int</span>, <span class="type">Int</span>)] = tpRDD.sortBy(tp =&gt; <span class="keyword">new</span> <span class="type">Boy</span>(tp._2, tp._3))</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>利用模式匹配类（case class父类实现了Serializable接口）,也不用new 对象，但是对象也是多例的</li>
+</ol>
+<p>模式匹配类：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span>(<span class="params">age: <span class="type">Int</span>, fv: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Ordered</span>[<span class="type">Man</span>] </span>&#123; <span class="comment">//参数都是val类型</span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">compare</span></span>(that: <span class="type">Man</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.fv == that.fv) &#123;</span><br><span class="line">      <span class="keyword">this</span>.age - that.age</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      -(<span class="keyword">this</span>.fv - that.fv)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用方法：不用显示地去new对象，但对象还是多例的</p>
+   <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">...前面相同</span><br><span class="line"><span class="keyword">val</span> sorted: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Int</span>, <span class="type">Int</span>)] = tpRDD.sortBy(tp =&gt; <span class="type">Man</span>(tp._2, tp._3))</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>传入sortBy方法的一个隐式参数</li>
+</ol>
+<p>有隐式参数的类：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">SortRules</span> </span>&#123;</span><br><span class="line">  <span class="keyword">implicit</span> <span class="class"><span class="keyword">object</span> <span class="title">OrderingXiaoRou</span> <span class="keyword">extends</span> <span class="title">Ordering</span>[<span class="type">XianRou</span>] </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">compare</span></span>(x: <span class="type">XianRou</span>, y: <span class="type">XianRou</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">      <span class="keyword">if</span>(x.fv == y.fv) &#123;</span><br><span class="line">        x.age - y.age</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        y.fv - x.fv</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用方法：导入隐式参数方法</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//排序(传入了一个排序规则，不会改变数据的格式，只会改变顺序)</span></span><br><span class="line"><span class="keyword">import</span> <span class="type">SortRules</span>.<span class="type">OrderingXiaoRou</span></span><br><span class="line"><span class="keyword">val</span> sorted: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Int</span>, <span class="type">Int</span>)] = tpRDD.sortBy(tp =&gt; <span class="type">XianRou</span>(tp._2, tp._3))</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">XianRou</span>(<span class="params">age: <span class="type">Int</span>, fv: <span class="type">Int</span></span>)<span class="title">//只定义这个类</span></span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>利用tupple的比较规则：</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...前面相同</span><br><span class="line"><span class="comment">//充分利用元组的比较规则，元组的比较规则：先比第一，相等再比第二个</span></span><br><span class="line"><span class="keyword">val</span> sorted: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Int</span>, <span class="type">Int</span>)] = tpRDD.sortBy(tp =&gt; (-tp._3, tp._2))</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>利用tupple的比较规则2</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Ordering[(Int, Int)]最终比较的规则格式</span></span><br><span class="line"><span class="comment">//on[(String, Int, Int)]未比较之前的数据格式</span></span><br><span class="line"><span class="comment">//(t =&gt;(-t._3, t._2))怎样将规则转换成想要比较的格式</span></span><br><span class="line"><span class="keyword">implicit</span> <span class="keyword">val</span> rules = <span class="type">Ordering</span>[(<span class="type">Int</span>, <span class="type">Int</span>)].on[(<span class="type">String</span>, <span class="type">Int</span>, <span class="type">Int</span>)](t =&gt;(-t._3, t._2))</span><br><span class="line"><span class="keyword">val</span> sorted: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Int</span>, <span class="type">Int</span>)] = tpRDD.sortBy(tp =&gt; tp)</span><br><span class="line">备注：有隐式参数的比较规则时会先调用隐式参数比较规则</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-切分Stage"><a href="#2-切分Stage" class="headerlink" title="2 切分Stage"></a>2 切分Stage</h3><ul>
+<li>四个步骤</li>
+</ul>
+<ol>
+<li><p>构建DAG（调用RDD上的方法）</p>
+</li>
+<li><p>DAGScheduler将DAG切分Stage（切分的依据是Shuffle），将Stage中生成的Task以TaskSet的形式给TaskScheduler</p>
+</li>
+<li><p>TaskScheduler调度Task（根据资源情况将Task调度到相应的Executor中）</p>
+</li>
+<li><p>Executor接收Task，然后将Task丢入到线程池中执行</p>
+</li>
+</ol>
+<ul>
+<li>为什么要切分Stage？<pre><code>一个复杂的业务逻辑（将多台机器上具有相同属性的数据聚合到一台机器上：shuffle）
+  如果有shuffle，那么就意味着前面阶段产生的结果后，才能执行下一个阶段，下一个阶段的计算要依赖上一个阶段的数据。
+  在同一个Stage中，会有多个算子，可以合并在一起，我们称其为pipeline（流水线：严格按照流程、顺序执行）</code></pre></li>
+</ul>
+<p><img src="//yoursite.com/2019/07/24/sparkRDD学习总结/sparkRDD%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%5C%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" alt="执行过程"></p>
+<img src="/2019/07/24/sparkRDD学习总结/执行过程.png">
+
+<h2 id="day6-序列化及多线程问题"><a href="#day6-序列化及多线程问题" class="headerlink" title="day6 序列化及多线程问题"></a>day6 序列化及多线程问题</h2><h3 id="1-序列化问题"><a href="#1-序列化问题" class="headerlink" title="1 序列化问题"></a>1 序列化问题</h3><ul>
+<li><p>方法一：在map方法里new 对象，在每个Task里面类加载，每map一条数据就会生成对象</p>
+<p>​        缺点：非常浪费资源</p>
+</li>
+<li><p>方法二：在map方法前先new对象，map操作使用这个对象的引用。但是对象的类需要序列化</p>
+<p>​        缺点：在一个Excutor里的每个Task都会反序列化出不同的对象</p>
+</li>
+<li><p>方法三：将类定义为Object，Excutor在加载类的时候只会加载一次，在一个Excutor里的所有Task都会共用这个”静态类(Object)“里的属性和方法</p>
+<p>​        缺点：Object在Driver端生成，通过网络传输到各个Excutor占时间</p>
+</li>
+<li><p>方法四：只在Map方法里使用Object的属性或者方法。可以不用网络传输对象了，直接在Excutor里加载类</p>
+</li>
+</ul>
+<p>定义的规则类：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rules</span> </span>&#123;									------------------------&gt;方法一</span><br><span class="line">  <span class="keyword">val</span> rulesMap = <span class="type">Map</span>(<span class="string">"hadoop"</span> -&gt; <span class="number">2.7</span>, <span class="string">"spark"</span> -&gt; <span class="number">2.2</span>)</span><br><span class="line">  <span class="keyword">val</span> hostname = <span class="type">InetAddress</span>.getLocalHost.getHostName</span><br><span class="line">  println(hostname + <span class="string">"@@@@@@@@@@@@@@@@"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rules</span> <span class="keyword">extends</span> <span class="title">Serializable</span> </span>&#123;				------------------------&gt;方法二</span><br><span class="line">  <span class="keyword">val</span> rulesMap = <span class="type">Map</span>(<span class="string">"hadoop"</span> -&gt; <span class="number">2.7</span>, <span class="string">"spark"</span> -&gt; <span class="number">2.2</span>)</span><br><span class="line">  <span class="keyword">val</span> hostname = <span class="type">InetAddress</span>.getLocalHost.getHostName</span><br><span class="line">  println(hostname + <span class="string">"@@@@@@@@@@@@@@@@"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Rules</span> <span class="keyword">extends</span> <span class="title">Serializable</span> </span>&#123;				------------------------&gt;方法三</span><br><span class="line">  <span class="keyword">val</span> rulesMap = <span class="type">Map</span>(<span class="string">"hadoop"</span> -&gt; <span class="number">2.7</span>, <span class="string">"spark"</span> -&gt; <span class="number">2.2</span>)</span><br><span class="line">  <span class="keyword">val</span> hostname = <span class="type">InetAddress</span>.getLocalHost.getHostName</span><br><span class="line">  println(hostname + <span class="string">"@@@@@@@@@@@@@@@@"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第三种方式，希望Rules在EXecutor中被初始化（不走网络了，就不必实现序列化接口）</span></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Rules</span> </span>&#123;									------------------------&gt;方法四</span><br><span class="line">  <span class="keyword">val</span> rulesMap = <span class="type">Map</span>(<span class="string">"hadoop"</span> -&gt; <span class="number">2.7</span>, <span class="string">"spark"</span> -&gt; <span class="number">2.2</span>)</span><br><span class="line">  <span class="keyword">val</span> hostname = <span class="type">InetAddress</span>.getLocalHost.getHostName</span><br><span class="line">  println(hostname + <span class="string">"@@@@@@@@@@@@@@@@"</span>)</span><br><span class="line">  </span><br><span class="line">  备注： 这里pritln方法就相当于静态代码块，在类加载的时候会执行。</span><br><span class="line">  		可以利用这个方法来实现读取共享数据等操作。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用方法：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">SerTest</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在Driver端被实例化		</span></span><br><span class="line">    <span class="comment">//val rules = new Rules					------------------------&gt;方法二</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始化object（在Driver端）</span></span><br><span class="line">    <span class="comment">//var rules = Rules						------------------------&gt;方法三</span></span><br><span class="line">    <span class="comment">//println("@@@@@@@@@@@@" + rules.toString + "@@@@@@@@@@@@")</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"SerTest"</span>)</span><br><span class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line">    <span class="keyword">val</span> lines: <span class="type">RDD</span>[<span class="type">String</span>] = sc.textFile(args(<span class="number">0</span>))</span><br><span class="line">    <span class="keyword">val</span> r = lines.map(word =&gt; &#123;</span><br><span class="line">      <span class="comment">//在map的函数中，创建一个rules实例(太浪费资源)</span></span><br><span class="line">      <span class="comment">//val rules = new Rules 				------------------------&gt;方法一</span></span><br><span class="line">      <span class="comment">//函数的执行是在Executor执行的（Task中执行的）</span></span><br><span class="line">      <span class="keyword">val</span> hostname = <span class="type">InetAddress</span>.getLocalHost.getHostName</span><br><span class="line">      <span class="keyword">val</span> threadName = <span class="type">Thread</span>.currentThread().getName</span><br><span class="line">      <span class="comment">//rules的实际是在Executor中使用的</span></span><br><span class="line">      (hostname, threadName, <span class="type">Rules</span>.rulesMap.getOrElse(word, <span class="number">0</span>), <span class="type">Rules</span>.toString)</span><br><span class="line">    &#125;)</span><br><span class="line">      <span class="comment">//在map方法里用到Rules的引用rules			------------------------&gt;方法一~三</span></span><br><span class="line">      <span class="comment">//只在map方法里用到Rules(Object)的属性或方法------------------------&gt;方法四</span></span><br><span class="line">    r.saveAsTextFile(args(<span class="number">1</span>))</span><br><span class="line">    sc.stop()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-多线程问题"><a href="#2-多线程问题" class="headerlink" title="2 多线程问题"></a>2 多线程问题</h3><p>以SimpleDateFormat格式化处理日志中时间为例</p>
+<p><strong>多线程问题：</strong> 如果object使用了成员变量（且这个成员变量是线程不安全的），那么会出现线程安全问题，因为object是一个单例，多线程(一个Excutor里多个Task)可以同时调用这个方法。</p>
+<p>时间处理工具类：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">FilterUtilsV4</span></span>&#123;</span><br><span class="line">  <span class="comment">//如果object使用了成员变量，那么会出现线程安全问题，因为object是一个单例，多线程(一个Excutor里多个Task)可以同时调用这个方法</span></span><br><span class="line">  <span class="keyword">val</span> dateFormat = <span class="keyword">new</span> <span class="type">SimpleDateFormat</span>(<span class="string">"yyyy年MM月dd日,E,HH:mm:ss"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">filterByTime</span></span>(fields: <span class="type">Array</span>[<span class="type">String</span>], startTime: <span class="type">Long</span>, endTime: <span class="type">Long</span>) = &#123;</span><br><span class="line">    <span class="keyword">val</span> time = fields(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">val</span> timeLong = dateFormat.parse(time).getTime</span><br><span class="line">    timeLong &gt;= startTime &amp;&amp; timeLong &lt; endTime</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用方法：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"GameKPI"</span>).setMaster(<span class="string">"local[2]"</span>)</span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="comment">//整理并过滤</span></span><br><span class="line"><span class="keyword">val</span> splited: <span class="type">RDD</span>[<span class="type">Array</span>[<span class="type">String</span>]] = lines.map(line =&gt; line.split(<span class="string">"[|]"</span>))</span><br><span class="line"><span class="keyword">val</span> filtered = splited.filter(fields =&gt; &#123;</span><br><span class="line">    <span class="comment">//如果FilterUtilsV4是一个object，把FilterUtilsV4写在函数内部，它是在Executor中被初始化的</span></span><br><span class="line">    <span class="comment">//FilterUtilsV4是在一个Executor进程中是单例的</span></span><br><span class="line">  <span class="type">FilterUtilsV4</span>.filterByTime(fields, startTime, endTime)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>解决方法一：用线程安全的成员变量，或者加锁</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//FastDateFormat是线程安全的，即用线程安全的成员变量</span></span><br><span class="line"><span class="keyword">val</span> dateFormat = <span class="type">FastDateFormat</span>.getInstance(<span class="string">"yyyy年MM月dd日,E,HH:mm:ss"</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>解决方法二：将Object类改为Class类，这样每个Task都会反序列化出不同的对象</li>
+</ul>
+<p>时间处理工具类：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FilterUtilsV3</span></span>&#123;</span><br><span class="line">  <span class="keyword">val</span> dateFormat = <span class="keyword">new</span> <span class="type">SimpleDateFormat</span>(<span class="string">"yyyy年MM月dd日,E,HH:mm:ss"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">filterByTime</span></span>(fields: <span class="type">Array</span>[<span class="type">String</span>], startTime: <span class="type">Long</span>, endTime: <span class="type">Long</span>) = &#123;</span><br><span class="line">    <span class="keyword">val</span> time = fields(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">val</span> timeLong = dateFormat.parse(time).getTime</span><br><span class="line">    timeLong &gt;= startTime &amp;&amp; timeLong &lt; endTime</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用方法：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...前面的相同</span><br><span class="line"><span class="keyword">val</span> fu = <span class="keyword">new</span> <span class="type">FilterUtilsV3</span> <span class="keyword">with</span> <span class="type">Serializable</span>  <span class="comment">//对象在new出来的时候实现序列化（匿名内部类）</span></span><br><span class="line"><span class="keyword">val</span> filtered = splited.filter(fields =&gt; &#123;</span><br><span class="line">  fu.filterByTime(fields, startTime, endTime) <span class="comment">//在这里用前面new出来的对象</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="疑惑问题："><a href="#疑惑问题：" class="headerlink" title="疑惑问题："></a>疑惑问题：</h3><p><strong>scala闭包</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SparkRDD/" rel="tag"># SparkRDD</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/22/git/" rel="next" title="常用Git操作">
+                <i class="fa fa-chevron-left"></i> 常用Git操作
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/24/sparkSQL学习总结/" rel="prev" title="SparkSQL学习总结">
+                SparkSQL学习总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Chen Bin</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/cilibili" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SparkRDD"><span class="nav-number">1.</span> <span class="nav-text">SparkRDD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#day3-最受欢迎老师"><span class="nav-number">1.1.</span> <span class="nav-text">day3 最受欢迎老师</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#day4-求ip归属地"><span class="nav-number">1.2.</span> <span class="nav-text">day4 求ip归属地</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#读取文件内容方法：（以内存方式存数据）"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">读取文件内容方法：（以内存方式存数据）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JdbcRDD"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">JdbcRDD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cache与checkpoint"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">cache与checkpoint</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cache"><span class="nav-number">1.2.0.3.1.</span> <span class="nav-text">cache</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#checkpoint"><span class="nav-number">1.2.0.3.2.</span> <span class="nav-text">checkpoint</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#day5-自定义排序和切分Stage"><span class="nav-number">1.3.</span> <span class="nav-text">day5 自定义排序和切分Stage</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-自定义排序"><span class="nav-number">1.3.1.</span> <span class="nav-text">1 自定义排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-切分Stage"><span class="nav-number">1.3.2.</span> <span class="nav-text">2 切分Stage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#day6-序列化及多线程问题"><span class="nav-number">1.4.</span> <span class="nav-text">day6 序列化及多线程问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-序列化问题"><span class="nav-number">1.4.1.</span> <span class="nav-text">1 序列化问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-多线程问题"><span class="nav-number">1.4.2.</span> <span class="nav-text">2 多线程问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#疑惑问题："><span class="nav-number">1.4.3.</span> <span class="nav-text">疑惑问题：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Bin</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
