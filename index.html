@@ -229,6 +229,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/redis笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Bin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cilibili">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/12/redis笔记/" itemprop="url">redis笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-12T19:58:55+08:00">
+                2019-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p><a href="redis笔记/Redis3.2.x单机安装(new).docx">详见文档</a></p>
+
+
+<h2 id="Redis单机部署"><a href="#Redis单机部署" class="headerlink" title="Redis单机部署"></a>Redis单机部署</h2><ol>
+<li>下载、上传redis-3.2.11.tar.gz到服务器并解压</li>
+<li>进入到源码包中，编译并安装redis，预先下载gcc（c 的编译器）</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc</span><br><span class="line">cd /usr/local/src/redis-3.2.11/</span><br><span class="line">make MALLOC=libc &amp;&amp; make install  #内存分配</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>在所有机器的/usr/local/下创建一个redis目录，然后拷贝redis配置文件redis.conf到/usr/local/redis</p>
+</li>
+<li><p>修改所有机器的配置文件redis.conf</p>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">daemonize yes  #redis后台运行</span><br><span class="line"><span class="meta">#</span>cluster-enabled yes  #开集群后把注释去掉</span><br><span class="line">appendonly yes  #开启aof日志，它会每次写操作都记录一条日志</span><br><span class="line">bind 192.168.1.207</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>启动所有的redis节点</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server /usr/local/redis/redis.conf  #make&amp;&amp;make install 就已经把redis添加到环境变量了</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>使用命令行客户的连接redis</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 192.168.1.207</span><br><span class="line">redis-cli -p 6379 #-p为redis进程号，通过ps -ef | grep redis查询</span><br></pre></td></tr></table></figure>
+
+<p>Tips:</p>
+<ol>
+<li>配置redis密码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config set requirepass 123</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>再次连接的时候输入密码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auth 123</span><br></pre></td></tr></table></figure>
+
+<h2 id="Redis-JavaAPI操作"><a href="#Redis-JavaAPI操作" class="headerlink" title="Redis-JavaAPI操作"></a>Redis-JavaAPI操作</h2><p>导入Redis依赖</p>
+<ol>
+<li>定义连接池参数，获取连接池方法</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> config = <span class="keyword">new</span> <span class="type">JedisPoolConfig</span>()</span><br><span class="line"><span class="comment">//最大连接数,</span></span><br><span class="line">config.setMaxTotal(<span class="number">20</span>)</span><br><span class="line"><span class="comment">//最大空闲连接数</span></span><br><span class="line">config.setMaxIdle(<span class="number">10</span>)</span><br><span class="line"><span class="comment">//当调用borrow Object方法时，是否进行有效性检查 --&gt;</span></span><br><span class="line">config.setTestOnBorrow(<span class="literal">true</span>)</span><br><span class="line"><span class="comment">//10000代表超时时间（10秒）</span></span><br><span class="line"><span class="keyword">val</span> pool = <span class="keyword">new</span> <span class="type">JedisPool</span>(config, <span class="string">"192.168.1.207"</span>, <span class="number">6379</span>, <span class="number">10000</span>, <span class="string">"123"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getConnection</span></span>(): <span class="type">Jedis</span> = &#123;</span><br><span class="line">  pool.getResource</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conn = <span class="type">JedisConnectionPool</span>.getConnection()</span><br><span class="line">conn.set(<span class="string">"income"</span>, <span class="string">"1000"</span>)</span><br><span class="line"><span class="keyword">val</span> r1 = conn.get(<span class="string">"xiaoniu"</span>)</span><br><span class="line">conn.incrBy(<span class="string">"xiaoniu"</span>, <span class="number">-50</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> scala.collection.<span class="type">JavaConversions</span>._  <span class="comment">//导入隐式函数把java集合转成scala集合</span></span><br><span class="line"><span class="keyword">val</span> r = conn.keys(<span class="string">"*"</span>)  <span class="comment">//获得所有的key</span></span><br><span class="line"><span class="keyword">for</span> (p &lt;- r) &#123;	<span class="comment">//打印所有的key</span></span><br><span class="line">  println(p + <span class="string">" : "</span> + conn.get(p))</span><br><span class="line">&#125;</span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/kafka笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -359,171 +524,6 @@
 <h2 id="Kafka-Java-API"><a href="#Kafka-Java-API" class="headerlink" title="Kafka-Java-API"></a>Kafka-Java-API</h2><h3 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProducerDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Properties props = <span class="keyword">new</span> Properties();</span><br><span class="line">		props.put(<span class="string">"metadata.broker.list"</span>, <span class="string">"node-4:9092,node-5:9092,node-6:9092"</span>);</span><br><span class="line">		props.put(<span class="string">"serializer.class"</span>, <span class="string">"kafka.serializer.StringEncoder"</span>);</span><br><span class="line">		ProducerConfig config = <span class="keyword">new</span> ProducerConfig(props);</span><br><span class="line">		Producer&lt;String, String&gt; producer = <span class="keyword">new</span> Producer&lt;String, String&gt;(config);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1001</span>; i &lt;= <span class="number">1100</span>; i++)</span><br><span class="line">			producer.send(<span class="keyword">new</span> KeyedMessage&lt;String, String&gt;(<span class="string">"xiaoniu"</span>, <span class="string">"xiaoniu-msg"</span> + i));<span class="comment">//&lt;topic,message&gt;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConsumerDemo</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String topic = <span class="string">"xiaoniu"</span>;</span><br><span class="line">	<span class="comment">//一个消费者必须两个线程以上同时消费</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Integer threads = <span class="number">2</span>; </span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Properties props = <span class="keyword">new</span> Properties();</span><br><span class="line">		<span class="comment">//此为老版本，需要指定zookeeper地址</span></span><br><span class="line">		props.put(<span class="string">"zookeeper.connect"</span>, <span class="string">"node-1:2181,node-2:2181,node-3:2181"</span>); </span><br><span class="line">		props.put(<span class="string">"group.id"</span>, <span class="string">"vvvvv"</span>);</span><br><span class="line">		<span class="comment">//smallest重最开始消费,largest重消费者启动后产生的数据才消费</span></span><br><span class="line">		<span class="comment">//等同--from-beginning</span></span><br><span class="line">		props.put(<span class="string">"auto.offset.reset"</span>, <span class="string">"smallest"</span>);</span><br><span class="line"></span><br><span class="line">		ConsumerConfig config = <span class="keyword">new</span> ConsumerConfig(props);</span><br><span class="line">		ConsumerConnector consumer =Consumer.createJavaConsumerConnector(config);</span><br><span class="line">		Map&lt;String, Integer&gt; topicCountMap = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</span><br><span class="line">		topicCountMap.put(topic, threads);</span><br><span class="line">		Map&lt;String, List&lt;KafkaStream&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt;&gt;&gt; consumerMap = consumer.createMessageStreams(topicCountMap);</span><br><span class="line">		List&lt;KafkaStream&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt;&gt; streams = consumerMap.get(topic);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">final</span> KafkaStream&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt; kafkaStream : streams)&#123;</span><br><span class="line">			<span class="comment">//因为指定了两个线程进行消费</span></span><br><span class="line">			<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">					<span class="keyword">for</span>(MessageAndMetadata&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt; mm : kafkaStream)&#123;</span><br><span class="line">						String msg = <span class="keyword">new</span> String(mm.message());</span><br><span class="line">						System.out.println(msg);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;).start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/redis笔记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Chen Bin">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cilibili">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/12/redis笔记/" itemprop="url">redis笔记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-12T19:58:55+08:00">
-                2019-08-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p><a href="redis笔记/Redis3.2.x单机安装(new).docx">详见文档</a></p>
-
-
-<h2 id="Redis单机部署"><a href="#Redis单机部署" class="headerlink" title="Redis单机部署"></a>Redis单机部署</h2><ol>
-<li>下载、上传redis-3.2.11.tar.gz到服务器并解压</li>
-<li>进入到源码包中，编译并安装redis，预先下载gcc（c 的编译器）</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc</span><br><span class="line">cd /usr/local/src/redis-3.2.11/</span><br><span class="line">make MALLOC=libc &amp;&amp; make install  #内存分配</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li><p>在所有机器的/usr/local/下创建一个redis目录，然后拷贝redis配置文件redis.conf到/usr/local/redis</p>
-</li>
-<li><p>修改所有机器的配置文件redis.conf</p>
-</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">daemonize yes  #redis后台运行</span><br><span class="line"><span class="meta">#</span>cluster-enabled yes  #开集群后把注释去掉</span><br><span class="line">appendonly yes  #开启aof日志，它会每次写操作都记录一条日志</span><br><span class="line">bind 192.168.1.207</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>启动所有的redis节点</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server /usr/local/redis/redis.conf  #make&amp;&amp;make install 就已经把redis添加到环境变量了</span><br></pre></td></tr></table></figure>
-
-<ol start="6">
-<li>使用命令行客户的连接redis</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 192.168.1.207</span><br><span class="line">redis-cli -p 6379 #-p为redis进程号，通过ps -ef | grep redis查询</span><br></pre></td></tr></table></figure>
-
-<p>Tips:</p>
-<ol>
-<li>配置redis密码</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config set requirepass 123</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>再次连接的时候输入密码</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auth 123</span><br></pre></td></tr></table></figure>
-
-<h2 id="Redis-JavaAPI操作"><a href="#Redis-JavaAPI操作" class="headerlink" title="Redis-JavaAPI操作"></a>Redis-JavaAPI操作</h2><p>导入Redis依赖</p>
-<ol>
-<li>定义连接池参数，获取连接池方法</li>
-</ol>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> config = <span class="keyword">new</span> <span class="type">JedisPoolConfig</span>()</span><br><span class="line"><span class="comment">//最大连接数,</span></span><br><span class="line">config.setMaxTotal(<span class="number">20</span>)</span><br><span class="line"><span class="comment">//最大空闲连接数</span></span><br><span class="line">config.setMaxIdle(<span class="number">10</span>)</span><br><span class="line"><span class="comment">//当调用borrow Object方法时，是否进行有效性检查 --&gt;</span></span><br><span class="line">config.setTestOnBorrow(<span class="literal">true</span>)</span><br><span class="line"><span class="comment">//10000代表超时时间（10秒）</span></span><br><span class="line"><span class="keyword">val</span> pool = <span class="keyword">new</span> <span class="type">JedisPool</span>(config, <span class="string">"192.168.1.207"</span>, <span class="number">6379</span>, <span class="number">10000</span>, <span class="string">"123"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getConnection</span></span>(): <span class="type">Jedis</span> = &#123;</span><br><span class="line">  pool.getResource</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conn = <span class="type">JedisConnectionPool</span>.getConnection()</span><br><span class="line">conn.set(<span class="string">"income"</span>, <span class="string">"1000"</span>)</span><br><span class="line"><span class="keyword">val</span> r1 = conn.get(<span class="string">"xiaoniu"</span>)</span><br><span class="line">conn.incrBy(<span class="string">"xiaoniu"</span>, <span class="number">-50</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> scala.collection.<span class="type">JavaConversions</span>._  <span class="comment">//导入隐式函数把java集合转成scala集合</span></span><br><span class="line"><span class="keyword">val</span> r = conn.keys(<span class="string">"*"</span>)  <span class="comment">//获得所有的key</span></span><br><span class="line"><span class="keyword">for</span> (p &lt;- r) &#123;	<span class="comment">//打印所有的key</span></span><br><span class="line">  println(p + <span class="string">" : "</span> + conn.get(p))</span><br><span class="line">&#125;</span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
 
 
           
