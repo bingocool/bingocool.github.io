@@ -3664,7 +3664,15 @@
 <p>（若第一次创建仓库，最开始需要生成ssh.pub，把内容在github设置里添加进去）</p>
 <p>git init<br>git remote add origin <a href="https://github.com/tugenhua0707/testgit.git" target="_blank" rel="noopener">https://github.com/tugenhua0707/testgit.git</a><br>git pull origin master  –allow-unrelated-histories (如果远程仓库创建了README.md，但本地仓库没有此文件或内容不同时，需要先执行这个命令)<br>git push -u origin master(第一次要用-u 以后不需要)</p>
 <p><strong>关联本地分支与远程分支</strong>：</p>
-<p>git checkout  –b dev origin/dev创建远程origin的dev分支到本地来<br>git branch –set -upstream dev origin/dev设置本地dev分支与远程origin/dev分支的链接</p>
+<p>git checkout  –b dev origin/dev  // 创建远程origin的dev分支到本地来</p>
+<p>git remote add remotebranch url //添加远程分支</p>
+<p>git remote rm remotebranch //删除远程分支</p>
+<p>git branch –set -upstream dev origin/dev  //设置本地dev分支与远程origin/dev分支的链接</p>
+<p>git branch –set-upstream-to upstream/master //改变当前分支HEAD远程指向</p>
+<p>git branch –unset-upstream // 取消当前分支远程指向</p>
+<p>git branch -vv // 查看本地分支与远程分支的关联</p>
+<p>git branch -r //查看远程分支</p>
+<p>git branch -r -d origin/branch_name //删除远程分支</p>
 <h2 id="解决冲突常用"><a href="#解决冲突常用" class="headerlink" title="解决冲突常用"></a>解决冲突常用</h2><p><strong>回退版本</strong></p>
 <p>git reset –hard HDEA^^<br>git reset – hard ~100<br>git reset –hard 版本号</p>
 <p><strong>工作现场与本地缓存差异</strong></p>
@@ -3672,8 +3680,12 @@
 <p>git stash list<br>git stash apply/git stash drop/git stash pop</p>
 <p><strong>查看提交记录</strong></p>
 <p>git log 查看历史commit记录<br>git log –pretty=oneline</p>
-<h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><p>git merge dev<br>git merge –no-ff  -m “注释” dev<br>可以保存你之前的分支历史。能够更好的查看 merge历史，以及branch 状态。<a href="https://blog.csdn.net/u010940300/article/details/47419069" target="_blank" rel="noopener">分支形象理解</a></p>
+<h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><p>git merge dev</p>
+<p>git rebase master // 比如处在dev分支下：将dev分支的提交放在master之后，合并代码变根</p>
+<p>git merge –no-ff  -m “注释” dev </p>
+<p>可以保存你之前的分支历史。能够更好的查看 merge历史，以及branch 状态。<a href="https://blog.csdn.net/u010940300/article/details/47419069" target="_blank" rel="noopener">分支形象理解</a></p>
 <p>git branch –d dev</p>
+<p>git rebase -i HEAD~4   // 合并最近的 4 次提交纪录</p>
 
           
         
