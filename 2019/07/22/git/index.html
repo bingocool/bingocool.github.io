@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="cilibili">
 <meta property="og:description" content="常用Git操作关联本地仓库和远程仓库（如果 （若第一次创建仓库，最开始需要生成ssh.pub，把内容在github设置里添加进去） git initgit remote add origin https://github.com/tugenhua0707/testgit.gitgit pull origin master  –allow-unrelated-histories (如果远程仓库创建了">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-28T11:10:31.332Z">
+<meta property="og:updated_time" content="2019-10-11T11:54:48.314Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常用Git操作">
 <meta name="twitter:description" content="常用Git操作关联本地仓库和远程仓库（如果 （若第一次创建仓库，最开始需要生成ssh.pub，把内容在github设置里添加进去） git initgit remote add origin https://github.com/tugenhua0707/testgit.gitgit pull origin master  –allow-unrelated-histories (如果远程仓库创建了">
@@ -338,8 +338,12 @@
 <h2 id="解决冲突常用"><a href="#解决冲突常用" class="headerlink" title="解决冲突常用"></a>解决冲突常用</h2><p><strong>回退版本</strong></p>
 <p>git reset –hard HDEA^^<br>git reset – hard ~100<br>git reset –hard 版本号</p>
 <p><strong>工作现场与本地缓存差异</strong></p>
-<p>git diff file.txt<br>git checkout –file.txt</p>
-<p>git stash list<br>git stash apply/git stash drop/git stash pop</p>
+<p>git diff file.txt</p>
+<p>git checkout –file.txt</p>
+<p>git stash list</p>
+<p>git stash apply/git stash drop/git stash pop</p>
+<p>git stash show // 查看最新的 stash 文件 diff state</p>
+<p>git stash show -p stash@{1}  // 查看 stash@{1} 文件的 diff  </p>
 <p><strong>查看提交记录</strong></p>
 <p>git log 查看历史commit记录<br>git log –pretty=oneline</p>
 <h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><p>git merge dev</p>
