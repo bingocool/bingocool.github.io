@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="cilibili">
 <meta property="og:description" content="常用Git操作关联本地仓库和远程仓库（如果 （若第一次创建仓库，最开始需要生成ssh.pub，把内容在github设置里添加进去） git initgit remote add origin https://github.com/tugenhua0707/testgit.gitgit pull origin master  –allow-unrelated-histories (如果远程仓库创建了">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-10-11T11:54:48.314Z">
+<meta property="og:updated_time" content="2019-10-17T09:07:25.693Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常用Git操作">
 <meta name="twitter:description" content="常用Git操作关联本地仓库和远程仓库（如果 （若第一次创建仓库，最开始需要生成ssh.pub，把内容在github设置里添加进去） git initgit remote add origin https://github.com/tugenhua0707/testgit.gitgit pull origin master  –allow-unrelated-histories (如果远程仓库创建了">
@@ -341,11 +341,13 @@
 <p>git diff file.txt</p>
 <p>git checkout –file.txt</p>
 <p>git stash list</p>
+<p>git stash -p // 依次决定是否stash 文件的改动</p>
 <p>git stash apply/git stash drop/git stash pop</p>
 <p>git stash show // 查看最新的 stash 文件 diff state</p>
 <p>git stash show -p stash@{1}  // 查看 stash@{1} 文件的 diff  </p>
 <p><strong>查看提交记录</strong></p>
-<p>git log 查看历史commit记录<br>git log –pretty=oneline</p>
+<p>git log 查看历史commit记录</p>
+<p>git log –pretty=oneline</p>
 <h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><p>git merge dev</p>
 <p>git rebase master // 比如处在dev分支下：将dev分支的提交放在master之后，合并代码变根</p>
 <p>git merge –no-ff  -m “注释” dev </p>
