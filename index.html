@@ -229,7 +229,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/kafka笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/30/JSON与实体类转换工具/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Chen Bin">
@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/12/kafka笔记/" itemprop="url">kafka笔记</a></h1>
+                <a class="post-title-link" href="/2019/10/30/JSON与实体类转换工具/" itemprop="url">Untitled</a></h1>
         
 
         <div class="post-meta">
@@ -260,8 +260,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-12T19:58:55+08:00">
-                2019-08-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-30T14:53:01+08:00">
+                2019-10-30
               </time>
             
 
@@ -300,66 +300,36 @@
       
         
           
-            <h1 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h1><p>首先在pom里导入kafka依赖（只使用kafka，不使用spark等）</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.kafka<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>kafka_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>0.8.2.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br></pre></td></tr></table></figure>
+            <h1 id="JSON-与实体类转换工具"><a href="#JSON-与实体类转换工具" class="headerlink" title="JSON 与实体类转换工具"></a>JSON 与实体类转换工具</h1><p><a href="http://www.jsons.cn/json2java/" target="_blank" rel="noopener">JSON 字符串自动生成实体类工具网站</a></p>
+<p>tips: 这个网站生成的实体类可以将下划线分割的变量转成驼峰命名和 List&lt;实体类&gt; 的列表，强烈推荐。</p>
+<p>但是它使用的注解不是下述的两个之一，需要换其他注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.codehaus.jackson.annotate.JsonIgnoreProperties;</span><br><span class="line"><span class="keyword">import</span> org.codehaus.jackson.annotate.JsonProperty;</span><br></pre></td></tr></table></figure>
 
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p><strong>Broker</strong>： 安装Kafka服务的那台集群就是一个broker（broker的id要全局唯一）</p>
-<p><strong>Producer</strong> ：消息的生产者，负责将数据写入到broker中（push）</p>
-<p><strong>Consumer</strong>：消息的消费者，负责从kafka中读取数据（pull），老版本的消费者需要依赖zk，新版本的不需要</p>
-<p><strong>Topic</strong>: 主题，相当于是数据的一个分类，不同topic存放不同的数据</p>
-<p><strong>partition</strong>：分区，是一个物理的分区，一个分区就算一个文件，一个topic可以有一到多个分区，每一个分区都有自己的副本</p>
-<p><strong>replication</strong>：副本，数据保存多少份</p>
-<p><strong>Consumer Group</strong>： 消费者组，一个topic可以有多个消费者同时消费，多个消费者如果在一个消费者组中，那么他们不会重复消费数据</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>0.安装zookeeper集群，保证zookeeper集群可以使用<br>1.上传Kafka安装包并解压<br>2.修改配置文件 config/server.properties</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">broker.id=0 #每台机器都不唯一1、2、3...</span><br><span class="line">port=9092	#默认的</span><br><span class="line">host.name=node-4  #broker连接的IP地址或主机名,每台机器不同 node-5、6...</span><br><span class="line">log.dirs=/data/kafka  #kafka保存数据的路径</span><br><span class="line">zookeeper.connect=node-1:2181,node-2:2181,node-3:2181</span><br><span class="line">delete.topic.enable=true  #删除topic（否则为删除的时候只是挂了个标签）</span><br></pre></td></tr></table></figure>
+<h2 id="alibaba-fastjson"><a href="#alibaba-fastjson" class="headerlink" title="alibaba.fastjson"></a>alibaba.fastjson</h2><p>依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;fastjson.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>3.将配置好的kafka拷贝到其他机器上<br>4.在其他机器上修改broker.id和host.name（不同）<br>5.启动kafka    （副本数量不能大于启动的kafka节点数）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-server-start.sh -daemon $KAFKA_HOME/config/server.properties 	#-daemon 显示在后台</span><br></pre></td></tr></table></figure>
+<p>导包：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br></pre></td></tr></table></figure>
 
-<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><ul>
-<li>启动kafka</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>-daemon 显示在后台</span><br><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-server-start.sh -daemon $KAFKA_HOME/config/server.properties</span><br></pre></td></tr></table></figure>
+<p>修改实体类属性命名注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@JSONField</span>(name = <span class="string">"display_name"</span>)</span><br><span class="line"><span class="keyword">private</span> String topicUrn;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>停止kafka</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-server-stop.sh</span><br></pre></td></tr></table></figure>
+<p>JSON 字符串转 POJO</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Student mcoTopic = JSON.parseObject(body, Student.class);</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>创建topic</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper node-1:2181,node-2:2181,node-3:2181 --replication-factor 3 --partitions 3 --topic my-topic</span><br></pre></td></tr></table></figure>
+<p>POJO 转 JSON 字符串</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String json = JSON.toJSONString(topic);</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>列出所有topic</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-topics.sh --list --zookeeper node-1:2181,node-2:2181,node-3:2181</span><br></pre></td></tr></table></figure>
+<h2 id="fasterxml-jackson"><a href="#fasterxml-jackson" class="headerlink" title="fasterxml.jackson"></a>fasterxml.jackson</h2><p>依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;jackson.databind.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;jackson.core.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-annotations<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;jackson.core.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>查看某个topic信息（topic信息&lt;topic名字，分区副本等&gt;保存在zookeeper集群中）</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-topics.sh --describe --zookeeper node-1:2181,node-2:2181,node-3:2181 --topic my-topic</span><br></pre></td></tr></table></figure>
+<p>修改实体类命名注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.annotation.JsonProperty;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JSONField</span>(name = <span class="string">"display_name"</span>)</span><br><span class="line">    <span class="keyword">private</span> String topicUrn;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>启动一个命令行的生产者（生产者往kafka里写不需要知道zookeeper在哪）</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-console-producer.sh --broker-list node-1:9092,node-1.xiaoniu.xom:9092,node-3:9092 --topic xiaoniu</span><br></pre></td></tr></table></figure>
+<p>JOSN 字符串与 POJO 转换</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> ObjectMapper().writeValueAsString(topic);</span><br><span class="line"><span class="keyword">new</span> ObjectMapper().readValue(body, Student.class);</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>启动一个命令行的消费者（消费者需要从zookeeper知道数据位置、数据偏移量等信息）</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>--from-beginning:可以消费以前的数据</span><br><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-console-consumer.sh --zookeeper node-1:2181,node-2:2181,node-3:2181 --topic my-topic --from-beginning</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>消费者连接到borker的地址</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server node-1:9092,node-2:9092,node-3:9092 --topic xiaoniu --from-beginning</span><br></pre></td></tr></table></figure>
-
-<h2 id="Kafka-Java-API"><a href="#Kafka-Java-API" class="headerlink" title="Kafka-Java-API"></a>Kafka-Java-API</h2><h3 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProducerDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Properties props = <span class="keyword">new</span> Properties();</span><br><span class="line">		props.put(<span class="string">"metadata.broker.list"</span>, <span class="string">"node-4:9092,node-5:9092,node-6:9092"</span>);</span><br><span class="line">		props.put(<span class="string">"serializer.class"</span>, <span class="string">"kafka.serializer.StringEncoder"</span>);</span><br><span class="line">		ProducerConfig config = <span class="keyword">new</span> ProducerConfig(props);</span><br><span class="line">		Producer&lt;String, String&gt; producer = <span class="keyword">new</span> Producer&lt;String, String&gt;(config);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1001</span>; i &lt;= <span class="number">1100</span>; i++)</span><br><span class="line">			producer.send(<span class="keyword">new</span> KeyedMessage&lt;String, String&gt;(<span class="string">"xiaoniu"</span>, <span class="string">"xiaoniu-msg"</span> + i));<span class="comment">//&lt;topic,message&gt;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConsumerDemo</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String topic = <span class="string">"xiaoniu"</span>;</span><br><span class="line">	<span class="comment">//一个消费者必须两个线程以上同时消费</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Integer threads = <span class="number">2</span>; </span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Properties props = <span class="keyword">new</span> Properties();</span><br><span class="line">		<span class="comment">//此为老版本，需要指定zookeeper地址</span></span><br><span class="line">		props.put(<span class="string">"zookeeper.connect"</span>, <span class="string">"node-1:2181,node-2:2181,node-3:2181"</span>); </span><br><span class="line">		props.put(<span class="string">"group.id"</span>, <span class="string">"vvvvv"</span>);</span><br><span class="line">		<span class="comment">//smallest重最开始消费,largest重消费者启动后产生的数据才消费</span></span><br><span class="line">		<span class="comment">//等同--from-beginning</span></span><br><span class="line">		props.put(<span class="string">"auto.offset.reset"</span>, <span class="string">"smallest"</span>);</span><br><span class="line"></span><br><span class="line">		ConsumerConfig config = <span class="keyword">new</span> ConsumerConfig(props);</span><br><span class="line">		ConsumerConnector consumer =Consumer.createJavaConsumerConnector(config);</span><br><span class="line">		Map&lt;String, Integer&gt; topicCountMap = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</span><br><span class="line">		topicCountMap.put(topic, threads);</span><br><span class="line">		Map&lt;String, List&lt;KafkaStream&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt;&gt;&gt; consumerMap = consumer.createMessageStreams(topicCountMap);</span><br><span class="line">		List&lt;KafkaStream&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt;&gt; streams = consumerMap.get(topic);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">final</span> KafkaStream&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt; kafkaStream : streams)&#123;</span><br><span class="line">			<span class="comment">//因为指定了两个线程进行消费</span></span><br><span class="line">			<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">					<span class="keyword">for</span>(MessageAndMetadata&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt; mm : kafkaStream)&#123;</span><br><span class="line">						String msg = <span class="keyword">new</span> String(mm.message());</span><br><span class="line">						System.out.println(msg);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;).start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p><a href="https://blog.csdn.net/xgjianstart/article/details/82663598" target="_blank" rel="noopener">参考博客</a></p>
 
           
         
@@ -524,6 +494,185 @@
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> config = <span class="keyword">new</span> <span class="type">JedisPoolConfig</span>()</span><br><span class="line"><span class="comment">//最大连接数,</span></span><br><span class="line">config.setMaxTotal(<span class="number">20</span>)</span><br><span class="line"><span class="comment">//最大空闲连接数</span></span><br><span class="line">config.setMaxIdle(<span class="number">10</span>)</span><br><span class="line"><span class="comment">//当调用borrow Object方法时，是否进行有效性检查 --&gt;</span></span><br><span class="line">config.setTestOnBorrow(<span class="literal">true</span>)</span><br><span class="line"><span class="comment">//10000代表超时时间（10秒）</span></span><br><span class="line"><span class="keyword">val</span> pool = <span class="keyword">new</span> <span class="type">JedisPool</span>(config, <span class="string">"192.168.1.207"</span>, <span class="number">6379</span>, <span class="number">10000</span>, <span class="string">"123"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getConnection</span></span>(): <span class="type">Jedis</span> = &#123;</span><br><span class="line">  pool.getResource</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conn = <span class="type">JedisConnectionPool</span>.getConnection()</span><br><span class="line">conn.set(<span class="string">"income"</span>, <span class="string">"1000"</span>)</span><br><span class="line"><span class="keyword">val</span> r1 = conn.get(<span class="string">"xiaoniu"</span>)</span><br><span class="line">conn.incrBy(<span class="string">"xiaoniu"</span>, <span class="number">-50</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> scala.collection.<span class="type">JavaConversions</span>._  <span class="comment">//导入隐式函数把java集合转成scala集合</span></span><br><span class="line"><span class="keyword">val</span> r = conn.keys(<span class="string">"*"</span>)  <span class="comment">//获得所有的key</span></span><br><span class="line"><span class="keyword">for</span> (p &lt;- r) &#123;	<span class="comment">//打印所有的key</span></span><br><span class="line">  println(p + <span class="string">" : "</span> + conn.get(p))</span><br><span class="line">&#125;</span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/kafka笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Bin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cilibili">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/12/kafka笔记/" itemprop="url">kafka笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-12T19:58:55+08:00">
+                2019-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h1><p>首先在pom里导入kafka依赖（只使用kafka，不使用spark等）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.kafka<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>kafka_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>0.8.2.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p><strong>Broker</strong>： 安装Kafka服务的那台集群就是一个broker（broker的id要全局唯一）</p>
+<p><strong>Producer</strong> ：消息的生产者，负责将数据写入到broker中（push）</p>
+<p><strong>Consumer</strong>：消息的消费者，负责从kafka中读取数据（pull），老版本的消费者需要依赖zk，新版本的不需要</p>
+<p><strong>Topic</strong>: 主题，相当于是数据的一个分类，不同topic存放不同的数据</p>
+<p><strong>partition</strong>：分区，是一个物理的分区，一个分区就算一个文件，一个topic可以有一到多个分区，每一个分区都有自己的副本</p>
+<p><strong>replication</strong>：副本，数据保存多少份</p>
+<p><strong>Consumer Group</strong>： 消费者组，一个topic可以有多个消费者同时消费，多个消费者如果在一个消费者组中，那么他们不会重复消费数据</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>0.安装zookeeper集群，保证zookeeper集群可以使用<br>1.上传Kafka安装包并解压<br>2.修改配置文件 config/server.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">broker.id=0 #每台机器都不唯一1、2、3...</span><br><span class="line">port=9092	#默认的</span><br><span class="line">host.name=node-4  #broker连接的IP地址或主机名,每台机器不同 node-5、6...</span><br><span class="line">log.dirs=/data/kafka  #kafka保存数据的路径</span><br><span class="line">zookeeper.connect=node-1:2181,node-2:2181,node-3:2181</span><br><span class="line">delete.topic.enable=true  #删除topic（否则为删除的时候只是挂了个标签）</span><br></pre></td></tr></table></figure>
+
+<p>3.将配置好的kafka拷贝到其他机器上<br>4.在其他机器上修改broker.id和host.name（不同）<br>5.启动kafka    （副本数量不能大于启动的kafka节点数）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-server-start.sh -daemon $KAFKA_HOME/config/server.properties 	#-daemon 显示在后台</span><br></pre></td></tr></table></figure>
+
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><ul>
+<li>启动kafka</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>-daemon 显示在后台</span><br><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-server-start.sh -daemon $KAFKA_HOME/config/server.properties</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>停止kafka</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-server-stop.sh</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建topic</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper node-1:2181,node-2:2181,node-3:2181 --replication-factor 3 --partitions 3 --topic my-topic</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列出所有topic</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-topics.sh --list --zookeeper node-1:2181,node-2:2181,node-3:2181</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看某个topic信息（topic信息&lt;topic名字，分区副本等&gt;保存在zookeeper集群中）</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-topics.sh --describe --zookeeper node-1:2181,node-2:2181,node-3:2181 --topic my-topic</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>启动一个命令行的生产者（生产者往kafka里写不需要知道zookeeper在哪）</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-console-producer.sh --broker-list node-1:9092,node-1.xiaoniu.xom:9092,node-3:9092 --topic xiaoniu</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>启动一个命令行的消费者（消费者需要从zookeeper知道数据位置、数据偏移量等信息）</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>--from-beginning:可以消费以前的数据</span><br><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-console-consumer.sh --zookeeper node-1:2181,node-2:2181,node-3:2181 --topic my-topic --from-beginning</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>消费者连接到borker的地址</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server node-1:9092,node-2:9092,node-3:9092 --topic xiaoniu --from-beginning</span><br></pre></td></tr></table></figure>
+
+<h2 id="Kafka-Java-API"><a href="#Kafka-Java-API" class="headerlink" title="Kafka-Java-API"></a>Kafka-Java-API</h2><h3 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProducerDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Properties props = <span class="keyword">new</span> Properties();</span><br><span class="line">		props.put(<span class="string">"metadata.broker.list"</span>, <span class="string">"node-4:9092,node-5:9092,node-6:9092"</span>);</span><br><span class="line">		props.put(<span class="string">"serializer.class"</span>, <span class="string">"kafka.serializer.StringEncoder"</span>);</span><br><span class="line">		ProducerConfig config = <span class="keyword">new</span> ProducerConfig(props);</span><br><span class="line">		Producer&lt;String, String&gt; producer = <span class="keyword">new</span> Producer&lt;String, String&gt;(config);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1001</span>; i &lt;= <span class="number">1100</span>; i++)</span><br><span class="line">			producer.send(<span class="keyword">new</span> KeyedMessage&lt;String, String&gt;(<span class="string">"xiaoniu"</span>, <span class="string">"xiaoniu-msg"</span> + i));<span class="comment">//&lt;topic,message&gt;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConsumerDemo</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String topic = <span class="string">"xiaoniu"</span>;</span><br><span class="line">	<span class="comment">//一个消费者必须两个线程以上同时消费</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Integer threads = <span class="number">2</span>; </span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Properties props = <span class="keyword">new</span> Properties();</span><br><span class="line">		<span class="comment">//此为老版本，需要指定zookeeper地址</span></span><br><span class="line">		props.put(<span class="string">"zookeeper.connect"</span>, <span class="string">"node-1:2181,node-2:2181,node-3:2181"</span>); </span><br><span class="line">		props.put(<span class="string">"group.id"</span>, <span class="string">"vvvvv"</span>);</span><br><span class="line">		<span class="comment">//smallest重最开始消费,largest重消费者启动后产生的数据才消费</span></span><br><span class="line">		<span class="comment">//等同--from-beginning</span></span><br><span class="line">		props.put(<span class="string">"auto.offset.reset"</span>, <span class="string">"smallest"</span>);</span><br><span class="line"></span><br><span class="line">		ConsumerConfig config = <span class="keyword">new</span> ConsumerConfig(props);</span><br><span class="line">		ConsumerConnector consumer =Consumer.createJavaConsumerConnector(config);</span><br><span class="line">		Map&lt;String, Integer&gt; topicCountMap = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</span><br><span class="line">		topicCountMap.put(topic, threads);</span><br><span class="line">		Map&lt;String, List&lt;KafkaStream&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt;&gt;&gt; consumerMap = consumer.createMessageStreams(topicCountMap);</span><br><span class="line">		List&lt;KafkaStream&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt;&gt; streams = consumerMap.get(topic);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">final</span> KafkaStream&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt; kafkaStream : streams)&#123;</span><br><span class="line">			<span class="comment">//因为指定了两个线程进行消费</span></span><br><span class="line">			<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">					<span class="keyword">for</span>(MessageAndMetadata&lt;<span class="keyword">byte</span>[], <span class="keyword">byte</span>[]&gt; mm : kafkaStream)&#123;</span><br><span class="line">						String msg = <span class="keyword">new</span> String(mm.message());</span><br><span class="line">						System.out.println(msg);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;).start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
           
@@ -1985,352 +2134,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/24/sparkStreaming笔记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Chen Bin">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cilibili">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/24/sparkStreaming笔记/" itemprop="url">SparkStreaming学习总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-24T15:15:49+08:00">
-                2019-07-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="SparkStreaming"><a href="#SparkStreaming" class="headerlink" title="SparkStreaming"></a>SparkStreaming</h1><h2 id="SparkStreaming-1"><a href="#SparkStreaming-1" class="headerlink" title="SparkStreaming"></a>SparkStreaming</h2><p>导入spark-streaming依赖</p>
-<h3 id="整合Kafka"><a href="#整合Kafka" class="headerlink" title="整合Kafka"></a>整合Kafka</h3><p>导入spark-streaming-kafka-0-8_2.11依赖（0-8kafka版本，2.11scala版本，0.8和0.10两个版本）</p>
-<p><strong>注意</strong> ：version可能是要求和spark-core版本一致，详见<a href="sparkStreaming学习总结/错误日志.xml">错误日志</a></p>
-<h4 id="无状态WordCount"><a href="#无状态WordCount" class="headerlink" title="无状态WordCount"></a>无状态WordCount</h4><ol>
-<li>创建StreamingContxt（用sparkConf）</li>
-</ol>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"KafkaWordCount"</span>).setMaster(<span class="string">"local[*]"</span>)</span><br><span class="line"><span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(conf, <span class="type">Seconds</span>(<span class="number">5</span>)) <span class="comment">//内部创建sparkContext(conf)</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>Kafka参数配置</li>
-</ol>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> zkQuorum = <span class="string">"node-1:2181,node-2:2181,node-3:2181"</span></span><br><span class="line"><span class="keyword">val</span> groupId = <span class="string">"g1"</span></span><br><span class="line"><span class="keyword">val</span> topic = <span class="type">Map</span>[<span class="type">String</span>, <span class="type">Int</span>](<span class="string">"xiaoniuabc"</span> -&gt; <span class="number">1</span>) <span class="comment">//1是topic对应的线程数</span></span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>AWL方式创建DStream（write ahead logs ）</li>
-</ol>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Kafak的ReceiverInputDStream[(String, String)]里面装的是一个元组（key，value是实际内容）</span></span><br><span class="line"><span class="keyword">val</span> data: <span class="type">ReceiverInputDStream</span>[(<span class="type">String</span>, <span class="type">String</span>)] = <span class="type">KafkaUtils</span>.createStream(ssc, zkQuorum, groupId, topic)</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>对DStream进行操作</li>
-</ol>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取出value里写的实际内容</span></span><br><span class="line"><span class="keyword">val</span> lines: <span class="type">DStream</span>[<span class="type">String</span>] = data.map(_._2)</span><br><span class="line"><span class="comment">//对DSteam进行操作，你操作这个抽象（代理，描述），就像操作一个本地的集合一样</span></span><br><span class="line"><span class="keyword">val</span> words: <span class="type">DStream</span>[<span class="type">String</span>] = lines.flatMap(_.split(<span class="string">" "</span>))</span><br><span class="line"><span class="keyword">val</span> wordAndOne: <span class="type">DStream</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = words.map((_, <span class="number">1</span>))</span><br><span class="line"><span class="keyword">val</span> reduced: <span class="type">DStream</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = wordAndOne.reduceByKey(_+_)</span><br><span class="line">reduced.print()</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>SparkStreaming程序启动和退出</li>
-</ol>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//启动sparksteaming程序</span></span><br><span class="line">ssc.start()</span><br><span class="line"><span class="comment">//等待优雅的退出</span></span><br><span class="line">ssc.awaitTermination()</span><br></pre></td></tr></table></figure>
-
-<h4 id="有状态WordCount"><a href="#有状态WordCount" class="headerlink" title="有状态WordCount"></a>有状态WordCount</h4><ol start="0">
-<li>可以在main方法外面定义updateStateByKey的函数参数</li>
-</ol>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 第一个参数：聚合的key，就是单词</span></span><br><span class="line"><span class="comment">  * 第二个参数：当前批次产生批次该单词在每一个分区出现的次数</span></span><br><span class="line"><span class="comment">  * 第三个参数：初始值或累加的中间结果</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="keyword">val</span> updateFunc = (iter: <span class="type">Iterator</span>[(<span class="type">String</span>, <span class="type">Seq</span>[<span class="type">Int</span>], <span class="type">Option</span>[<span class="type">Int</span>])]) =&gt; &#123;</span><br><span class="line">  iter.map(t =&gt; (t._1, t._2.sum + t._3.getOrElse(<span class="number">0</span>)))    <span class="comment">// -----&gt;方式一</span></span><br><span class="line">  <span class="comment">//iter.map&#123; case(x, y, z) =&gt; (x, y.sum + z.getOrElse(0))&#125; -----&gt;方式二（模式匹配）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>创建StreamingContxt（用sparkConf）</p>
-</li>
-<li><p><strong>设置checkpoint</strong></p>
-</li>
-</ol>
-<p>​    <strong>注意</strong> ：设置了checkpoint过后，对DStream的操作中间结果都涉及到写入写出，<u>所以对象可能会存在序列化问题</u> （比如DStream的foreachRDD方法里面代码在Driver端执行，但用到外部对象也会出现序列化问题）</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果要使用课更新历史数据（累加），那么就要把终结结果保存起来</span></span><br><span class="line">ssc.checkpoint(<span class="string">"./ck"</span>)</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>Kafka参数配置</li>
-<li>AWL方式创建DStream（write ahead logs ）</li>
-<li>对DStream进行操作</li>
-</ol>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//单词和一组合在一起</span></span><br><span class="line"><span class="keyword">val</span> wordAndOne: <span class="type">DStream</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = words.map((_, <span class="number">1</span>))</span><br><span class="line"><span class="comment">//聚合所有批次数据（但是只记录程序开始执行之后的数据，程序停止则丢失数据）</span></span><br><span class="line"><span class="comment">//ssc.sparkContext.defaultParallelism表示分区器使用默认的分区数量</span></span><br><span class="line"><span class="keyword">val</span> reduced: <span class="type">DStream</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = wordAndOne.updateStateByKey(updateFunc, <span class="keyword">new</span> <span class="type">HashPartitioner</span>(ssc.sparkContext.defaultParallelism), <span class="literal">true</span>) </span><br><span class="line"><span class="comment">//打印结果(Action)</span></span><br><span class="line">reduced.print()</span><br></pre></td></tr></table></figure>
-
-<ol start="6">
-<li>SparkStreaming程序启动和退出</li>
-</ol>
-<h3 id="直连方式-SparkStreaming-kafka-0-8"><a href="#直连方式-SparkStreaming-kafka-0-8" class="headerlink" title="直连方式-SparkStreaming-kafka-0.8"></a>直连方式-SparkStreaming-kafka-0.8</h3><h4 id="1-创建StreamingContxt（用sparkConf）"><a href="#1-创建StreamingContxt（用sparkConf）" class="headerlink" title="1. 创建StreamingContxt（用sparkConf）"></a>1. 创建StreamingContxt（用sparkConf）</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建SparkConf</span></span><br><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"OrderCount"</span>).setMaster(<span class="string">"local[4]"</span>)</span><br><span class="line"><span class="comment">//创建SparkStreaming，并设置间隔时间</span></span><br><span class="line"><span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(conf, <span class="type">Duration</span>(<span class="number">5000</span>))</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-Kafka参数配置"><a href="#2-Kafka参数配置" class="headerlink" title="2. Kafka参数配置"></a>2. Kafka参数配置</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指定组名</span></span><br><span class="line"><span class="keyword">val</span> group = <span class="string">"g001"</span></span><br><span class="line"><span class="comment">//指定消费的 topic 名字</span></span><br><span class="line"><span class="keyword">val</span> topic = <span class="string">"wordcount"</span></span><br><span class="line"><span class="comment">//指定kafka的broker地址(sparkStream的Task直连到kafka的分区上，用更加底层的API消费，效率更高)</span></span><br><span class="line"><span class="keyword">val</span> brokerList = <span class="string">"node-4:9092,node-5:9092,node-6:9092"</span></span><br><span class="line"><span class="comment">//指定zk的地址，后期更新消费的偏移量时使用(以后可以使用Redis、MySQL来记录偏移量)</span></span><br><span class="line"><span class="keyword">val</span> zkQuorum = <span class="string">"node-1:2181,node-2:2181,node-3:2181"</span></span><br><span class="line"><span class="comment">//创建 stream 时使用的 topic 名字集合，SparkStreaming可同时消费多个topic</span></span><br><span class="line"><span class="keyword">val</span> topics: <span class="type">Set</span>[<span class="type">String</span>] = <span class="type">Set</span>(topic)</span><br><span class="line"></span><br><span class="line"><span class="comment">//准备kafka的参数</span></span><br><span class="line"><span class="keyword">val</span> kafkaParams = <span class="type">Map</span>(</span><br><span class="line">    <span class="comment">//"key.deserializer" -&gt; classOf[StringDeserializer],</span></span><br><span class="line">    <span class="comment">//"value.deserializer" -&gt; classOf[StringDeserializer],</span></span><br><span class="line">    <span class="comment">//"deserializer.encoding" -&gt; "GB2312", //配置读取Kafka中数据的编码</span></span><br><span class="line">    <span class="string">"metadata.broker.list"</span> -&gt; brokerList,</span><br><span class="line">    <span class="string">"group.id"</span> -&gt; group,</span><br><span class="line">    <span class="comment">//从头（上次偏移量）开始读取数据，LargestTimeString:启动后开始读数据</span></span><br><span class="line">    <span class="string">"auto.offset.reset"</span> -&gt; kafka.api.<span class="type">OffsetRequest</span>.<span class="type">SmallestTimeString</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-创建zookeeper偏移量保存路径"><a href="#3-创建zookeeper偏移量保存路径" class="headerlink" title="3. 创建zookeeper偏移量保存路径"></a>3. 创建zookeeper偏移量保存路径</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个 ZKGroupTopicDirs 对象,其实是指定往zk中写入数据的目录，用于保存偏移量</span></span><br><span class="line"><span class="keyword">val</span> topicDirs = <span class="keyword">new</span> <span class="type">ZKGroupTopicDirs</span>(group, topic)</span><br><span class="line"><span class="comment">//获取 zookeeper 中的路径 "/g001/offsets/wordcount/"</span></span><br><span class="line"><span class="keyword">val</span> zkTopicPath = <span class="string">s"<span class="subst">$&#123;topicDirs.consumerOffsetDir&#125;</span>"</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="4-创建zookeeper客户端"><a href="#4-创建zookeeper客户端" class="headerlink" title="4. 创建zookeeper客户端"></a>4. 创建zookeeper客户端</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//zookeeper 的host 和 ip，创建一个 client,用于跟新偏移量量的</span></span><br><span class="line"><span class="comment">//是zookeeper的客户端，可以从zk中读取偏移量数据，并更新偏移量</span></span><br><span class="line"><span class="keyword">val</span> zkClient = <span class="keyword">new</span> <span class="type">ZkClient</span>(zkQuorum)</span><br></pre></td></tr></table></figure>
-
-<h4 id="5-定义保存kafkaSteam和偏移量的变量"><a href="#5-定义保存kafkaSteam和偏移量的变量" class="headerlink" title="5. 定义保存kafkaSteam和偏移量的变量"></a>5. 定义保存<strong>kafkaSteam</strong>和<strong>偏移量</strong>的变量</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//kafkaStream的值根据是否记录过便宜量分两种方法读取</span></span><br><span class="line"><span class="keyword">var</span> kafkaStream: <span class="type">InputDStream</span>[(<span class="type">String</span>, <span class="type">String</span>)] = <span class="literal">null</span></span><br><span class="line"><span class="comment">//如果 zookeeper 中有保存 offset，我们会利用这个 offset 作为 kafkaStream 的起始位置</span></span><br><span class="line"><span class="keyword">var</span> fromOffsets: <span class="type">Map</span>[<span class="type">TopicAndPartition</span>, <span class="type">Long</span>] = <span class="type">Map</span>()</span><br></pre></td></tr></table></figure>
-
-<h4 id="6-查询同个group-amp-topic下分区数量，分是否保存过offset分别处理"><a href="#6-查询同个group-amp-topic下分区数量，分是否保存过offset分别处理" class="headerlink" title="6. 查询同个group&amp;topic下分区数量，分是否保存过offset分别处理"></a>6. 查询同个group&amp;topic下分区数量，分是否保存过offset分别处理</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查询该路径下是否子节点（默认有字节点为我们自己保存不同 partition 时生成的）</span></span><br><span class="line"><span class="comment">// /g001/offsets/wordcount/0/10001"  --&gt; 0号分区/偏移量10001</span></span><br><span class="line"><span class="comment">// /g001/offsets/wordcount/1/30001"  ...</span></span><br><span class="line"><span class="comment">// /g001/offsets/wordcount/2/10001"  ...</span></span><br><span class="line"><span class="comment">//zkTopicPath  -&gt; /g001/offsets/wordcount/</span></span><br><span class="line"><span class="keyword">val</span> children = zkClient.countChildren(zkTopicPath)<span class="comment">//返回分区数量</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="7-调用KafkaUtils-createDirectStream创建kafkaStream"><a href="#7-调用KafkaUtils-createDirectStream创建kafkaStream" class="headerlink" title="7. 调用KafkaUtils.createDirectStream创建kafkaStream"></a>7. 调用KafkaUtils.createDirectStream创建kafkaStream</h4><ul>
-<li><p>如存在偏移量</p>
-<ol>
-<li>取出偏移量存入之前创建的保存偏移量的参数(fromOffsets)中</li>
-<li>创建函数将MessageAndMetadata[String, String]取出message转成tupple类型</li>
-<li>调用createDirectStream，传入ssc、kafka参数、fromOffsets、和MessageAndMetadata函数</li>
-</ol>
-</li>
-<li><p>未存在偏移量</p>
-<ol>
-<li><p>直接调用createDirectStream，传入ssc、kafka参数、和topics  (Set[String]类型) </p>
-<p>注：可能因为fromOffsets: Map[TopicAndPartition, Long]存在topic信息所以不用传topics了</p>
-</li>
-</ol>
-</li>
-</ul>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果保存过 offset</span></span><br><span class="line"><span class="keyword">if</span> (children &gt; <span class="number">0</span>) &#123;</span><br><span class="line">  <span class="keyword">for</span> (i &lt;- <span class="number">0</span> until children) &#123;</span><br><span class="line">    <span class="comment">// 假如存在偏移量保存路径：/g001/offsets/wordcount/0/10001</span></span><br><span class="line">    <span class="comment">// $zkTopicPath/$&#123;i&#125;:g001/offsets/wordcount/0</span></span><br><span class="line">	<span class="comment">// partitionOffset:10001</span></span><br><span class="line">    <span class="keyword">val</span> partitionOffset = zkClient.readData[<span class="type">String</span>](<span class="string">s"<span class="subst">$zkTopicPath</span>/<span class="subst">$&#123;i&#125;</span>"</span>)</span><br><span class="line">    <span class="comment">// wordcount/0</span></span><br><span class="line">    <span class="keyword">val</span> tp = <span class="type">TopicAndPartition</span>(topic, i)</span><br><span class="line">    <span class="comment">//将不同 partition 对应的 offset 增加到 fromOffsets 中</span></span><br><span class="line">    <span class="comment">// wordcount/0 -&gt; 10001</span></span><br><span class="line">    fromOffsets += (tp -&gt; partitionOffset.toLong)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//Key: kafka的key   values: "hello tom hello jerry"</span></span><br><span class="line">  <span class="comment">//这个会将 kafka 的消息进行 transform，最终 kafak 的数据都会变成 (kafka的key, message) 这样的 tuple，也可以用（mmd.topic(), mmd.message()）获得topic,value这样的数据</span></span><br><span class="line">  <span class="keyword">val</span> messageHandler = (mmd: <span class="type">MessageAndMetadata</span>[<span class="type">String</span>, <span class="type">String</span>]) =&gt; (mmd.key(), mmd.message())																</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//通过KafkaUtils创建直连的DStream（fromOffsets参数的作用是:按照前面计算好了的偏移量继续消费数据）</span></span><br><span class="line">  <span class="comment">//[String, String, StringDecoder, StringDecoder,     (String, String)]</span></span><br><span class="line">  <span class="comment">//  key    value    key的解码方式   value的解码方式 </span></span><br><span class="line">  kafkaStream = <span class="type">KafkaUtils</span>.createDirectStream[<span class="type">String</span>, <span class="type">String</span>, <span class="type">StringDecoder</span>, <span class="type">StringDecoder</span>, (<span class="type">String</span>, <span class="type">String</span>)](ssc, kafkaParams, fromOffsets, messageHandler)</span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">//如果未保存，根据 kafkaParam 的配置使用最新(largest)或者最旧的（smallest） offset</span></span><br><span class="line">  kafkaStream = <span class="type">KafkaUtils</span>.createDirectStream[<span class="type">String</span>, <span class="type">String</span>, <span class="type">StringDecoder</span>, <span class="type">StringDecoder</span>](ssc, kafkaParams, topics)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="8-定义保存偏移量范围的变量"><a href="#8-定义保存偏移量范围的变量" class="headerlink" title="8. 定义保存偏移量范围的变量"></a>8. 定义保存<strong>偏移量范围</strong>的变量</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//偏移量的范围</span></span><br><span class="line"><span class="keyword">var</span> offsetRanges = <span class="type">Array</span>[<span class="type">OffsetRange</span>]()</span><br></pre></td></tr></table></figure>
-
-<h4 id="9-调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存"><a href="#9-调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存" class="headerlink" title="9. 调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存"></a>9. 调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从kafka读取的消息，DStream的Transform方法可以将当前批次的RDD获取出来</span></span><br><span class="line"><span class="comment">//该transform方法计算获取到当前批次RDD,然后将RDD的偏移量取出来，然后在将RDD返回到DStream</span></span><br><span class="line"><span class="keyword">val</span> transform: <span class="type">DStream</span>[(<span class="type">String</span>, <span class="type">String</span>)] = kafkaStream.transform &#123; rdd =&gt;</span><br><span class="line">  <span class="comment">//得到该 rdd 对应 kafka 的消息的 offset</span></span><br><span class="line">  <span class="comment">//该RDD是一个KafkaRDD，可以获得偏移量的范围</span></span><br><span class="line">  offsetRanges = rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges</span><br><span class="line">  rdd<span class="comment">//将原kafkaStream原封返回</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="10-只获取kafkaStream中的message"><a href="#10-只获取kafkaStream中的message" class="headerlink" title="10. 只获取kafkaStream中的message"></a>10. 只获取kafkaStream中的message</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> messages: <span class="type">DStream</span>[<span class="type">String</span>] = transform.map(_._2)</span><br></pre></td></tr></table></figure>
-
-<h4 id="11-对DStream调用foreachRDD进行操作每个RDD流"><a href="#11-对DStream调用foreachRDD进行操作每个RDD流" class="headerlink" title="11. 对DStream调用foreachRDD进行操作每个RDD流"></a>11. 对DStream调用foreachRDD进行操作每个RDD流</h4><ul>
-<li><h4 id="将偏移量保存到zookeeper的gropu-offset-topic-partition路径下"><a href="#将偏移量保存到zookeeper的gropu-offset-topic-partition路径下" class="headerlink" title="将偏移量保存到zookeeper的gropu/offset/topic/partition路径下"></a>将偏移量保存到zookeeper的gropu/offset/topic/partition路径下</h4></li>
-</ul>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//依次迭代DStream中的RDD</span></span><br><span class="line"><span class="comment">//注意!：kafkaStream.foreachRDD里面的业务逻辑是在Driver端执行、kafkaRDD.maps里定义的方法才是在Excutor里执行，maps方法是在Driver端执行</span></span><br><span class="line"><span class="comment">//foreachRDD只是把每个RDD拿出来，没有触发Action</span></span><br><span class="line">messages.foreachRDD &#123; rdd =&gt;</span><br><span class="line">  <span class="comment">//对RDD进行操作，触发Action</span></span><br><span class="line">  rdd.foreachPartition(partition =&gt;</span><br><span class="line">    partition.foreach(x =&gt; &#123;</span><br><span class="line">      println(x)</span><br><span class="line">    &#125;)</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (o &lt;- offsetRanges) &#123;</span><br><span class="line">    <span class="comment">//  /g001/offsets/wordcount/0</span></span><br><span class="line">    <span class="keyword">val</span> zkPath = <span class="string">s"<span class="subst">$&#123;topicDirs.consumerOffsetDir&#125;</span>/<span class="subst">$&#123;o.partition&#125;</span>"</span></span><br><span class="line">    <span class="comment">//将该 partition 的 offset 保存到 zookeeper</span></span><br><span class="line">    <span class="comment">//  /g001/offsets/wordcount/0/20000（untilOffset是截至的偏移量）</span></span><br><span class="line">    <span class="type">ZkUtils</span>.updatePersistentPath(zkClient, zkPath, o.untilOffset.toString)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="12-SparkStreaming程序启动和退出"><a href="#12-SparkStreaming程序启动和退出" class="headerlink" title="12. SparkStreaming程序启动和退出"></a>12. SparkStreaming程序启动和退出</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssc.start()</span><br><span class="line">ssc.awaitTermination()</span><br></pre></td></tr></table></figure>
-
-<p><strong>备注</strong>：也可以在kafkaStream.foreachRDD中对kafkaRDD强转获取到偏移量（只能对kafkaRDD进行强转）</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//直连方式只有在KafkaDStream的RDD中才能获取偏移量，那么就不能再调用DStream的Transformation</span></span><br><span class="line"><span class="comment">//所以只能在kafkaStream调用foreachRDD，获取RDD的偏移量，然后就是对RDD进行操作了</span></span><br><span class="line"><span class="comment">//依次迭代KafkaDStream中的KafkaRDD</span></span><br><span class="line">kafkaStream.foreachRDD &#123; kafkaRDD =&gt;</span><br><span class="line">  <span class="comment">//只有KafkaRDD可以强转成HasOffsetRanges，并获取到偏移量</span></span><br><span class="line">  offsetRanges = kafkaRDD.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges</span><br><span class="line">  <span class="keyword">val</span> lines: <span class="type">RDD</span>[<span class="type">String</span>] = kafkaRDD.map(_._2)</span><br></pre></td></tr></table></figure>
-
-<h4 id="13-补充：kafka直连方式消费多个topic"><a href="#13-补充：kafka直连方式消费多个topic" class="headerlink" title="13. 补充：kafka直连方式消费多个topic"></a>13. 补充：<a href="https://blog.csdn.net/Lu_Xiao_Yue/article/details/84075565" target="_blank" rel="noopener">kafka直连方式消费多个topic</a></h4><h4 id="Kafka知识补充"><a href="#Kafka知识补充" class="headerlink" title="Kafka知识补充"></a>Kafka知识补充</h4><h5 id="1-Kafka分区"><a href="#1-Kafka分区" class="headerlink" title="1. Kafka分区"></a>1. Kafka分区</h5><ul>
-<li>0、1、2代表数据的不同分区</li>
-<li>0`、1`、2`代表不同的副本</li>
-<li>生产者向一个leader分区发送数据，消费者也向leader分区消费数据（可以配置消费者向非leader分区消费）</li>
-<li>数据的分区数量可以任意，副本数量不大于启动kafka机器的数量<br><img src="//yoursite.com/2019/07/24/sparkStreaming笔记/sparkStreaming%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%5Ckafka%E5%88%86%E5%8C%BA%E5%8E%9F%E7%90%86.png" alt="Kafka分区原理"></li>
-</ul>
-
-
-<h5 id="2-kafka直连"><a href="#2-kafka直连" class="headerlink" title="2. kafka直连"></a>2. kafka直连</h5><p>Direct方式采用Kafka简单的consumer api方式来读取数据，无需经由ZooKeeper，此种方式不再需要专门Receiver来持续不断读取数据。当batch任务触发时，由Executor读取数据，并参与到其他Executor的数据计算过程中去。driver来决定读取多少offsets，并将offsets交由checkpoints来维护。将触发下次batch任务，再由Executor读取Kafka数据并计算。从此过程我们可以发现Direct方式无需Receiver读取数据，而是需要计算时再读取数据，所以Direct方式的数据消费对内存的要求不高，只需要考虑批量计算所需要的内存即可；另外batch任务堆积时，也不会影响数据堆积。其具体读取方式如下图：</p>
-<p>Receiver方式：<img src="//yoursite.com/2019/07/24/sparkStreaming笔记/sparkStreaming%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%5CReceiver%E6%96%B9%E5%BC%8F.png" alt="Receiver方式"></p>
-
-
-
-
-
-
-<p>直连方式：<img src="//yoursite.com/2019/07/24/sparkStreaming笔记/sparkStreaming%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%5C%E7%9B%B4%E8%BF%9E%E6%96%B9%E5%BC%8F.png" alt="直连方式"></p>
-
-
-
-
-<h3 id="直连方式-SparkStreaming-kafka-0-10"><a href="#直连方式-SparkStreaming-kafka-0-10" class="headerlink" title="直连方式-SparkStreaming-kafka-0.10"></a>直连方式-SparkStreaming-kafka-0.10</h3><h4 id="1-创建StreamingContxt（用sparkConf）-1"><a href="#1-创建StreamingContxt（用sparkConf）-1" class="headerlink" title="1. 创建StreamingContxt（用sparkConf）"></a>1. 创建StreamingContxt（用sparkConf）</h4><h4 id="2-Kafka参数配置-1"><a href="#2-Kafka参数配置-1" class="headerlink" title="2. Kafka参数配置"></a>2. Kafka参数配置</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> topics = <span class="type">Array</span>(topic)	<span class="comment">//数组方式保存topics</span></span><br><span class="line"><span class="keyword">val</span> kafkaParams = <span class="type">Map</span>[<span class="type">String</span>, <span class="type">Object</span>](</span><br><span class="line">    <span class="comment">//即0.8版的broker-list</span></span><br><span class="line">   <span class="string">"bootstrap.servers"</span> -&gt; <span class="string">"node-1:9092,node-2:9092,node-3:9092"</span>,</span><br><span class="line">   <span class="string">"key.deserializer"</span> -&gt; classOf[<span class="type">StringDeserializer</span>],</span><br><span class="line">   <span class="string">"value.deserializer"</span> -&gt; classOf[<span class="type">StringDeserializer</span>],</span><br><span class="line">   <span class="string">"group.id"</span> -&gt; group,</span><br><span class="line">   <span class="string">"auto.offset.reset"</span> -&gt; <span class="string">"earliest"</span>, <span class="comment">// lastest</span></span><br><span class="line">   <span class="string">"enable.auto.commit"</span> -&gt; (<span class="literal">false</span>: java.lang.<span class="type">Boolean</span>) <span class="comment">// false代表自己写程序提交偏移量 </span></span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-创建SparkDStream-一个API"><a href="#3-创建SparkDStream-一个API" class="headerlink" title="3. 创建SparkDStream(一个API)"></a>3. 创建SparkDStream(一个API)</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用直连方式读取kafka中的数据，在Kafka中记录读取偏移量</span></span><br><span class="line"><span class="comment">//spark-kafka-0.8把偏移量保存在zookeeper里，也可存在redis等里</span></span><br><span class="line"><span class="keyword">val</span> stream = <span class="type">KafkaUtils</span>.createDirectStream[<span class="type">String</span>, <span class="type">String</span>](</span><br><span class="line">  streamingContext,</span><br><span class="line">  <span class="comment">//位置策略（如果kafka和spark程序部署在一起，会有最优位置）</span></span><br><span class="line">  <span class="type">PreferConsistent</span>,</span><br><span class="line">  <span class="comment">//订阅的策略（可以指定用正则的方式读取topic，比如my-ordsers-.*）</span></span><br><span class="line">  <span class="type">Subscribe</span>[<span class="type">String</span>, <span class="type">String</span>](topics, kafkaParams)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-获取跟新偏移量，操作DStream"><a href="#4-获取跟新偏移量，操作DStream" class="headerlink" title="4. 获取跟新偏移量，操作DStream"></a>4. 获取跟新偏移量，操作DStream</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//迭代DStream中的RDD，将每一个时间点对于的RDD拿出来</span></span><br><span class="line">stream.foreachRDD &#123; rdd =&gt;</span><br><span class="line">  <span class="keyword">if</span>(!rdd.isEmpty()) &#123;</span><br><span class="line">    <span class="comment">//获取该RDD对于的偏移量</span></span><br><span class="line">    <span class="keyword">val</span> offsetRanges = rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges</span><br><span class="line">	<span class="comment">//拿出对于的数据，foreach是一个aciton</span></span><br><span class="line">    rdd.foreach&#123; line =&gt;</span><br><span class="line">		<span class="comment">//Kafka在消费偏移量之后的数据不一定按顺序进行消费（因为有多个Consumer同时进行消费）</span></span><br><span class="line">		println(line.key() + <span class="string">" "</span> + line.value())</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//更新偏移量</span></span><br><span class="line">    <span class="comment">// some time later, after outputs have completed</span></span><br><span class="line">    stream.asInstanceOf[<span class="type">CanCommitOffsets</span>].commitAsync(offsetRanges)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="5-SparkStreaming程序启动和退出"><a href="#5-SparkStreaming程序启动和退出" class="headerlink" title="5. SparkStreaming程序启动和退出"></a>5. SparkStreaming程序启动和退出</h4><h3 id="订单项目示例（离线和实时）-非常重要"><a href="#订单项目示例（离线和实时）-非常重要" class="headerlink" title="订单项目示例（离线和实时）*非常重要*"></a>订单项目示例（离线和实时）*非常重要*</h3><p>数据：A 202.106.196.115 手机 iPhone8 8000</p>
-<h4 id="0-用到的工具类（Object）："><a href="#0-用到的工具类（Object）：" class="headerlink" title="0. 用到的工具类（Object）："></a>0. 用到的工具类（Object）：</h4><ul>
-<li>离线计算 IP-地址 规则</li>
-</ul>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">broadcastIpRules</span></span>(ssc: <span class="type">StreamingContext</span>, ipRulesPath: <span class="type">String</span>): <span class="type">Broadcast</span>[<span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)]] = &#123;</span><br><span class="line">  <span class="comment">//现获取sparkContext</span></span><br><span class="line">  <span class="keyword">val</span> sc = ssc.sparkContext</span><br><span class="line">  <span class="keyword">val</span> rulesLines:<span class="type">RDD</span>[<span class="type">String</span>] = sc.textFile(ipRulesPath)</span><br><span class="line">  <span class="comment">//整理ip规则数据</span></span><br><span class="line">  <span class="keyword">val</span> ipRulesRDD: <span class="type">RDD</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = rulesLines.map(line =&gt; &#123;</span><br><span class="line"> 	...</span><br><span class="line">    (startNum, endNum, province)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">//将分散在多个Executor中的部分IP规则收集到Driver端</span></span><br><span class="line">  <span class="keyword">val</span> rulesInDriver: <span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = ipRulesRDD.collect()</span><br><span class="line">  <span class="comment">//将Driver端的数据广播到Executor</span></span><br><span class="line">  <span class="comment">//广播变量的引用（还在Driver端）</span></span><br><span class="line">  sc.broadcast(rulesInDriver)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>计算成交总金额（一个批次收入存入Redis，流数据不断累加）</li>
-</ul>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculateIncome</span></span>(fields: <span class="type">RDD</span>[<span class="type">Array</span>[<span class="type">String</span>]]) = &#123;</span><br><span class="line">  <span class="comment">//将数据计算后写入到Reids</span></span><br><span class="line">  <span class="keyword">val</span> priceRDD: <span class="type">RDD</span>[<span class="type">Double</span>] = fields.map(arr =&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> price = arr(<span class="number">4</span>).toDouble</span><br><span class="line">    price</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">//reduce是一个Action，会把结果返回到Driver端</span></span><br><span class="line">  <span class="comment">//将当前批次的总金额返回了</span></span><br><span class="line">  <span class="keyword">val</span> sum: <span class="type">Double</span> = priceRDD.reduce(_+_)</span><br><span class="line">  <span class="comment">//获取一个jedis连接（在Driver端创建）</span></span><br><span class="line">  <span class="keyword">val</span> conn = <span class="type">JedisConnectionPool</span>.getConnection()</span><br><span class="line">  <span class="comment">//将历史值和当前的值进行累加</span></span><br><span class="line">  <span class="comment">//conn.set(Constant.TOTAL_INCOME, sum.toString)</span></span><br><span class="line">  conn.incrByFloat(<span class="type">Constant</span>.<span class="type">TOTAL_INCOME</span>, sum)</span><br><span class="line">  <span class="comment">//释放连接</span></span><br><span class="line">  conn.close()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>计算商品分类成交总金额（一个批次收入存入Redis，流数据不断累加）</li>
-</ul>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculateItem</span></span>(fields: <span class="type">RDD</span>[<span class="type">Array</span>[<span class="type">String</span>]]) = &#123;</span><br><span class="line">  <span class="comment">//备注：对field的map方法是在哪一端调用的呢？Driver，只是map里面的方法还没执行</span></span><br><span class="line">  <span class="keyword">val</span> itemAndPrice: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Double</span>)] = fields.map(arr =&gt; &#123;</span><br><span class="line">    <span class="comment">//分类</span></span><br><span class="line">    <span class="keyword">val</span> item = arr(<span class="number">2</span>)</span><br><span class="line">    <span class="comment">//金额</span></span><br><span class="line">    <span class="keyword">val</span> parice = arr(<span class="number">4</span>).toDouble</span><br><span class="line">    (item, parice)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">//按照商品分类进行聚合</span></span><br><span class="line">  <span class="keyword">val</span> reduced: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Double</span>)] = itemAndPrice.reduceByKey(_+_)</span><br><span class="line">  <span class="comment">//将当前批次的数据累加到Redis中</span></span><br><span class="line">  <span class="comment">//foreachPartition是一个Action</span></span><br><span class="line">  <span class="comment">//现在这种方式，jeids的连接是在哪一端创建的（Driver）</span></span><br><span class="line">  <span class="comment">//在Driver端拿Jedis连接不好(要序列化)</span></span><br><span class="line">  <span class="comment">//val conn = JedisConnectionPool.getConnection()</span></span><br><span class="line">  reduced.foreachPartition(part =&gt; &#123;</span><br><span class="line">    <span class="comment">//获取一个Jedis连接</span></span><br><span class="line">    <span class="comment">//这个连接其实是在Executor中的获取的</span></span><br><span class="line">    <span class="comment">//JedisConnectionPool在一个Executor进程中只有1个实例（单例）</span></span><br><span class="line">    <span class="keyword">val</span> conn = <span class="type">JedisConnectionPool</span>.getConnection()</span><br><span class="line">    part.foreach(t =&gt; &#123;</span><br><span class="line">      <span class="comment">//一个连接更新多条数据</span></span><br><span class="line">      conn.incrByFloat(t._1, t._2)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">//将当前分区中的数据跟新完在关闭连接</span></span><br><span class="line">    conn.close()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>计算省份成交总金额（一个批次收入存入Redis，流数据不断累加）</li>
-</ul>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculateZone</span></span>(fields: <span class="type">RDD</span>[<span class="type">Array</span>[<span class="type">String</span>]], broadcastRef: <span class="type">Broadcast</span>[<span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)]]) = &#123;</span><br><span class="line">  <span class="keyword">val</span> provinceAndPrice: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Double</span>)] = fields.map(arr =&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> ip = arr(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">val</span> price = arr(<span class="number">4</span>).toDouble</span><br><span class="line">    <span class="keyword">val</span> ipNum = <span class="type">MyUtils</span>.ip2Long(ip)</span><br><span class="line">    <span class="comment">//在Executor中获取到广播的全部规则</span></span><br><span class="line">    <span class="keyword">val</span> allRules: <span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = broadcastRef.value</span><br><span class="line">    <span class="comment">//二分法查找,根据Ip计算归属地</span></span><br><span class="line">    <span class="keyword">val</span> index = <span class="type">MyUtils</span>.binarySearch(allRules, ipNum)</span><br><span class="line">    <span class="keyword">var</span> province = <span class="string">"未知"</span></span><br><span class="line">    <span class="keyword">if</span> (index != <span class="number">-1</span>) &#123;</span><br><span class="line">      province = allRules(index)._3</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//省份，订单金额</span></span><br><span class="line">    (province, price)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">//按省份进行聚合</span></span><br><span class="line">  <span class="keyword">val</span> reduced: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Double</span>)] = provinceAndPrice.reduceByKey(_+_)</span><br><span class="line">  <span class="comment">//将数据跟新到Redis</span></span><br><span class="line"><span class="comment">//key不多的话可以用.foreach</span></span><br><span class="line">  reduced.foreachPartition(part =&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> conn = <span class="type">JedisConnectionPool</span>.getConnection()</span><br><span class="line">    part.foreach(t =&gt; &#123;</span><br><span class="line">      conn.incrByFloat(t._1, t._2)</span><br><span class="line">    &#125;)</span><br><span class="line">    conn.close()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-创建StreamingContxt（用sparkConf）-2"><a href="#1-创建StreamingContxt（用sparkConf）-2" class="headerlink" title="1. 创建StreamingContxt（用sparkConf）"></a>1. 创建StreamingContxt（用sparkConf）</h4><h4 id="2-广播离线计算的-IP-地址-规则"><a href="#2-广播离线计算的-IP-地址-规则" class="headerlink" title="*2. *广播离线计算的 IP-地址 规则**"></a>*<em>2. *</em>广播离线计算的 IP-地址 规则**</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> broadcastRef: <span class="type">Broadcast</span>[<span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)]] = <span class="type">IPUtils</span>.broadcastIpRules(ssc, <span class="string">"/Users/zx/Desktop/temp/spark-24/spark-4/ip/ip.txt"</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-Kafka参数配置"><a href="#3-Kafka参数配置" class="headerlink" title="3. Kafka参数配置"></a>3. Kafka参数配置</h4><h4 id="4-创建zookeeper偏移量保存路径"><a href="#4-创建zookeeper偏移量保存路径" class="headerlink" title="4. 创建zookeeper偏移量保存路径"></a>4. 创建zookeeper偏移量保存路径</h4><h4 id="5-创建zookeeper客户端"><a href="#5-创建zookeeper客户端" class="headerlink" title="5. 创建zookeeper客户端"></a>5. 创建zookeeper客户端</h4><h4 id="6-定义保存kafkaSteam和偏移量的变量"><a href="#6-定义保存kafkaSteam和偏移量的变量" class="headerlink" title="6. 定义保存kafkaSteam和偏移量的变量"></a>6. 定义保存<strong>kafkaSteam</strong>和<strong>偏移量</strong>的变量</h4><h4 id="7-查询同个group-amp-topic下分区数量，分是否保存过offset分别处理"><a href="#7-查询同个group-amp-topic下分区数量，分是否保存过offset分别处理" class="headerlink" title="7. 查询同个group&amp;topic下分区数量，分是否保存过offset分别处理"></a>7. 查询同个group&amp;topic下分区数量，分是否保存过offset分别处理</h4><h4 id="8-调用KafkaUtils-createDirectStream创建kafkaStream"><a href="#8-调用KafkaUtils-createDirectStream创建kafkaStream" class="headerlink" title="8. 调用KafkaUtils.createDirectStream创建kafkaStream"></a>8. 调用KafkaUtils.createDirectStream创建kafkaStream</h4><h4 id="9-定义保存偏移量范围的变量"><a href="#9-定义保存偏移量范围的变量" class="headerlink" title="9. 定义保存偏移量范围的变量"></a>9. 定义保存<strong>偏移量范围</strong>的变量</h4><h4 id="10-调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存"><a href="#10-调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存" class="headerlink" title="10. 调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存"></a>10. 调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存</h4><h4 id="11-只获取kafkaStream中的message"><a href="#11-只获取kafkaStream中的message" class="headerlink" title="11. 只获取kafkaStream中的message"></a>11. 只获取kafkaStream中的message</h4><h4 id="12-对DStream调用foreachRDD进行操作每个RDD流"><a href="#12-对DStream调用foreachRDD进行操作每个RDD流" class="headerlink" title="***12. 对DStream调用foreachRDD进行操作每个RDD流"></a>***12. 对DStream调用foreachRDD进行操作每个RDD流</h4><ul>
-<li><h4 id="将偏移量保存到zookeeper的gropu-offset-topic-partition路径下-1"><a href="#将偏移量保存到zookeeper的gropu-offset-topic-partition路径下-1" class="headerlink" title="将偏移量保存到zookeeper的gropu/offset/topic/partition路径下"></a>将偏移量保存到zookeeper的gropu/offset/topic/partition路径下</h4></li>
-</ul>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注意!：kafkaStream.foreachRDD里面的业务逻辑是在Driver端执行、kafkaRDD.maps是在Excutor里执行</span></span><br><span class="line">kafkaStream.foreachRDD &#123; kafkaRDD =&gt;</span><br><span class="line">  <span class="comment">//判断当前的kafkaStream中的RDD是否有数据</span></span><br><span class="line">  <span class="comment">//注意！！！！！kafkaRDD为空下面的map方法就不能执行（容易踩坑点）</span></span><br><span class="line">  <span class="keyword">if</span>(!kafkaRDD.isEmpty()) &#123;</span><br><span class="line">    <span class="comment">//只有KafkaRDD可以强转成HasOffsetRanges，并获取到偏移量</span></span><br><span class="line">    <span class="comment">//offsetRanges = kafkaRDD.asInstanceOf[HasOffsetRanges].offsetRanges</span></span><br><span class="line">    <span class="comment">//				备注：=============================&gt;在这里获取偏移量范围取代第10步操作</span></span><br><span class="line">      </span><br><span class="line">    <span class="comment">//val lines: RDD[String] = kafkaRDD.map(_._2)</span></span><br><span class="line">	<span class="comment">//				备注：================&gt;在这里获取kafkaStream中的message取代第11步操作</span></span><br><span class="line">      </span><br><span class="line">    <span class="comment">//整理数据</span></span><br><span class="line">	<span class="comment">//备注：RDD在Driver端生成,但里面函数没执行，可以把RDD引用传递给方法</span></span><br><span class="line">    <span class="keyword">val</span> fields: <span class="type">RDD</span>[<span class="type">Array</span>[<span class="type">String</span>]] = lines.map(_.split(<span class="string">" "</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment">//流式数据在这些定义的方法里不断经过处理，计算结果保存到Redis中</span></span><br><span class="line">    <span class="comment">//计算成交总金额</span></span><br><span class="line">    <span class="type">CalculateUtil</span>.calculateIncome(fields)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//计算商品分类金额</span></span><br><span class="line">    <span class="type">CalculateUtil</span>.calculateItem(fields)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//计算区域成交金额</span></span><br><span class="line">    <span class="type">CalculateUtil</span>.calculateZone(fields, broadcastRef)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//偏移量更新在哪一端（Driver）</span></span><br><span class="line">    <span class="keyword">for</span> (o &lt;- offsetRanges) &#123;</span><br><span class="line">      <span class="comment">//  /g001/offsets/wordcount/0</span></span><br><span class="line">      <span class="keyword">val</span> zkPath = <span class="string">s"<span class="subst">$&#123;topicDirs.consumerOffsetDir&#125;</span>/<span class="subst">$&#123;o.partition&#125;</span>"</span></span><br><span class="line">      <span class="comment">//将该 partition 的 offset 保存到 zookeeper</span></span><br><span class="line">      <span class="comment">//  /g001/offsets/wordcount/0/20000</span></span><br><span class="line">      <span class="type">ZkUtils</span>.updatePersistentPath(zkClient, zkPath, o.untilOffset.toString)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="13-SparkStreaming程序启动和退出"><a href="#13-SparkStreaming程序启动和退出" class="headerlink" title="13. SparkStreaming程序启动和退出"></a>13. SparkStreaming程序启动和退出</h4><h3 id="直接监听Socket"><a href="#直接监听Socket" class="headerlink" title="直接监听Socket"></a>直接监听Socket</h3><p>在Linux上用yum安装nc    yum install -y nc</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//线程数量必须要两个以上</span></span><br><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"SteamingWordCount"</span>).setMaster(<span class="string">"local[2]"</span>) </span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="comment">//StreamingContext是对SparkContext的包装，包了一层就增加了实时的功能</span></span><br><span class="line"><span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(sc, <span class="type">Milliseconds</span>(<span class="number">5000</span>))</span><br><span class="line"><span class="comment">//有了StreamingContext，就可以创建SparkStreaming的抽象了DSteam</span></span><br><span class="line"><span class="comment">//从一个socket端口中读取数据</span></span><br><span class="line"><span class="keyword">val</span> lines: <span class="type">ReceiverInputDStream</span>[<span class="type">String</span>] = ssc.socketTextStream(<span class="string">"192.168.1.207"</span>, <span class="number">8888</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Spark-On-Yarn"><a href="#Spark-On-Yarn" class="headerlink" title="Spark On Yarn"></a>Spark On Yarn</h2><p><a href="sparkStreaming学习总结/spark-on-yarn.docx">详见文档</a></p>
-<ol>
-<li><p>环境</p>
-<ul>
-<li><p>安装hadoop：需要安装HDFS模块和YARN模块，HDFS必须安装，spark运行时要把jar包存放到HDFS上。</p>
-</li>
-<li><p>安装Spark：解压Spark安装程序到一台服务器上，修改spark-env.sh配置文件，spark程序将作为YARN的客户端用于提交任务</p>
-<p>Tips：或者把HADOOP_CONF_DIR在/etc/profile里配置</p>
-</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/local/jdk1.8.0_131</span><br><span class="line">export HADOOP_CONF_DIR=$HADOOP_HOME/etc/Hadoop</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li><p>提交任务</p>
-<ul>
-<li><strong>cluster模式</strong></li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">./bin/spark-submit --class org.apache.spark.examples.SparkPi \</span><br><span class="line">--master yarn \</span><br><span class="line">--deploy-mode cluster \</span><br><span class="line">--driver-memory 1g \</span><br><span class="line">--executor-memory 1g \</span><br><span class="line">--executor-cores 2 \</span><br><span class="line">--queue default \  			#默认资源调度器</span><br><span class="line">lib/spark-examples*.jar \</span><br><span class="line">10						#参数</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>client模式</p>
-<p>修改$HADOOP_HOME /etc/hadoop所有yarn节点的yarn-site.xml，在该文件中添加如下配置</p>
-<p>修改内存检测机制</p>
-</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.pmem-check-enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.vmem-check-enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--deploy-mode client \ #其余不变</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li><p>两种模式的区别</p>
-<ul>
-<li><p>cluster模式：Driver程序在YARN中运行，应用的运行结果不能在客户端显示，所以最好运行那些将结果最终保存在外部存储介质（如HDFS、Redis、Mysql）而非stdout输出的应用程序，客户端的终端显示的仅是作为YARN的job的简单运行状况。</p>
-</li>
-<li><p>client模式：Driver运行在Client上，应用程序运行结果会在客户端显示，所有适合运行结果有输出的应用程序（如spark-shell）</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="DStream知识补充"><a href="#DStream知识补充" class="headerlink" title="DStream知识补充"></a>DStream知识补充</h2><p>Spark Streaming是一个基于Spark Core之上的实时计算框架，可以从很多数据源消费数据并对数据进行处理，在Spark Streaing中有一个最基本的抽象叫DStream（代理），本质上就是一系列连续的RDD，DStream其实就是对RDD的封装。DStream可以任务是一个RDD的工厂，该DStream里面生产都是相同业务逻辑的RDD，只不过是RDD里面要读取数据的不相同</p>
-<p>深入理解DStream：他是sparkStreaming中的一个最基本的抽象，代表了一下列连续的数据流，本质上是一系列连续的RDD，你对DStream进行操作，就是对RDD进行操作。DStream每隔一段时间生成一个RDD，你对DStream进行操作，本质上是对里面的对应时间的RDD进行操作。</p>
-<p>DSteam和DStream之间存在依赖关系，在一个固定的时间点，对个存在依赖关系的DSrteam对应的RDD也存在依赖关系，每个一个固定的时间，其实生产了一个小的DAG，周期性的将生成的小DAG提交到集群中运行。</p>
-<p><img src="//yoursite.com/2019/07/24/sparkStreaming笔记/DStream%E8%AF%B4%E6%98%8E.png" alt="DStream抽象表示图"></p>
-
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/24/sparkStreaming学习总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2628,6 +2431,352 @@
 <p>DSteam和DStream之间存在依赖关系，在一个固定的时间点，对个存在依赖关系的DSrteam对应的RDD也存在依赖关系，每个一个固定的时间，其实生产了一个小的DAG，周期性的将生成的小DAG提交到集群中运行。</p>
 <p><img src="//yoursite.com/2019/07/24/sparkStreaming学习总结/DStream%E8%AF%B4%E6%98%8E.png" alt="DStream抽象表示图"></p>
 <img src="/2019/07/24/sparkStreaming学习总结/DStream说明.png" title="DStream说明.png">
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/24/sparkStreaming笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Bin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cilibili">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/24/sparkStreaming笔记/" itemprop="url">SparkStreaming学习总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-24T15:15:49+08:00">
+                2019-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="SparkStreaming"><a href="#SparkStreaming" class="headerlink" title="SparkStreaming"></a>SparkStreaming</h1><h2 id="SparkStreaming-1"><a href="#SparkStreaming-1" class="headerlink" title="SparkStreaming"></a>SparkStreaming</h2><p>导入spark-streaming依赖</p>
+<h3 id="整合Kafka"><a href="#整合Kafka" class="headerlink" title="整合Kafka"></a>整合Kafka</h3><p>导入spark-streaming-kafka-0-8_2.11依赖（0-8kafka版本，2.11scala版本，0.8和0.10两个版本）</p>
+<p><strong>注意</strong> ：version可能是要求和spark-core版本一致，详见<a href="sparkStreaming学习总结/错误日志.xml">错误日志</a></p>
+<h4 id="无状态WordCount"><a href="#无状态WordCount" class="headerlink" title="无状态WordCount"></a>无状态WordCount</h4><ol>
+<li>创建StreamingContxt（用sparkConf）</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"KafkaWordCount"</span>).setMaster(<span class="string">"local[*]"</span>)</span><br><span class="line"><span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(conf, <span class="type">Seconds</span>(<span class="number">5</span>)) <span class="comment">//内部创建sparkContext(conf)</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Kafka参数配置</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> zkQuorum = <span class="string">"node-1:2181,node-2:2181,node-3:2181"</span></span><br><span class="line"><span class="keyword">val</span> groupId = <span class="string">"g1"</span></span><br><span class="line"><span class="keyword">val</span> topic = <span class="type">Map</span>[<span class="type">String</span>, <span class="type">Int</span>](<span class="string">"xiaoniuabc"</span> -&gt; <span class="number">1</span>) <span class="comment">//1是topic对应的线程数</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>AWL方式创建DStream（write ahead logs ）</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Kafak的ReceiverInputDStream[(String, String)]里面装的是一个元组（key，value是实际内容）</span></span><br><span class="line"><span class="keyword">val</span> data: <span class="type">ReceiverInputDStream</span>[(<span class="type">String</span>, <span class="type">String</span>)] = <span class="type">KafkaUtils</span>.createStream(ssc, zkQuorum, groupId, topic)</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>对DStream进行操作</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取出value里写的实际内容</span></span><br><span class="line"><span class="keyword">val</span> lines: <span class="type">DStream</span>[<span class="type">String</span>] = data.map(_._2)</span><br><span class="line"><span class="comment">//对DSteam进行操作，你操作这个抽象（代理，描述），就像操作一个本地的集合一样</span></span><br><span class="line"><span class="keyword">val</span> words: <span class="type">DStream</span>[<span class="type">String</span>] = lines.flatMap(_.split(<span class="string">" "</span>))</span><br><span class="line"><span class="keyword">val</span> wordAndOne: <span class="type">DStream</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = words.map((_, <span class="number">1</span>))</span><br><span class="line"><span class="keyword">val</span> reduced: <span class="type">DStream</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = wordAndOne.reduceByKey(_+_)</span><br><span class="line">reduced.print()</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>SparkStreaming程序启动和退出</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//启动sparksteaming程序</span></span><br><span class="line">ssc.start()</span><br><span class="line"><span class="comment">//等待优雅的退出</span></span><br><span class="line">ssc.awaitTermination()</span><br></pre></td></tr></table></figure>
+
+<h4 id="有状态WordCount"><a href="#有状态WordCount" class="headerlink" title="有状态WordCount"></a>有状态WordCount</h4><ol start="0">
+<li>可以在main方法外面定义updateStateByKey的函数参数</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 第一个参数：聚合的key，就是单词</span></span><br><span class="line"><span class="comment">  * 第二个参数：当前批次产生批次该单词在每一个分区出现的次数</span></span><br><span class="line"><span class="comment">  * 第三个参数：初始值或累加的中间结果</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="keyword">val</span> updateFunc = (iter: <span class="type">Iterator</span>[(<span class="type">String</span>, <span class="type">Seq</span>[<span class="type">Int</span>], <span class="type">Option</span>[<span class="type">Int</span>])]) =&gt; &#123;</span><br><span class="line">  iter.map(t =&gt; (t._1, t._2.sum + t._3.getOrElse(<span class="number">0</span>)))    <span class="comment">// -----&gt;方式一</span></span><br><span class="line">  <span class="comment">//iter.map&#123; case(x, y, z) =&gt; (x, y.sum + z.getOrElse(0))&#125; -----&gt;方式二（模式匹配）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>创建StreamingContxt（用sparkConf）</p>
+</li>
+<li><p><strong>设置checkpoint</strong></p>
+</li>
+</ol>
+<p>​    <strong>注意</strong> ：设置了checkpoint过后，对DStream的操作中间结果都涉及到写入写出，<u>所以对象可能会存在序列化问题</u> （比如DStream的foreachRDD方法里面代码在Driver端执行，但用到外部对象也会出现序列化问题）</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果要使用课更新历史数据（累加），那么就要把终结结果保存起来</span></span><br><span class="line">ssc.checkpoint(<span class="string">"./ck"</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Kafka参数配置</li>
+<li>AWL方式创建DStream（write ahead logs ）</li>
+<li>对DStream进行操作</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//单词和一组合在一起</span></span><br><span class="line"><span class="keyword">val</span> wordAndOne: <span class="type">DStream</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = words.map((_, <span class="number">1</span>))</span><br><span class="line"><span class="comment">//聚合所有批次数据（但是只记录程序开始执行之后的数据，程序停止则丢失数据）</span></span><br><span class="line"><span class="comment">//ssc.sparkContext.defaultParallelism表示分区器使用默认的分区数量</span></span><br><span class="line"><span class="keyword">val</span> reduced: <span class="type">DStream</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = wordAndOne.updateStateByKey(updateFunc, <span class="keyword">new</span> <span class="type">HashPartitioner</span>(ssc.sparkContext.defaultParallelism), <span class="literal">true</span>) </span><br><span class="line"><span class="comment">//打印结果(Action)</span></span><br><span class="line">reduced.print()</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>SparkStreaming程序启动和退出</li>
+</ol>
+<h3 id="直连方式-SparkStreaming-kafka-0-8"><a href="#直连方式-SparkStreaming-kafka-0-8" class="headerlink" title="直连方式-SparkStreaming-kafka-0.8"></a>直连方式-SparkStreaming-kafka-0.8</h3><h4 id="1-创建StreamingContxt（用sparkConf）"><a href="#1-创建StreamingContxt（用sparkConf）" class="headerlink" title="1. 创建StreamingContxt（用sparkConf）"></a>1. 创建StreamingContxt（用sparkConf）</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建SparkConf</span></span><br><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"OrderCount"</span>).setMaster(<span class="string">"local[4]"</span>)</span><br><span class="line"><span class="comment">//创建SparkStreaming，并设置间隔时间</span></span><br><span class="line"><span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(conf, <span class="type">Duration</span>(<span class="number">5000</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Kafka参数配置"><a href="#2-Kafka参数配置" class="headerlink" title="2. Kafka参数配置"></a>2. Kafka参数配置</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指定组名</span></span><br><span class="line"><span class="keyword">val</span> group = <span class="string">"g001"</span></span><br><span class="line"><span class="comment">//指定消费的 topic 名字</span></span><br><span class="line"><span class="keyword">val</span> topic = <span class="string">"wordcount"</span></span><br><span class="line"><span class="comment">//指定kafka的broker地址(sparkStream的Task直连到kafka的分区上，用更加底层的API消费，效率更高)</span></span><br><span class="line"><span class="keyword">val</span> brokerList = <span class="string">"node-4:9092,node-5:9092,node-6:9092"</span></span><br><span class="line"><span class="comment">//指定zk的地址，后期更新消费的偏移量时使用(以后可以使用Redis、MySQL来记录偏移量)</span></span><br><span class="line"><span class="keyword">val</span> zkQuorum = <span class="string">"node-1:2181,node-2:2181,node-3:2181"</span></span><br><span class="line"><span class="comment">//创建 stream 时使用的 topic 名字集合，SparkStreaming可同时消费多个topic</span></span><br><span class="line"><span class="keyword">val</span> topics: <span class="type">Set</span>[<span class="type">String</span>] = <span class="type">Set</span>(topic)</span><br><span class="line"></span><br><span class="line"><span class="comment">//准备kafka的参数</span></span><br><span class="line"><span class="keyword">val</span> kafkaParams = <span class="type">Map</span>(</span><br><span class="line">    <span class="comment">//"key.deserializer" -&gt; classOf[StringDeserializer],</span></span><br><span class="line">    <span class="comment">//"value.deserializer" -&gt; classOf[StringDeserializer],</span></span><br><span class="line">    <span class="comment">//"deserializer.encoding" -&gt; "GB2312", //配置读取Kafka中数据的编码</span></span><br><span class="line">    <span class="string">"metadata.broker.list"</span> -&gt; brokerList,</span><br><span class="line">    <span class="string">"group.id"</span> -&gt; group,</span><br><span class="line">    <span class="comment">//从头（上次偏移量）开始读取数据，LargestTimeString:启动后开始读数据</span></span><br><span class="line">    <span class="string">"auto.offset.reset"</span> -&gt; kafka.api.<span class="type">OffsetRequest</span>.<span class="type">SmallestTimeString</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-创建zookeeper偏移量保存路径"><a href="#3-创建zookeeper偏移量保存路径" class="headerlink" title="3. 创建zookeeper偏移量保存路径"></a>3. 创建zookeeper偏移量保存路径</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个 ZKGroupTopicDirs 对象,其实是指定往zk中写入数据的目录，用于保存偏移量</span></span><br><span class="line"><span class="keyword">val</span> topicDirs = <span class="keyword">new</span> <span class="type">ZKGroupTopicDirs</span>(group, topic)</span><br><span class="line"><span class="comment">//获取 zookeeper 中的路径 "/g001/offsets/wordcount/"</span></span><br><span class="line"><span class="keyword">val</span> zkTopicPath = <span class="string">s"<span class="subst">$&#123;topicDirs.consumerOffsetDir&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-创建zookeeper客户端"><a href="#4-创建zookeeper客户端" class="headerlink" title="4. 创建zookeeper客户端"></a>4. 创建zookeeper客户端</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//zookeeper 的host 和 ip，创建一个 client,用于跟新偏移量量的</span></span><br><span class="line"><span class="comment">//是zookeeper的客户端，可以从zk中读取偏移量数据，并更新偏移量</span></span><br><span class="line"><span class="keyword">val</span> zkClient = <span class="keyword">new</span> <span class="type">ZkClient</span>(zkQuorum)</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-定义保存kafkaSteam和偏移量的变量"><a href="#5-定义保存kafkaSteam和偏移量的变量" class="headerlink" title="5. 定义保存kafkaSteam和偏移量的变量"></a>5. 定义保存<strong>kafkaSteam</strong>和<strong>偏移量</strong>的变量</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//kafkaStream的值根据是否记录过便宜量分两种方法读取</span></span><br><span class="line"><span class="keyword">var</span> kafkaStream: <span class="type">InputDStream</span>[(<span class="type">String</span>, <span class="type">String</span>)] = <span class="literal">null</span></span><br><span class="line"><span class="comment">//如果 zookeeper 中有保存 offset，我们会利用这个 offset 作为 kafkaStream 的起始位置</span></span><br><span class="line"><span class="keyword">var</span> fromOffsets: <span class="type">Map</span>[<span class="type">TopicAndPartition</span>, <span class="type">Long</span>] = <span class="type">Map</span>()</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-查询同个group-amp-topic下分区数量，分是否保存过offset分别处理"><a href="#6-查询同个group-amp-topic下分区数量，分是否保存过offset分别处理" class="headerlink" title="6. 查询同个group&amp;topic下分区数量，分是否保存过offset分别处理"></a>6. 查询同个group&amp;topic下分区数量，分是否保存过offset分别处理</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查询该路径下是否子节点（默认有字节点为我们自己保存不同 partition 时生成的）</span></span><br><span class="line"><span class="comment">// /g001/offsets/wordcount/0/10001"  --&gt; 0号分区/偏移量10001</span></span><br><span class="line"><span class="comment">// /g001/offsets/wordcount/1/30001"  ...</span></span><br><span class="line"><span class="comment">// /g001/offsets/wordcount/2/10001"  ...</span></span><br><span class="line"><span class="comment">//zkTopicPath  -&gt; /g001/offsets/wordcount/</span></span><br><span class="line"><span class="keyword">val</span> children = zkClient.countChildren(zkTopicPath)<span class="comment">//返回分区数量</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="7-调用KafkaUtils-createDirectStream创建kafkaStream"><a href="#7-调用KafkaUtils-createDirectStream创建kafkaStream" class="headerlink" title="7. 调用KafkaUtils.createDirectStream创建kafkaStream"></a>7. 调用KafkaUtils.createDirectStream创建kafkaStream</h4><ul>
+<li><p>如存在偏移量</p>
+<ol>
+<li>取出偏移量存入之前创建的保存偏移量的参数(fromOffsets)中</li>
+<li>创建函数将MessageAndMetadata[String, String]取出message转成tupple类型</li>
+<li>调用createDirectStream，传入ssc、kafka参数、fromOffsets、和MessageAndMetadata函数</li>
+</ol>
+</li>
+<li><p>未存在偏移量</p>
+<ol>
+<li><p>直接调用createDirectStream，传入ssc、kafka参数、和topics  (Set[String]类型) </p>
+<p>注：可能因为fromOffsets: Map[TopicAndPartition, Long]存在topic信息所以不用传topics了</p>
+</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果保存过 offset</span></span><br><span class="line"><span class="keyword">if</span> (children &gt; <span class="number">0</span>) &#123;</span><br><span class="line">  <span class="keyword">for</span> (i &lt;- <span class="number">0</span> until children) &#123;</span><br><span class="line">    <span class="comment">// 假如存在偏移量保存路径：/g001/offsets/wordcount/0/10001</span></span><br><span class="line">    <span class="comment">// $zkTopicPath/$&#123;i&#125;:g001/offsets/wordcount/0</span></span><br><span class="line">	<span class="comment">// partitionOffset:10001</span></span><br><span class="line">    <span class="keyword">val</span> partitionOffset = zkClient.readData[<span class="type">String</span>](<span class="string">s"<span class="subst">$zkTopicPath</span>/<span class="subst">$&#123;i&#125;</span>"</span>)</span><br><span class="line">    <span class="comment">// wordcount/0</span></span><br><span class="line">    <span class="keyword">val</span> tp = <span class="type">TopicAndPartition</span>(topic, i)</span><br><span class="line">    <span class="comment">//将不同 partition 对应的 offset 增加到 fromOffsets 中</span></span><br><span class="line">    <span class="comment">// wordcount/0 -&gt; 10001</span></span><br><span class="line">    fromOffsets += (tp -&gt; partitionOffset.toLong)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//Key: kafka的key   values: "hello tom hello jerry"</span></span><br><span class="line">  <span class="comment">//这个会将 kafka 的消息进行 transform，最终 kafak 的数据都会变成 (kafka的key, message) 这样的 tuple，也可以用（mmd.topic(), mmd.message()）获得topic,value这样的数据</span></span><br><span class="line">  <span class="keyword">val</span> messageHandler = (mmd: <span class="type">MessageAndMetadata</span>[<span class="type">String</span>, <span class="type">String</span>]) =&gt; (mmd.key(), mmd.message())																</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//通过KafkaUtils创建直连的DStream（fromOffsets参数的作用是:按照前面计算好了的偏移量继续消费数据）</span></span><br><span class="line">  <span class="comment">//[String, String, StringDecoder, StringDecoder,     (String, String)]</span></span><br><span class="line">  <span class="comment">//  key    value    key的解码方式   value的解码方式 </span></span><br><span class="line">  kafkaStream = <span class="type">KafkaUtils</span>.createDirectStream[<span class="type">String</span>, <span class="type">String</span>, <span class="type">StringDecoder</span>, <span class="type">StringDecoder</span>, (<span class="type">String</span>, <span class="type">String</span>)](ssc, kafkaParams, fromOffsets, messageHandler)</span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">//如果未保存，根据 kafkaParam 的配置使用最新(largest)或者最旧的（smallest） offset</span></span><br><span class="line">  kafkaStream = <span class="type">KafkaUtils</span>.createDirectStream[<span class="type">String</span>, <span class="type">String</span>, <span class="type">StringDecoder</span>, <span class="type">StringDecoder</span>](ssc, kafkaParams, topics)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-定义保存偏移量范围的变量"><a href="#8-定义保存偏移量范围的变量" class="headerlink" title="8. 定义保存偏移量范围的变量"></a>8. 定义保存<strong>偏移量范围</strong>的变量</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//偏移量的范围</span></span><br><span class="line"><span class="keyword">var</span> offsetRanges = <span class="type">Array</span>[<span class="type">OffsetRange</span>]()</span><br></pre></td></tr></table></figure>
+
+<h4 id="9-调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存"><a href="#9-调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存" class="headerlink" title="9. 调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存"></a>9. 调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从kafka读取的消息，DStream的Transform方法可以将当前批次的RDD获取出来</span></span><br><span class="line"><span class="comment">//该transform方法计算获取到当前批次RDD,然后将RDD的偏移量取出来，然后在将RDD返回到DStream</span></span><br><span class="line"><span class="keyword">val</span> transform: <span class="type">DStream</span>[(<span class="type">String</span>, <span class="type">String</span>)] = kafkaStream.transform &#123; rdd =&gt;</span><br><span class="line">  <span class="comment">//得到该 rdd 对应 kafka 的消息的 offset</span></span><br><span class="line">  <span class="comment">//该RDD是一个KafkaRDD，可以获得偏移量的范围</span></span><br><span class="line">  offsetRanges = rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges</span><br><span class="line">  rdd<span class="comment">//将原kafkaStream原封返回</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="10-只获取kafkaStream中的message"><a href="#10-只获取kafkaStream中的message" class="headerlink" title="10. 只获取kafkaStream中的message"></a>10. 只获取kafkaStream中的message</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> messages: <span class="type">DStream</span>[<span class="type">String</span>] = transform.map(_._2)</span><br></pre></td></tr></table></figure>
+
+<h4 id="11-对DStream调用foreachRDD进行操作每个RDD流"><a href="#11-对DStream调用foreachRDD进行操作每个RDD流" class="headerlink" title="11. 对DStream调用foreachRDD进行操作每个RDD流"></a>11. 对DStream调用foreachRDD进行操作每个RDD流</h4><ul>
+<li><h4 id="将偏移量保存到zookeeper的gropu-offset-topic-partition路径下"><a href="#将偏移量保存到zookeeper的gropu-offset-topic-partition路径下" class="headerlink" title="将偏移量保存到zookeeper的gropu/offset/topic/partition路径下"></a>将偏移量保存到zookeeper的gropu/offset/topic/partition路径下</h4></li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//依次迭代DStream中的RDD</span></span><br><span class="line"><span class="comment">//注意!：kafkaStream.foreachRDD里面的业务逻辑是在Driver端执行、kafkaRDD.maps里定义的方法才是在Excutor里执行，maps方法是在Driver端执行</span></span><br><span class="line"><span class="comment">//foreachRDD只是把每个RDD拿出来，没有触发Action</span></span><br><span class="line">messages.foreachRDD &#123; rdd =&gt;</span><br><span class="line">  <span class="comment">//对RDD进行操作，触发Action</span></span><br><span class="line">  rdd.foreachPartition(partition =&gt;</span><br><span class="line">    partition.foreach(x =&gt; &#123;</span><br><span class="line">      println(x)</span><br><span class="line">    &#125;)</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (o &lt;- offsetRanges) &#123;</span><br><span class="line">    <span class="comment">//  /g001/offsets/wordcount/0</span></span><br><span class="line">    <span class="keyword">val</span> zkPath = <span class="string">s"<span class="subst">$&#123;topicDirs.consumerOffsetDir&#125;</span>/<span class="subst">$&#123;o.partition&#125;</span>"</span></span><br><span class="line">    <span class="comment">//将该 partition 的 offset 保存到 zookeeper</span></span><br><span class="line">    <span class="comment">//  /g001/offsets/wordcount/0/20000（untilOffset是截至的偏移量）</span></span><br><span class="line">    <span class="type">ZkUtils</span>.updatePersistentPath(zkClient, zkPath, o.untilOffset.toString)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="12-SparkStreaming程序启动和退出"><a href="#12-SparkStreaming程序启动和退出" class="headerlink" title="12. SparkStreaming程序启动和退出"></a>12. SparkStreaming程序启动和退出</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssc.start()</span><br><span class="line">ssc.awaitTermination()</span><br></pre></td></tr></table></figure>
+
+<p><strong>备注</strong>：也可以在kafkaStream.foreachRDD中对kafkaRDD强转获取到偏移量（只能对kafkaRDD进行强转）</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//直连方式只有在KafkaDStream的RDD中才能获取偏移量，那么就不能再调用DStream的Transformation</span></span><br><span class="line"><span class="comment">//所以只能在kafkaStream调用foreachRDD，获取RDD的偏移量，然后就是对RDD进行操作了</span></span><br><span class="line"><span class="comment">//依次迭代KafkaDStream中的KafkaRDD</span></span><br><span class="line">kafkaStream.foreachRDD &#123; kafkaRDD =&gt;</span><br><span class="line">  <span class="comment">//只有KafkaRDD可以强转成HasOffsetRanges，并获取到偏移量</span></span><br><span class="line">  offsetRanges = kafkaRDD.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges</span><br><span class="line">  <span class="keyword">val</span> lines: <span class="type">RDD</span>[<span class="type">String</span>] = kafkaRDD.map(_._2)</span><br></pre></td></tr></table></figure>
+
+<h4 id="13-补充：kafka直连方式消费多个topic"><a href="#13-补充：kafka直连方式消费多个topic" class="headerlink" title="13. 补充：kafka直连方式消费多个topic"></a>13. 补充：<a href="https://blog.csdn.net/Lu_Xiao_Yue/article/details/84075565" target="_blank" rel="noopener">kafka直连方式消费多个topic</a></h4><h4 id="Kafka知识补充"><a href="#Kafka知识补充" class="headerlink" title="Kafka知识补充"></a>Kafka知识补充</h4><h5 id="1-Kafka分区"><a href="#1-Kafka分区" class="headerlink" title="1. Kafka分区"></a>1. Kafka分区</h5><ul>
+<li>0、1、2代表数据的不同分区</li>
+<li>0`、1`、2`代表不同的副本</li>
+<li>生产者向一个leader分区发送数据，消费者也向leader分区消费数据（可以配置消费者向非leader分区消费）</li>
+<li>数据的分区数量可以任意，副本数量不大于启动kafka机器的数量<br><img src="//yoursite.com/2019/07/24/sparkStreaming笔记/sparkStreaming%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%5Ckafka%E5%88%86%E5%8C%BA%E5%8E%9F%E7%90%86.png" alt="Kafka分区原理"></li>
+</ul>
+
+
+<h5 id="2-kafka直连"><a href="#2-kafka直连" class="headerlink" title="2. kafka直连"></a>2. kafka直连</h5><p>Direct方式采用Kafka简单的consumer api方式来读取数据，无需经由ZooKeeper，此种方式不再需要专门Receiver来持续不断读取数据。当batch任务触发时，由Executor读取数据，并参与到其他Executor的数据计算过程中去。driver来决定读取多少offsets，并将offsets交由checkpoints来维护。将触发下次batch任务，再由Executor读取Kafka数据并计算。从此过程我们可以发现Direct方式无需Receiver读取数据，而是需要计算时再读取数据，所以Direct方式的数据消费对内存的要求不高，只需要考虑批量计算所需要的内存即可；另外batch任务堆积时，也不会影响数据堆积。其具体读取方式如下图：</p>
+<p>Receiver方式：<img src="//yoursite.com/2019/07/24/sparkStreaming笔记/sparkStreaming%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%5CReceiver%E6%96%B9%E5%BC%8F.png" alt="Receiver方式"></p>
+
+
+
+
+
+
+<p>直连方式：<img src="//yoursite.com/2019/07/24/sparkStreaming笔记/sparkStreaming%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%5C%E7%9B%B4%E8%BF%9E%E6%96%B9%E5%BC%8F.png" alt="直连方式"></p>
+
+
+
+
+<h3 id="直连方式-SparkStreaming-kafka-0-10"><a href="#直连方式-SparkStreaming-kafka-0-10" class="headerlink" title="直连方式-SparkStreaming-kafka-0.10"></a>直连方式-SparkStreaming-kafka-0.10</h3><h4 id="1-创建StreamingContxt（用sparkConf）-1"><a href="#1-创建StreamingContxt（用sparkConf）-1" class="headerlink" title="1. 创建StreamingContxt（用sparkConf）"></a>1. 创建StreamingContxt（用sparkConf）</h4><h4 id="2-Kafka参数配置-1"><a href="#2-Kafka参数配置-1" class="headerlink" title="2. Kafka参数配置"></a>2. Kafka参数配置</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> topics = <span class="type">Array</span>(topic)	<span class="comment">//数组方式保存topics</span></span><br><span class="line"><span class="keyword">val</span> kafkaParams = <span class="type">Map</span>[<span class="type">String</span>, <span class="type">Object</span>](</span><br><span class="line">    <span class="comment">//即0.8版的broker-list</span></span><br><span class="line">   <span class="string">"bootstrap.servers"</span> -&gt; <span class="string">"node-1:9092,node-2:9092,node-3:9092"</span>,</span><br><span class="line">   <span class="string">"key.deserializer"</span> -&gt; classOf[<span class="type">StringDeserializer</span>],</span><br><span class="line">   <span class="string">"value.deserializer"</span> -&gt; classOf[<span class="type">StringDeserializer</span>],</span><br><span class="line">   <span class="string">"group.id"</span> -&gt; group,</span><br><span class="line">   <span class="string">"auto.offset.reset"</span> -&gt; <span class="string">"earliest"</span>, <span class="comment">// lastest</span></span><br><span class="line">   <span class="string">"enable.auto.commit"</span> -&gt; (<span class="literal">false</span>: java.lang.<span class="type">Boolean</span>) <span class="comment">// false代表自己写程序提交偏移量 </span></span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-创建SparkDStream-一个API"><a href="#3-创建SparkDStream-一个API" class="headerlink" title="3. 创建SparkDStream(一个API)"></a>3. 创建SparkDStream(一个API)</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用直连方式读取kafka中的数据，在Kafka中记录读取偏移量</span></span><br><span class="line"><span class="comment">//spark-kafka-0.8把偏移量保存在zookeeper里，也可存在redis等里</span></span><br><span class="line"><span class="keyword">val</span> stream = <span class="type">KafkaUtils</span>.createDirectStream[<span class="type">String</span>, <span class="type">String</span>](</span><br><span class="line">  streamingContext,</span><br><span class="line">  <span class="comment">//位置策略（如果kafka和spark程序部署在一起，会有最优位置）</span></span><br><span class="line">  <span class="type">PreferConsistent</span>,</span><br><span class="line">  <span class="comment">//订阅的策略（可以指定用正则的方式读取topic，比如my-ordsers-.*）</span></span><br><span class="line">  <span class="type">Subscribe</span>[<span class="type">String</span>, <span class="type">String</span>](topics, kafkaParams)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-获取跟新偏移量，操作DStream"><a href="#4-获取跟新偏移量，操作DStream" class="headerlink" title="4. 获取跟新偏移量，操作DStream"></a>4. 获取跟新偏移量，操作DStream</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//迭代DStream中的RDD，将每一个时间点对于的RDD拿出来</span></span><br><span class="line">stream.foreachRDD &#123; rdd =&gt;</span><br><span class="line">  <span class="keyword">if</span>(!rdd.isEmpty()) &#123;</span><br><span class="line">    <span class="comment">//获取该RDD对于的偏移量</span></span><br><span class="line">    <span class="keyword">val</span> offsetRanges = rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges</span><br><span class="line">	<span class="comment">//拿出对于的数据，foreach是一个aciton</span></span><br><span class="line">    rdd.foreach&#123; line =&gt;</span><br><span class="line">		<span class="comment">//Kafka在消费偏移量之后的数据不一定按顺序进行消费（因为有多个Consumer同时进行消费）</span></span><br><span class="line">		println(line.key() + <span class="string">" "</span> + line.value())</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//更新偏移量</span></span><br><span class="line">    <span class="comment">// some time later, after outputs have completed</span></span><br><span class="line">    stream.asInstanceOf[<span class="type">CanCommitOffsets</span>].commitAsync(offsetRanges)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-SparkStreaming程序启动和退出"><a href="#5-SparkStreaming程序启动和退出" class="headerlink" title="5. SparkStreaming程序启动和退出"></a>5. SparkStreaming程序启动和退出</h4><h3 id="订单项目示例（离线和实时）-非常重要"><a href="#订单项目示例（离线和实时）-非常重要" class="headerlink" title="订单项目示例（离线和实时）*非常重要*"></a>订单项目示例（离线和实时）*非常重要*</h3><p>数据：A 202.106.196.115 手机 iPhone8 8000</p>
+<h4 id="0-用到的工具类（Object）："><a href="#0-用到的工具类（Object）：" class="headerlink" title="0. 用到的工具类（Object）："></a>0. 用到的工具类（Object）：</h4><ul>
+<li>离线计算 IP-地址 规则</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">broadcastIpRules</span></span>(ssc: <span class="type">StreamingContext</span>, ipRulesPath: <span class="type">String</span>): <span class="type">Broadcast</span>[<span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)]] = &#123;</span><br><span class="line">  <span class="comment">//现获取sparkContext</span></span><br><span class="line">  <span class="keyword">val</span> sc = ssc.sparkContext</span><br><span class="line">  <span class="keyword">val</span> rulesLines:<span class="type">RDD</span>[<span class="type">String</span>] = sc.textFile(ipRulesPath)</span><br><span class="line">  <span class="comment">//整理ip规则数据</span></span><br><span class="line">  <span class="keyword">val</span> ipRulesRDD: <span class="type">RDD</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = rulesLines.map(line =&gt; &#123;</span><br><span class="line"> 	...</span><br><span class="line">    (startNum, endNum, province)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">//将分散在多个Executor中的部分IP规则收集到Driver端</span></span><br><span class="line">  <span class="keyword">val</span> rulesInDriver: <span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = ipRulesRDD.collect()</span><br><span class="line">  <span class="comment">//将Driver端的数据广播到Executor</span></span><br><span class="line">  <span class="comment">//广播变量的引用（还在Driver端）</span></span><br><span class="line">  sc.broadcast(rulesInDriver)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>计算成交总金额（一个批次收入存入Redis，流数据不断累加）</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculateIncome</span></span>(fields: <span class="type">RDD</span>[<span class="type">Array</span>[<span class="type">String</span>]]) = &#123;</span><br><span class="line">  <span class="comment">//将数据计算后写入到Reids</span></span><br><span class="line">  <span class="keyword">val</span> priceRDD: <span class="type">RDD</span>[<span class="type">Double</span>] = fields.map(arr =&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> price = arr(<span class="number">4</span>).toDouble</span><br><span class="line">    price</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">//reduce是一个Action，会把结果返回到Driver端</span></span><br><span class="line">  <span class="comment">//将当前批次的总金额返回了</span></span><br><span class="line">  <span class="keyword">val</span> sum: <span class="type">Double</span> = priceRDD.reduce(_+_)</span><br><span class="line">  <span class="comment">//获取一个jedis连接（在Driver端创建）</span></span><br><span class="line">  <span class="keyword">val</span> conn = <span class="type">JedisConnectionPool</span>.getConnection()</span><br><span class="line">  <span class="comment">//将历史值和当前的值进行累加</span></span><br><span class="line">  <span class="comment">//conn.set(Constant.TOTAL_INCOME, sum.toString)</span></span><br><span class="line">  conn.incrByFloat(<span class="type">Constant</span>.<span class="type">TOTAL_INCOME</span>, sum)</span><br><span class="line">  <span class="comment">//释放连接</span></span><br><span class="line">  conn.close()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>计算商品分类成交总金额（一个批次收入存入Redis，流数据不断累加）</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculateItem</span></span>(fields: <span class="type">RDD</span>[<span class="type">Array</span>[<span class="type">String</span>]]) = &#123;</span><br><span class="line">  <span class="comment">//备注：对field的map方法是在哪一端调用的呢？Driver，只是map里面的方法还没执行</span></span><br><span class="line">  <span class="keyword">val</span> itemAndPrice: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Double</span>)] = fields.map(arr =&gt; &#123;</span><br><span class="line">    <span class="comment">//分类</span></span><br><span class="line">    <span class="keyword">val</span> item = arr(<span class="number">2</span>)</span><br><span class="line">    <span class="comment">//金额</span></span><br><span class="line">    <span class="keyword">val</span> parice = arr(<span class="number">4</span>).toDouble</span><br><span class="line">    (item, parice)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">//按照商品分类进行聚合</span></span><br><span class="line">  <span class="keyword">val</span> reduced: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Double</span>)] = itemAndPrice.reduceByKey(_+_)</span><br><span class="line">  <span class="comment">//将当前批次的数据累加到Redis中</span></span><br><span class="line">  <span class="comment">//foreachPartition是一个Action</span></span><br><span class="line">  <span class="comment">//现在这种方式，jeids的连接是在哪一端创建的（Driver）</span></span><br><span class="line">  <span class="comment">//在Driver端拿Jedis连接不好(要序列化)</span></span><br><span class="line">  <span class="comment">//val conn = JedisConnectionPool.getConnection()</span></span><br><span class="line">  reduced.foreachPartition(part =&gt; &#123;</span><br><span class="line">    <span class="comment">//获取一个Jedis连接</span></span><br><span class="line">    <span class="comment">//这个连接其实是在Executor中的获取的</span></span><br><span class="line">    <span class="comment">//JedisConnectionPool在一个Executor进程中只有1个实例（单例）</span></span><br><span class="line">    <span class="keyword">val</span> conn = <span class="type">JedisConnectionPool</span>.getConnection()</span><br><span class="line">    part.foreach(t =&gt; &#123;</span><br><span class="line">      <span class="comment">//一个连接更新多条数据</span></span><br><span class="line">      conn.incrByFloat(t._1, t._2)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">//将当前分区中的数据跟新完在关闭连接</span></span><br><span class="line">    conn.close()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>计算省份成交总金额（一个批次收入存入Redis，流数据不断累加）</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculateZone</span></span>(fields: <span class="type">RDD</span>[<span class="type">Array</span>[<span class="type">String</span>]], broadcastRef: <span class="type">Broadcast</span>[<span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)]]) = &#123;</span><br><span class="line">  <span class="keyword">val</span> provinceAndPrice: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Double</span>)] = fields.map(arr =&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> ip = arr(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">val</span> price = arr(<span class="number">4</span>).toDouble</span><br><span class="line">    <span class="keyword">val</span> ipNum = <span class="type">MyUtils</span>.ip2Long(ip)</span><br><span class="line">    <span class="comment">//在Executor中获取到广播的全部规则</span></span><br><span class="line">    <span class="keyword">val</span> allRules: <span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = broadcastRef.value</span><br><span class="line">    <span class="comment">//二分法查找,根据Ip计算归属地</span></span><br><span class="line">    <span class="keyword">val</span> index = <span class="type">MyUtils</span>.binarySearch(allRules, ipNum)</span><br><span class="line">    <span class="keyword">var</span> province = <span class="string">"未知"</span></span><br><span class="line">    <span class="keyword">if</span> (index != <span class="number">-1</span>) &#123;</span><br><span class="line">      province = allRules(index)._3</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//省份，订单金额</span></span><br><span class="line">    (province, price)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">//按省份进行聚合</span></span><br><span class="line">  <span class="keyword">val</span> reduced: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Double</span>)] = provinceAndPrice.reduceByKey(_+_)</span><br><span class="line">  <span class="comment">//将数据跟新到Redis</span></span><br><span class="line"><span class="comment">//key不多的话可以用.foreach</span></span><br><span class="line">  reduced.foreachPartition(part =&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> conn = <span class="type">JedisConnectionPool</span>.getConnection()</span><br><span class="line">    part.foreach(t =&gt; &#123;</span><br><span class="line">      conn.incrByFloat(t._1, t._2)</span><br><span class="line">    &#125;)</span><br><span class="line">    conn.close()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-创建StreamingContxt（用sparkConf）-2"><a href="#1-创建StreamingContxt（用sparkConf）-2" class="headerlink" title="1. 创建StreamingContxt（用sparkConf）"></a>1. 创建StreamingContxt（用sparkConf）</h4><h4 id="2-广播离线计算的-IP-地址-规则"><a href="#2-广播离线计算的-IP-地址-规则" class="headerlink" title="*2. *广播离线计算的 IP-地址 规则**"></a>*<em>2. *</em>广播离线计算的 IP-地址 规则**</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> broadcastRef: <span class="type">Broadcast</span>[<span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)]] = <span class="type">IPUtils</span>.broadcastIpRules(ssc, <span class="string">"/Users/zx/Desktop/temp/spark-24/spark-4/ip/ip.txt"</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-Kafka参数配置"><a href="#3-Kafka参数配置" class="headerlink" title="3. Kafka参数配置"></a>3. Kafka参数配置</h4><h4 id="4-创建zookeeper偏移量保存路径"><a href="#4-创建zookeeper偏移量保存路径" class="headerlink" title="4. 创建zookeeper偏移量保存路径"></a>4. 创建zookeeper偏移量保存路径</h4><h4 id="5-创建zookeeper客户端"><a href="#5-创建zookeeper客户端" class="headerlink" title="5. 创建zookeeper客户端"></a>5. 创建zookeeper客户端</h4><h4 id="6-定义保存kafkaSteam和偏移量的变量"><a href="#6-定义保存kafkaSteam和偏移量的变量" class="headerlink" title="6. 定义保存kafkaSteam和偏移量的变量"></a>6. 定义保存<strong>kafkaSteam</strong>和<strong>偏移量</strong>的变量</h4><h4 id="7-查询同个group-amp-topic下分区数量，分是否保存过offset分别处理"><a href="#7-查询同个group-amp-topic下分区数量，分是否保存过offset分别处理" class="headerlink" title="7. 查询同个group&amp;topic下分区数量，分是否保存过offset分别处理"></a>7. 查询同个group&amp;topic下分区数量，分是否保存过offset分别处理</h4><h4 id="8-调用KafkaUtils-createDirectStream创建kafkaStream"><a href="#8-调用KafkaUtils-createDirectStream创建kafkaStream" class="headerlink" title="8. 调用KafkaUtils.createDirectStream创建kafkaStream"></a>8. 调用KafkaUtils.createDirectStream创建kafkaStream</h4><h4 id="9-定义保存偏移量范围的变量"><a href="#9-定义保存偏移量范围的变量" class="headerlink" title="9. 定义保存偏移量范围的变量"></a>9. 定义保存<strong>偏移量范围</strong>的变量</h4><h4 id="10-调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存"><a href="#10-调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存" class="headerlink" title="10. 调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存"></a>10. 调用DStream的transform方法将kafkaStream强转成HasOffsetRanges，获取偏移量范围信息并保存</h4><h4 id="11-只获取kafkaStream中的message"><a href="#11-只获取kafkaStream中的message" class="headerlink" title="11. 只获取kafkaStream中的message"></a>11. 只获取kafkaStream中的message</h4><h4 id="12-对DStream调用foreachRDD进行操作每个RDD流"><a href="#12-对DStream调用foreachRDD进行操作每个RDD流" class="headerlink" title="***12. 对DStream调用foreachRDD进行操作每个RDD流"></a>***12. 对DStream调用foreachRDD进行操作每个RDD流</h4><ul>
+<li><h4 id="将偏移量保存到zookeeper的gropu-offset-topic-partition路径下-1"><a href="#将偏移量保存到zookeeper的gropu-offset-topic-partition路径下-1" class="headerlink" title="将偏移量保存到zookeeper的gropu/offset/topic/partition路径下"></a>将偏移量保存到zookeeper的gropu/offset/topic/partition路径下</h4></li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注意!：kafkaStream.foreachRDD里面的业务逻辑是在Driver端执行、kafkaRDD.maps是在Excutor里执行</span></span><br><span class="line">kafkaStream.foreachRDD &#123; kafkaRDD =&gt;</span><br><span class="line">  <span class="comment">//判断当前的kafkaStream中的RDD是否有数据</span></span><br><span class="line">  <span class="comment">//注意！！！！！kafkaRDD为空下面的map方法就不能执行（容易踩坑点）</span></span><br><span class="line">  <span class="keyword">if</span>(!kafkaRDD.isEmpty()) &#123;</span><br><span class="line">    <span class="comment">//只有KafkaRDD可以强转成HasOffsetRanges，并获取到偏移量</span></span><br><span class="line">    <span class="comment">//offsetRanges = kafkaRDD.asInstanceOf[HasOffsetRanges].offsetRanges</span></span><br><span class="line">    <span class="comment">//				备注：=============================&gt;在这里获取偏移量范围取代第10步操作</span></span><br><span class="line">      </span><br><span class="line">    <span class="comment">//val lines: RDD[String] = kafkaRDD.map(_._2)</span></span><br><span class="line">	<span class="comment">//				备注：================&gt;在这里获取kafkaStream中的message取代第11步操作</span></span><br><span class="line">      </span><br><span class="line">    <span class="comment">//整理数据</span></span><br><span class="line">	<span class="comment">//备注：RDD在Driver端生成,但里面函数没执行，可以把RDD引用传递给方法</span></span><br><span class="line">    <span class="keyword">val</span> fields: <span class="type">RDD</span>[<span class="type">Array</span>[<span class="type">String</span>]] = lines.map(_.split(<span class="string">" "</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment">//流式数据在这些定义的方法里不断经过处理，计算结果保存到Redis中</span></span><br><span class="line">    <span class="comment">//计算成交总金额</span></span><br><span class="line">    <span class="type">CalculateUtil</span>.calculateIncome(fields)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//计算商品分类金额</span></span><br><span class="line">    <span class="type">CalculateUtil</span>.calculateItem(fields)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//计算区域成交金额</span></span><br><span class="line">    <span class="type">CalculateUtil</span>.calculateZone(fields, broadcastRef)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//偏移量更新在哪一端（Driver）</span></span><br><span class="line">    <span class="keyword">for</span> (o &lt;- offsetRanges) &#123;</span><br><span class="line">      <span class="comment">//  /g001/offsets/wordcount/0</span></span><br><span class="line">      <span class="keyword">val</span> zkPath = <span class="string">s"<span class="subst">$&#123;topicDirs.consumerOffsetDir&#125;</span>/<span class="subst">$&#123;o.partition&#125;</span>"</span></span><br><span class="line">      <span class="comment">//将该 partition 的 offset 保存到 zookeeper</span></span><br><span class="line">      <span class="comment">//  /g001/offsets/wordcount/0/20000</span></span><br><span class="line">      <span class="type">ZkUtils</span>.updatePersistentPath(zkClient, zkPath, o.untilOffset.toString)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="13-SparkStreaming程序启动和退出"><a href="#13-SparkStreaming程序启动和退出" class="headerlink" title="13. SparkStreaming程序启动和退出"></a>13. SparkStreaming程序启动和退出</h4><h3 id="直接监听Socket"><a href="#直接监听Socket" class="headerlink" title="直接监听Socket"></a>直接监听Socket</h3><p>在Linux上用yum安装nc    yum install -y nc</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//线程数量必须要两个以上</span></span><br><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"SteamingWordCount"</span>).setMaster(<span class="string">"local[2]"</span>) </span><br><span class="line"><span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"><span class="comment">//StreamingContext是对SparkContext的包装，包了一层就增加了实时的功能</span></span><br><span class="line"><span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(sc, <span class="type">Milliseconds</span>(<span class="number">5000</span>))</span><br><span class="line"><span class="comment">//有了StreamingContext，就可以创建SparkStreaming的抽象了DSteam</span></span><br><span class="line"><span class="comment">//从一个socket端口中读取数据</span></span><br><span class="line"><span class="keyword">val</span> lines: <span class="type">ReceiverInputDStream</span>[<span class="type">String</span>] = ssc.socketTextStream(<span class="string">"192.168.1.207"</span>, <span class="number">8888</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Spark-On-Yarn"><a href="#Spark-On-Yarn" class="headerlink" title="Spark On Yarn"></a>Spark On Yarn</h2><p><a href="sparkStreaming学习总结/spark-on-yarn.docx">详见文档</a></p>
+<ol>
+<li><p>环境</p>
+<ul>
+<li><p>安装hadoop：需要安装HDFS模块和YARN模块，HDFS必须安装，spark运行时要把jar包存放到HDFS上。</p>
+</li>
+<li><p>安装Spark：解压Spark安装程序到一台服务器上，修改spark-env.sh配置文件，spark程序将作为YARN的客户端用于提交任务</p>
+<p>Tips：或者把HADOOP_CONF_DIR在/etc/profile里配置</p>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/local/jdk1.8.0_131</span><br><span class="line">export HADOOP_CONF_DIR=$HADOOP_HOME/etc/Hadoop</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>提交任务</p>
+<ul>
+<li><strong>cluster模式</strong></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">./bin/spark-submit --class org.apache.spark.examples.SparkPi \</span><br><span class="line">--master yarn \</span><br><span class="line">--deploy-mode cluster \</span><br><span class="line">--driver-memory 1g \</span><br><span class="line">--executor-memory 1g \</span><br><span class="line">--executor-cores 2 \</span><br><span class="line">--queue default \  			#默认资源调度器</span><br><span class="line">lib/spark-examples*.jar \</span><br><span class="line">10						#参数</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>client模式</p>
+<p>修改$HADOOP_HOME /etc/hadoop所有yarn节点的yarn-site.xml，在该文件中添加如下配置</p>
+<p>修改内存检测机制</p>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.pmem-check-enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.vmem-check-enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--deploy-mode client \ #其余不变</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>两种模式的区别</p>
+<ul>
+<li><p>cluster模式：Driver程序在YARN中运行，应用的运行结果不能在客户端显示，所以最好运行那些将结果最终保存在外部存储介质（如HDFS、Redis、Mysql）而非stdout输出的应用程序，客户端的终端显示的仅是作为YARN的job的简单运行状况。</p>
+</li>
+<li><p>client模式：Driver运行在Client上，应用程序运行结果会在客户端显示，所有适合运行结果有输出的应用程序（如spark-shell）</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="DStream知识补充"><a href="#DStream知识补充" class="headerlink" title="DStream知识补充"></a>DStream知识补充</h2><p>Spark Streaming是一个基于Spark Core之上的实时计算框架，可以从很多数据源消费数据并对数据进行处理，在Spark Streaing中有一个最基本的抽象叫DStream（代理），本质上就是一系列连续的RDD，DStream其实就是对RDD的封装。DStream可以任务是一个RDD的工厂，该DStream里面生产都是相同业务逻辑的RDD，只不过是RDD里面要读取数据的不相同</p>
+<p>深入理解DStream：他是sparkStreaming中的一个最基本的抽象，代表了一下列连续的数据流，本质上是一系列连续的RDD，你对DStream进行操作，就是对RDD进行操作。DStream每隔一段时间生成一个RDD，你对DStream进行操作，本质上是对里面的对应时间的RDD进行操作。</p>
+<p>DSteam和DStream之间存在依赖关系，在一个固定的时间点，对个存在依赖关系的DSrteam对应的RDD也存在依赖关系，每个一个固定的时间，其实生产了一个小的DAG，周期性的将生成的小DAG提交到集群中运行。</p>
+<p><img src="//yoursite.com/2019/07/24/sparkStreaming笔记/DStream%E8%AF%B4%E6%98%8E.png" alt="DStream抽象表示图"></p>
+
 
 
           
@@ -3554,180 +3703,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/22/git/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Chen Bin">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cilibili">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/22/git/" itemprop="url">常用Git操作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-22T10:07:20+08:00">
-                2019-07-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Git/" itemprop="url" rel="index">
-                    <span itemprop="name">Git</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="常用Git操作"><a href="#常用Git操作" class="headerlink" title="常用Git操作"></a>常用Git操作</h1><h2 id="关联本地仓库和远程仓库"><a href="#关联本地仓库和远程仓库" class="headerlink" title="关联本地仓库和远程仓库"></a>关联本地仓库和远程仓库</h2><p>（如果</p>
-<p>（若第一次创建仓库，最开始需要生成ssh.pub，把内容在github设置里添加进去）</p>
-<p>git init<br>git remote add origin <a href="https://github.com/tugenhua0707/testgit.git" target="_blank" rel="noopener">https://github.com/tugenhua0707/testgit.git</a><br>git pull origin master  –allow-unrelated-histories (如果远程仓库创建了README.md，但本地仓库没有此文件或内容不同时，需要先执行这个命令)<br>git push -u origin master(第一次要用-u 以后不需要)</p>
-<p><strong>关联本地分支与远程分支</strong>：</p>
-<p>git checkout  –b dev origin/dev  // 创建远程origin的dev分支到本地来</p>
-<p>git remote add remotebranch url //添加远程分支</p>
-<p>git remote rm remotebranch //删除远程分支</p>
-<p>git branch –set -upstream dev origin/dev  //设置本地dev分支与远程origin/dev分支的链接</p>
-<p>git branch –set-upstream-to upstream/master //改变当前分支HEAD远程指向</p>
-<p>git branch –unset-upstream // 取消当前分支远程指向</p>
-<p>git branch -vv // 查看本地分支与远程分支的关联</p>
-<p>git branch -r //查看远程分支</p>
-<p>git branch -r -d origin/branch_name //删除远程分支</p>
-<h2 id="解决冲突常用"><a href="#解决冲突常用" class="headerlink" title="解决冲突常用"></a>解决冲突常用</h2><p><strong>回退版本</strong></p>
-<p>git reset –hard HDEA^^<br>git reset – hard ~100<br>git reset –hard 版本号</p>
-<p><strong>工作现场与本地缓存差异</strong></p>
-<p>git diff file.txt</p>
-<p>git checkout –file.txt</p>
-<p>git stash list</p>
-<p>git stash -p // 依次决定是否stash 文件的改动</p>
-<p>git stash apply/git stash drop/git stash pop</p>
-<p>git stash show // 查看最新的 stash 文件 diff state</p>
-<p>git stash show -p stash@{1}  // 查看 stash@{1} 文件的 diff  </p>
-<p><strong>查看提交记录</strong></p>
-<p>git log 查看历史commit记录</p>
-<p>git log –pretty=oneline fileName // 查看某个文件的历史提交记录</p>
-<p>git show commitId // 查看某个文件 commit 的内容</p>
-<h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><p>git merge dev</p>
-<p>git rebase master // 比如处在dev分支下：将dev分支的提交放在master之后，合并代码变根</p>
-<p>git merge –no-ff  -m “注释” dev </p>
-<p>可以保存你之前的分支历史。能够更好的查看 merge历史，以及branch 状态。<a href="https://blog.csdn.net/u010940300/article/details/47419069" target="_blank" rel="noopener">分支形象理解</a></p>
-<p>git branch –d dev</p>
-<p>git rebase -i HEAD~4   // 合并最近的 4 次提交纪录</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3778,7 +3753,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
